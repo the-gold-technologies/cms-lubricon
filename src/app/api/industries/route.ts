@@ -1,0 +1,105 @@
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import { cleanupReplacedCloudinaryFiles } from '@/lib/cloudinary';
+
+const INDUSTRIES_SLUG = 'industries';
+
+export async function GET() {
+  try {
+    const page = await prisma.page.findUnique({
+      where: { slug: INDUSTRIES_SLUG },
+      include: { sections: true },
+    });
+
+    if (!page) {
+      return NextResponse.json({ success: true, data: {}, seo: null });
+    }
+
+    const sectionsMap: Record<string, any> = {};
+    for (const section of page.sections) {
+      sectionsMap[section.type] = section.content;
+    }
+
+    const seo = {
+      metaTitle: page.metaTitle,
+      metaDescription: page.metaDescription,
+      targetKeywords: page.targetKeywords,
+      canonicalUrl: page.canonicalUrl,
+      noIndex: page.noIndex,
+      schema: page.schema,
+      headingOptions: page.headingOptions,
+    };
+
+    return NextResponse.json({ success: true, data: sectionsMap, seo });
+  } catch (error) {
+    console.error('Error fetching industries page data:', error);
+    return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json();
+
+    const page = await prisma.page.upsert({
+      where: { slug: INDUSTRIES_SLUG },
+      create: {
+        title: 'Industries',
+        slug: INDUSTRIES_SLUG,
+        type: 'static',
+        visibility: 'published',
+      },
+      update: {},
+    });
+
+    let sectionsToSave: Record<string, any> = {};
+
+    if (body.section && body.content !== undefined) {
+      sectionsToSave[body.section] = body.content;
+    } else if (body.sections && typeof body.sections === 'object') {
+      sectionsToSave = body.sections;
+    } else {
+      sectionsToSave = body;
+    }
+
+    for (const [sectionType, content] of Object.entries(sectionsToSave)) {
+      if (
+        sectionType === 'sections' ||
+        sectionType === 'section' ||
+        sectionType === 'content' ||
+        sectionType === 'seo'
+      )
+        continue;
+
+      const existing = await prisma.section.findFirst({
+        where: { pageId: page.id, type: sectionType },
+      });
+
+      if (existing) {
+        await cleanupReplacedCloudinaryFiles(existing.content, content);
+
+        await prisma.section.update({
+          where: { id: existing.id },
+          data: { content: content as any },
+        });
+      } else {
+        const count = await prisma.section.count({
+          where: { pageId: page.id },
+        });
+        await prisma.section.create({
+          data: {
+            pageId: page.id,
+            type: sectionType,
+            content: content as any,
+            order: count,
+          },
+        });
+      }
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error saving industries page sections:', error);
+    return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
+  }
+}

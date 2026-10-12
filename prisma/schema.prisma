@@ -1,0 +1,253 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Page {
+  id              String    @id @default(cuid())
+  title           String?
+  slug            String    @unique
+  parent          String    @default("-")
+  order           Int       @default(0)
+  type            String    @default("standard")
+  visibility      String    @default("draft")
+  isStatic        Boolean   @default(false)
+  description     String?
+  metaTitle       String?
+  metaDescription String?
+  targetKeywords  String?
+  canonicalUrl    String?
+  noIndex         Boolean   @default(false)
+  featuredImage   String?
+  ogTitle         String?
+  ogDescription   String?
+  ogImage         String?
+  schema          String?
+  headingOptions  String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  sections        Section[]
+}
+
+model Section {
+  id        String   @id @default(cuid())
+  pageId    String
+  type      String
+  content   Json     @default("{}")
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+}
+
+model ProductCategory {
+  id                String    @id @default(cuid())
+  name              String
+  slug              String    @unique
+  shortDesc         String?
+  fullDesc          String?
+  coverImage        String?
+  primaryCtaText    String?  
+  secondaryCtaText  String?  
+  featuredBadgeText String?  
+  order             Int       @default(0)
+  isFeatured        Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  products          Product[]
+}
+
+model Product {
+  id                       String           @id @default(cuid())
+  name                     String
+  slug                     String           @unique
+  subtitle                 String?
+  categorySlug             String
+  categoryName             String
+  subCategoryTitle         String?
+  containerImage           String?
+  badge                    String?
+  descriptionTitle         String?          @default("Description")
+  description              String?
+  applicationAreasTitle    String?          @default("Application Areas")
+  applicationAreas         String?
+  performanceBenefitsTitle String?          @default("Performance Benefits")
+  performanceBenefits      Json?            @default("[]")
+  specialFeaturesTitle     String?          @default("Special Features")
+  specialFeatures          Json?            @default("[]")
+  specifications           Json?            @default("{}")
+  specsText                String?
+  propertiesTableTitle     String?          @default("Physico-Chemical Properties")
+  tableHeaders             Json?            @default("[\"Property\", \"Value\"]")
+  propertiesTable          Json?            @default("[]")
+  pdfUrl                   String?
+  msdsUrl                  String?
+  isFeatured               Boolean          @default(false)
+  order                    Int              @default(0)
+  metaTitle                String?
+  metaDescription          String?
+  targetKeywords           String?
+  canonicalUrl             String?
+  noIndex                  Boolean          @default(false)
+  schema                   String?
+  headingOptions           String?
+  createdAt                DateTime         @default(now())
+  updatedAt                DateTime         @updatedAt
+  category                 ProductCategory? @relation(fields: [categorySlug], references: [slug], onDelete: SetNull)
+}
+
+model Industry {
+  id                  String   @id @default(cuid())
+  slug                String   @unique
+  name                String
+  icon                String?  @default("🏭")
+  image               String?
+  description         String?
+  challenges          Json?    @default("[]")
+  solutions           Json?    @default("[]")
+  recommendedProducts Json?    @default("[]")
+  order               Int      @default(0)
+  isFeatured          Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model BlogPost {
+  id                  String   @id @default(cuid())
+  title               String
+  slug                String   @unique
+  category            String   @default("Industrial")
+  publishDate         String
+  readTime            String   @default("5 min read")
+  author              String   @default("Lubricon Engineering Team")
+  excerpt             String
+  coverImage          String?
+  content             Json     @default("{}")
+  recommendedProducts Json?    @default("[]")
+  isPublished         Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  date        String
+  category    String   @default("Expo")
+  location    String
+  description String
+  image       String?
+  gallery     Json?    @default("[]")
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model OfficeLocation {
+  id            String   @id @default(cuid())
+  name          String
+  type          String   @default("Headquarters")
+  address       String
+  phone         String?
+  email         String?
+  contactPerson String?
+  mapUrl        String?
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Enquiry {
+  id           String   @id @default(cuid())
+  type         String   @default("General")
+  name         String
+  email        String
+  phone        String?
+  company      String?
+  location     String?
+  industry     String?
+  service      String?
+  timeframe    String?
+  interestedIn String?
+  product      String?
+  packaging    String?
+  budget       String?
+  message      String?
+  status       String   @default("Pending")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model DistributorApplication {
+  id               String   @id @default(cuid())
+  name             String
+  firmName         String
+  email            String
+  phone            String
+  city             String
+  state            String
+  existingBusiness String?
+  annualTurnover   String?
+  experienceYears  String?
+  message          String?
+  status           String   @default("Pending")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model NavLink {
+  id          String   @id @default(cuid())
+  label       String
+  url         String
+  type        String   @default("Main Link")
+  parent      String   @default("-")
+  order       Int      @default(0)
+  description String?
+  title       String?
+  isStatic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GlobalConfig {
+  id                   String   @id @default("global")
+  siteTitle            String
+  siteDescription      String
+  favicon              String?
+  logo                 String?
+  phone                String?
+  email                String?
+  address              String?
+  googleAnalyticsId    String?
+  gtmId                String?
+  searchConsoleId      String?
+  customHeaderScripts  String?
+  customFooterScripts  String?
+  socialLinks          Json?
+  canonicalOrdering    String   @default("default")
+  sitemapEnabled       Boolean  @default(true)
+  sitemapCustomContent String?
+  robotsTxt            String?  @default("User-agent: *\nAllow: /\n\nSitemap: https://lubricon.in/sitemap.xml")
+  schema               String?
+  headingOptions       String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("admin")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
