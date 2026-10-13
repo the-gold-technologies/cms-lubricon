@@ -126,7 +126,7 @@ export function BrandsHeroSection({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
-              placeholder="Jai Deva Oil Co. brings together the world’s most trusted lubricant manufacturers..."
+              placeholder="Lubricon Specialities India brings together the world’s most trusted lubricant manufacturers..."
             />
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

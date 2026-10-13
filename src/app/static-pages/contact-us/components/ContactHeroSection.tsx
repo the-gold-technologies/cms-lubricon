@@ -2,58 +2,54 @@
 
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { SectionHeader } from '@/components/SectionHeader';
 import { ImageUploadField } from '@/components/ImageUploadField';
 import { InputField } from '@/components/InputField';
+import { TextAreaField } from '@/components/TextAreaField';
 import { SaveButton } from '@/components/SaveButton';
-import { uploadFiles } from '@/lib/uploadHelpers';
+import { Headphones } from 'lucide-react';
 
-interface ContactHeroData {
-  title?: string;
-  subtitle?: string;
-  image?: string;
-  altText?: string;
-}
-
-interface ContactHeroSectionProps {
-  initialData?: ContactHeroData;
-  onSave?: (data: ContactHeroData) => Promise<boolean | void>;
-}
-
-export function ContactHeroSection({ initialData, onSave }: ContactHeroSectionProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [subtitle, setSubtitle] = useState('');
-  const [images, setImages] = useState<(File | string | null)[]>([]);
-  const [altText, setAltText] = useState('');
+export function ContactHeroSection({ initialData, onSave }: { initialData?: any; onSave?: (data: any) => Promise<any> }) {
+  const [badge, setBadge] = useState('24/7 Technical Support & Dispatch');
+  const [heading, setHeading] = useState('Contact Lubricon Specialities India');
+  const [description, setDescription] = useState(
+    'Speak with our lubrication specialists, request on-site oil analysis, or submit institutional tenders and wholesale supply inquiries.'
+  );
+  const [helpline, setHelpline] = useState('1800 569 6363');
+  const [email, setEmail] = useState('info@lubricon.in');
+  const [address, setAddress] = useState('Lubricon Specialities India, Industrial Area, Haryana / Delhi NCR, India');
+  const [images, setImages] = useState<(File | string | null)[]>(['/images/contact-hero.jpg']);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (initialData) {
-      if (initialData.title !== undefined) setTitle(initialData.title);
-      if (initialData.subtitle !== undefined) setSubtitle(initialData.subtitle);
-      setImages(initialData.image ? [initialData.image] : []);
-      setAltText(initialData.altText || '');
+      if (initialData.badge !== undefined) setBadge(initialData.badge);
+      if (initialData.heading !== undefined) setHeading(initialData.heading);
+      if (initialData.title !== undefined && !initialData.heading) setHeading(initialData.title);
+      if (initialData.description !== undefined) setDescription(initialData.description);
+      if (initialData.subtitle !== undefined && !initialData.description) setDescription(initialData.subtitle);
+      if (initialData.helpline !== undefined) setHelpline(initialData.helpline);
+      if (initialData.email !== undefined) setEmail(initialData.email);
+      if (initialData.address !== undefined) setAddress(initialData.address);
+      if (initialData.image !== undefined) setImages([initialData.image]);
     }
   }, [initialData]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSave = async () => {
     setLoading(true);
-
     try {
-      let finalImageUrl = '';
-      const validImages = images.filter((img): img is File | string => !!img);
-      if (validImages.length > 0) {
-        const [uploaded] = await uploadFiles(validImages);
-        finalImageUrl = uploaded || '';
-      }
+      const firstImg = images[0];
+      const imageStr = typeof firstImg === 'string' ? firstImg : '/images/contact-hero.jpg';
 
-      const payload: ContactHeroData = {
-        title: title.trim(),
-        subtitle: subtitle.trim(),
-        image: finalImageUrl,
-        altText: altText.trim(),
+      const payload = {
+        badge,
+        heading,
+        title: heading,
+        description,
+        subtitle: description,
+        helpline,
+        email,
+        address,
+        image: imageStr,
       };
 
       if (onSave) {
@@ -69,75 +65,56 @@ export function ContactHeroSection({ initialData, onSave }: ContactHeroSectionPr
         });
         const json = await res.json();
         if (json.success) {
-          toast.success('Contact Hero banner updated successfully!');
+          toast.success('Contact Hero updated successfully!');
         } else {
-          toast.error(json.error || 'Failed to update hero banner');
+          toast.error(json.error || 'Failed to save Contact Hero');
         }
       }
     } catch {
-      toast.error('Network error saving Hero banner');
+      toast.error('Network error saving Contact Hero');
     } finally {
       setLoading(false);
     }
   };
 
-  const validCount = images.filter((img) => img !== null).length;
-
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col gap-4 transition-all">
-      <SectionHeader
-        title="1. Contact Hero Banner & Titles"
-        description="Manage page headings, subtitle, and the full-width header banner graphic displayed on the Contact Us page."
-        badge={`${validCount} Banner`}
-        isOpen={isOpen}
-        onToggle={() => setIsOpen(!isOpen)}
-      />
+    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+      <div className="flex items-center justify-between pb-5 border-b border-gray-100">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-bold">
+            <Headphones size={20} />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900">Contact Hero & Direct Channels</h2>
+            <p className="text-xs text-gray-500">Live banner text, Australian engineer spotlight image, and toll-free helpline.</p>
+          </div>
+        </div>
+        <SaveButton onClick={handleSave} loading={loading} />
+      </div>
 
-      <div
-        className={`grid transition-all duration-300 ease-in-out ${
-          isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-        }`}
-      >
-        <div className="overflow-hidden">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6 pt-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <InputField
-                label="Page / Section Title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Contact Us"
-              />
-              <InputField
-                label="Section Subtitle / Tagline"
-                value={subtitle}
-                onChange={(e) => setSubtitle(e.target.value)}
-                placeholder="Get in touch with Jai Deva Oil Co."
-              />
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+        <InputField label="Eyebrow Badge" value={badge} onChange={(e) => setBadge(e.target.value)} />
+        <InputField label="Hero Heading" value={heading} onChange={(e) => setHeading(e.target.value)} />
 
-            <ImageUploadField
-              label="Hero Banner Graphic"
-              images={images}
-              onImagesChange={setImages}
-              maxImages={1}
-              tooltip="Upload full-width header banner image (e.g. 1920x600px)."
-            />
+        <div className="md:col-span-2">
+          <TextAreaField label="Description Narrative" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
+        </div>
 
-            <InputField
-              label="Banner Alt Text (SEO & Accessibility)"
-              value={altText}
-              onChange={(e) => setAltText(e.target.value)}
-              placeholder="e.g. Contact Us - Jai Deva Oil Co."
-            />
+        <InputField label="Toll-Free Helpline" value={helpline} onChange={(e) => setHelpline(e.target.value)} />
+        <InputField label="Direct Support Email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
-            <div className="pt-4 border-t border-gray-100">
-              <SaveButton
-                loading={loading}
-                label="Save Changes"
-                className="w-full py-3.5 text-sm font-bold shadow-sm hover:shadow-md"
-              />
-            </div>
-          </form>
+        <div className="md:col-span-2">
+          <InputField label="Corporate Address" value={address} onChange={(e) => setAddress(e.target.value)} />
+        </div>
+
+        <div className="md:col-span-2">
+          <ImageUploadField
+            label="Engineer Spotlight Graphic"
+            images={images}
+            onImagesChange={setImages}
+            maxImages={1}
+            folder="lubricon/contact"
+          />
         </div>
       </div>
     </div>

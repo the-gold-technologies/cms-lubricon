@@ -160,6 +160,41 @@ async function main() {
   // 5. Products Catalog
   const productsList = [
     {
+      name: "Lubricon SupremeX CF-4 15W40",
+      slug: "lubricon-supremex-cf4-15w40",
+      categorySlug: "engine-oil",
+      categoryName: "Engine Oils",
+      subCategoryTitle: "CF-4 Diesel Engine Oils",
+      badge: "Conventional Diesel Power",
+      description: "CF-4 grade multi-purpose diesel engine oil suitable for a wide range of diesel applications requiring conventional technology.",
+      applicationAreas: "Light commercial diesel, older vehicle fleets, stationary diesel engines, and tractors.",
+      performanceBenefits: [
+        "API CF-4 specification",
+        "Reliable engine protection",
+        "Good oxidation stability",
+        "Thermal stability across high temperatures"
+      ],
+      specialFeatures: [
+        "Cost-effective fleet operation",
+        "Anti-wear engine protection",
+        "Piston deposit control"
+      ],
+      specifications: {
+        viscosity: "SAE 15W40",
+        grade: "API CF-4",
+        packaging: ["1L", "4L", "10L", "20L", "210L"]
+      },
+      propertiesTable: [
+        { property: "SAE Grade", testMethod: "SAE J300", unit: "-", value: "15W-40" },
+        { property: "Kinematic Viscosity @ 100°C", testMethod: "ASTM D445", unit: "cSt", value: "14.8" },
+        { property: "Viscosity Index", testMethod: "ASTM D2270", unit: "-", value: "135" },
+        { property: "Flash Point (COC)", testMethod: "ASTM D92", unit: "°C", value: "228" },
+        { property: "Pour Point", testMethod: "ASTM D97", unit: "°C", value: "-27" }
+      ],
+      isFeatured: false,
+      order: 4
+    },
+    {
       name: "Lubricon XtremeX CK-4 15W40",
       slug: "lubricon-xtremex-ck4-15w40",
       categorySlug: "engine-oil",
@@ -712,22 +747,44 @@ async function main() {
   });
 
   await prisma.section.deleteMany({ where: { pageId: homePage.id } });
+  
+  // 1. Hero Carousel with all 5 authentic slides
   await prisma.section.create({
     data: {
       pageId: homePage.id,
-      type: 'HeroSlider',
+      type: "HeroSlider",
       order: 1,
       content: {
         slides: [
           {
-            tagline: "AUSTRALIAN TECHNOLOGY",
-            heading: "High Performance Industrial Lubricants",
-            description: "Engineered for extreme operating environments across Indian manufacturing and transport sectors.",
-            ctaText: "Explore Products",
-            ctaLink: "/products",
+            tagline: "INDUSTRIAL CUTTING FLUID",
+            heading: "Neat Cutting Oil",
+            description: "High Performance Metalworking Fluid for Heavy Duty Machining & Extended Tool Life.",
+            ctaText: "Explore Industrial Oils",
+            ctaLink: "/products?cat=industrial",
             secondaryCtaText: "Request Technical Audit",
             secondaryCtaLink: "/contact",
-            image: "/images/hero-factory.jpg"
+            image: "/images/slider-1.png"
+          },
+          {
+            tagline: "COOLANT & EMULSION",
+            heading: "Soluble Cutting Oil",
+            description: "Superior Cooling & Lubricity for Precision CNC Machining & High-Speed Grinding.",
+            ctaText: "Explore Products",
+            ctaLink: "/products?cat=industrial",
+            secondaryCtaText: "Toll Free: 1800 569 6363",
+            secondaryCtaLink: "tel:18005696363",
+            image: "/images/slider-2.png"
+          },
+          {
+            tagline: "HIGH PRESSURE ANTI-WEAR",
+            heading: "Hydraulic Oil & Industrial Fluids",
+            description: "Anti-Wear EP Protection for Plastic Injection Molding Presses & Heavy Industrial Machinery.",
+            ctaText: "Explore Products",
+            ctaLink: "/products?cat=industrial",
+            secondaryCtaText: "Request Technical Audit",
+            secondaryCtaLink: "/contact",
+            image: "/images/slider-3.png"
           },
           {
             tagline: "NEXT-GEN FLEET SOLUTIONS",
@@ -737,57 +794,187 @@ async function main() {
             ctaLink: "/products?cat=engine-oil",
             secondaryCtaText: "Toll Free: 1800 569 6363",
             secondaryCtaLink: "tel:18005696363",
-            image: "/images/hero-fleet.jpg"
+            image: "/images/1.png"
+          },
+          {
+            tagline: "AUSTRALIAN TECHNOLOGY",
+            heading: "High Performance Industrial Lubricants",
+            description: "Engineered for extreme operating environments across Indian manufacturing and transport sectors.",
+            ctaText: "Explore All Products",
+            ctaLink: "/products",
+            secondaryCtaText: "Schedule Plant Audit",
+            secondaryCtaLink: "/contact",
+            image: "/images/2.png"
           }
         ]
       }
     }
   });
 
+  // 2. Home Stats & Metrics Bar
   await prisma.section.create({
     data: {
       pageId: homePage.id,
-      type: 'HomeStats',
+      type: "HomeStats",
       order: 2,
       content: {
+        heading: "Our Stats",
+        subtitle: "We help you to unleash the power within your machinery and industrial operations.",
         stats: [
-          { label: "Products", value: 40, suffix: "+" },
-          { label: "Happy Clients", value: 500, suffix: "+" },
-          { label: "Industry Experts", value: 50, suffix: "+" },
-          { label: "Years of Excellence", value: 10, suffix: "+" }
+          { label: "Advanced Products", value: 40, suffix: "+" },
+          { label: "Active Clients", value: 800, suffix: "+" },
+          { label: "Years of Excellence", value: 15, suffix: "+" },
+          { label: "Quality Assurance", value: 100, suffix: "%" }
         ]
       }
     }
   });
 
+  // 3. Government & Institutional Procurement (GeM & IREPS)
   await prisma.section.create({
     data: {
       pageId: homePage.id,
-      type: 'GovernmentProcurement',
+      type: "HomeGovernmentProcurement",
       order: 3,
       content: {
-        title: "Government & Institutional Procurement",
-        subtitle: "Lubricon products are compliant and available through Government e-Marketplace (GeM) and Indian Railway Electronic Procurement System (IREPS).",
-        badges: [
-          { name: "GeM Registered", desc: "Government e-Marketplace Direct Vendor" },
-          { name: "IREPS Compliant", desc: "Approved for Indian Railways supply contracts" },
-          { name: "ISO 9001:2015", desc: "Certified Quality Management System" }
+        badgeText: "Official E-Procurement Registration",
+        title: "We Are Registered on GeM & IREPS",
+        subtitle: "Registered and approved supplier for institutional and government procurement.",
+        gemCard: {
+          title: "Government e Marketplace (GeM)",
+          badge: "Registered Seller",
+          description: "Registered vendor for direct procurement by Central & State government departments and PSUs.",
+          link: "https://gem.gov.in",
+          logo: "/images/gem-logo.png"
+        },
+        irepsCard: {
+          title: "Indian Railways (IREPS)",
+          badge: "Approved Vendor",
+          description: "Approved vendor on the official Indian Railways E-Procurement portal for zonal and workshop supplies.",
+          link: "https://www.ireps.gov.in",
+          logo: "/images/ireps-logo.png"
+        }
+      }
+    }
+  });
+
+  // 4. Industries Showcase
+  await prisma.section.create({
+    data: {
+      pageId: homePage.id,
+      type: "HomeIndustries",
+      order: 4,
+      content: {
+        badgeText: "Industries We Serve",
+        title: "Industries We Serve",
+        subtitle: "Engineered lubrication solutions delivering extreme heat resistance, high-pressure stability, and continuous uptime.",
+        industries: [
+          {
+            title: "Plastic Injection Molding",
+            category: "Injection Molding",
+            description: "High-temperature hydraulic oils, anti-wear tie-bar greases, and non-staining mold protectants for uninterrupted cycle times.",
+            image: "/images/ind-plastic.png",
+            link: "/industries#plastic-injection-molding"
+          },
+          {
+            title: "Paper Mills",
+            category: "Paper & Pulp",
+            description: "Water-resistant EP gear oils and dryer bearing lubricants resisting extreme steam and high moisture washout.",
+            image: "/images/ind-paper.png",
+            link: "/industries#paper-mills"
+          },
+          {
+            title: "Steel Plants",
+            category: "Heavy Metallurgy",
+            description: "Heavy-duty gear oils for rolling mill drives, high-temp caster roll greases, and fire-resistant fluids.",
+            image: "/images/ind-steel.png",
+            link: "/industries#steel-plants"
+          }
         ]
       }
     }
   });
 
+  // 5. About Lubricon Narrative Strip
   await prisma.section.create({
     data: {
       pageId: homePage.id,
-      type: 'HomeCtaBanner',
-      order: 4,
+      type: "HomeAboutStrip",
+      order: 5,
       content: {
-        heading: "Ready to Upgrade Your Plant's Lubrication Performance?",
-        subtext: "Connect with Lubricon technical specialists for tailored viscosity recommendations and on-site audit support.",
-        phone: "1800 569 6363",
-        buttonText: "Schedule Plant Audit",
-        buttonLink: "/contact"
+        badgeText: "About Lubricon Specialities India",
+        headline: "Redefining Lubrication for Indian Industry",
+        primaryParagraph: "At Lubricon Specialities India, we are redefining performance, reliability, and innovation in lubrication solutions. Backed by advanced Australian technology, Lubricon brings to the Indian market a comprehensive range of speciality and conventional lubricants engineered for modern industrial and automotive demands.",
+        secondaryParagraph: "With exclusive rights to represent the Lubricon brand in India, Lubricon Specialities India operates independently, delivering international-quality products tailored for Indian operating conditions. Our formulations are driven by deep technical know-how, field-tested performance, and a commitment to operational efficiency.",
+        keyBullets: [
+          "Australian Formulation Science",
+          "Engineered for Extreme Temperatures",
+          "Pan-India Industrial Distribution",
+          "API, ISO & OEM Standards"
+        ],
+        primaryBtnText: "Read Full Company Story",
+        primaryBtnLink: "/about",
+        secondaryBtnText: "Speak With an Engineer",
+        secondaryBtnLink: "tel:18005696363",
+        photoImage: "/images/aboutlubricon.jpeg",
+        badgeTitle: "Australian Technology",
+        badgeSubtitle: "Engineered for Indian Conditions"
+      }
+    }
+  });
+
+  // 6. Product Showcase
+  await prisma.section.create({
+    data: {
+      pageId: homePage.id,
+      type: "HomeProductShowcase",
+      order: 6,
+      content: {
+        badgeText: "Full Product Portfolio",
+        title: "Engineered for Peak Performance",
+        subtitle: "Field-tested formulations powered by Australian lubrication technology for heavy industrial uptime.",
+        ctaText: "View All 40+ Products",
+        ctaLink: "/products"
+      }
+    }
+  });
+
+  // 7. Lubricant Finder Advisor
+  await prisma.section.create({
+    data: {
+      pageId: homePage.id,
+      type: "HomeLubricantFinderSection",
+      order: 7,
+      content: {
+        badgeText: "Interactive Recommendation Engine",
+        title: "Find the Exact Lubricon Lubricant",
+        subtitle: "Select your machinery type or vehicle fleet to receive tailored, field-tested Australian oil formulations in seconds."
+      }
+    }
+  });
+
+  // 8. Conversion Arch CTA Banner
+  await prisma.section.create({
+    data: {
+      pageId: homePage.id,
+      type: "HomeCtaBanner",
+      order: 8,
+      content: {
+        categoryTag: "Engineered for Maximum Machine Uptime",
+        headline: "Your machinery deserves peak protection. So does your business.",
+        subtext: "Whether you operate heavy plastic injection presses, high-speed paper mills, or automotive fleets, Lubricon delivers precision Australian formulations designed to reduce friction and eliminate costly downtime.",
+        primaryBtnText: "Explore Products",
+        primaryBtnLink: "/products",
+        secondaryBtnText: "Get in Touch",
+        secondaryBtnLink: "/contact",
+        trustMarkers: [
+          "Australian Formulation",
+          "API & ISO Certified",
+          "Pan-India Dispatch"
+        ],
+        archImage: "/images/ind-steel.png",
+        floaterTitle: "Australian Precision",
+        floaterSubtitle: "100% Quality"
       }
     }
   });
@@ -831,7 +1018,7 @@ async function main() {
   await prisma.section.create({
     data: {
       pageId: aboutPage.id,
-      type: 'AboutValues',
+      type: "AboutValues",
       order: 2,
       content: {
         values: [
@@ -839,6 +1026,241 @@ async function main() {
           { title: "Advanced R&D", desc: "Continuous research and development ensuring compatibility with latest OEM engine and gearbox specs." },
           { title: "Proven Protection", desc: "Tested across severe plant environments — injection molding, paper mills, steel plants, and heavy fleet." },
           { title: "Eco-Conscious Formulations", desc: "Low-emission diesel lubricants and AUS 32 AdBlue solutions supporting cleaner air standards." }
+        ]
+      }
+    }
+  });
+
+  await prisma.section.create({
+    data: {
+      pageId: aboutPage.id,
+      type: "AboutStats",
+      order: 3,
+      content: {
+        stats: [
+          { label: "Formulations Engineered", value: 45, suffix: "+" },
+          { label: "Plant Partners in India", value: 120, suffix: "+" },
+          { label: "Australian Additive Tech", value: 100, suffix: "%" },
+          { label: "Zero Equipment Downtime", value: 99.8, suffix: "%" }
+        ]
+      }
+    }
+  });
+
+  await prisma.section.create({
+    data: {
+      pageId: aboutPage.id,
+      type: "AboutTimeline",
+      order: 4,
+      content: {
+        milestones: [
+          { year: "2018", title: "Australian Tech Licensing", desc: "Signed collaborative technical agreement to bring heavy-duty Australian formulations to the subcontinent." },
+          { year: "2020", title: "Industrial Plant Validation", desc: "Successfully deployed neat cutting fluids and high-temp greases in premier plastic and automotive component plants." },
+          { year: "2023", title: "Euro 6 Diesel & AdBlue Expansion", desc: "Launched full CK-4 heavy diesel oil line and automated AUS 32 DEF blending lines." },
+          { year: "2026", title: "Pan-India Distribution Hub", desc: "Expanded direct technical audit service and nationwide regional hubs for guaranteed 48-hour delivery." }
+        ]
+      }
+    }
+  });
+
+  await prisma.section.create({
+    data: {
+      pageId: aboutPage.id,
+      type: "AboutPortfolio",
+      order: 5,
+      content: {
+        badge: "Modern Infrastructure",
+        heading: "World-Class Blending, Testing & Logistics Infrastructure",
+        description: "Our state-of-the-art facilities ensure that every drop of lubricant meets stringent international and Indian operational standards.",
+        facilities: [
+          { title: "Precision Laboratory", desc: "Spectrographic analysis, kinematic viscosity measurement, and 4-ball weld testing ensuring strict batch consistency.", tag: "Lab & Testing", image: "/images/about-lab.jpg" },
+          { title: "Automated Blending Plant", desc: "High-capacity automated blending tanks utilizing Australian additive packages and premium base oils.", tag: "Manufacturing", image: "/images/about-plant.jpg" },
+          { title: "Centralized Logistics Hub", desc: "Climate-controlled warehousing and bulk 1,000L IBC dispatch fleet delivering reliably nationwide.", tag: "Distribution", image: "/images/about-warehouse.jpg" }
+        ]
+      }
+    }
+  });
+
+  await prisma.section.create({
+    data: {
+      pageId: aboutPage.id,
+      type: "AboutCtaBanner",
+      order: 6,
+      content: {
+        title: "Ready to Upgrade Your Machinery Lubrication?",
+        subtitle: "Connect with our lubrication engineers for technical consultation, product recommendations, or on-site plant survey.",
+        btnText: "Request Technical Audit",
+        btnLink: "/industries",
+        helpline: "1800 569 6363"
+      }
+    }
+  });
+
+  // 9. Industries We Serve Page Sections
+  const industriesPage = await prisma.page.upsert({
+    where: { slug: "industries" },
+    update: {
+      title: "Industries We Serve",
+      metaTitle: "Industries We Serve | Lubricon Specialities India",
+      metaDescription: "Lubricon provides specialized lubrication solutions for plastic injection molding, paper mills, and steel plants. Australian technology for maximum uptime.",
+      targetKeywords: "industries lubricants, plastic injection molding oil, steel mill grease, paper mill lubricants",
+      visibility: "published",
+      isStatic: true
+    },
+    create: {
+      slug: "industries",
+      title: "Industries We Serve",
+      metaTitle: "Industries We Serve | Lubricon Specialities India",
+      metaDescription: "Lubricon provides specialized lubrication solutions for plastic injection molding, paper mills, and steel plants. Australian technology for maximum uptime.",
+      targetKeywords: "industries lubricants, plastic injection molding oil, steel mill grease, paper mill lubricants",
+      visibility: "published",
+      isStatic: true
+    }
+  });
+
+  await prisma.section.deleteMany({ where: { pageId: industriesPage.id } });
+  await prisma.section.create({
+    data: {
+      pageId: industriesPage.id,
+      type: "IndustriesHero",
+      order: 1,
+      content: {
+        badge: "Heavy Industry & Precision Manufacturing",
+        heading: "Industries We Serve",
+        description: "From extreme heat in steel rolling mills to high-pressure precision plastic injection molding and wet paper mills, Lubricon formulations are powered by Australian lubrication technology for seamless, continuous machine uptime.",
+        bannerImage: "/images/industries-hero-banner.jpg",
+        stats: [
+          { value: "0% Downtime", label: "Continuous Uptime Target" },
+          { value: "30% Lower", label: "SKU Holding Capital" },
+          { value: "100%", label: "Severe Duty Thermal Stability" }
+        ]
+      }
+    }
+  });
+
+  await prisma.section.create({
+    data: {
+      pageId: industriesPage.id,
+      type: "IndustriesPlantSupport",
+      order: 2,
+      content: {
+        badge: "Industrial Engineering Services",
+        heading: "Beyond Lubricants: Complete Plant Support",
+        description: "We do not just deliver barrels — our Australian formulation specialists partner directly with your plant managers to reduce unscheduled maintenance, optimize drain cycles, and eliminate costly downtime.",
+        services: [
+          {
+            title: "On-Site Plant Lubrication Audits",
+            desc: "Our technical field engineers conduct comprehensive machine-by-machine surveys, mapping thermal loads, cycle pressures, and friction points across your entire facility.",
+            tag: "Site Survey",
+            deliverable: "Machine Audit & Friction Map Report"
+          },
+          {
+            title: "Used Oil Laboratory Analysis",
+            desc: "Regular laboratory spectrographic testing tracking elemental wear metals (Fe, Cu, Cr), water contamination, viscosity drift, and TAN/TBN depletion to prevent sudden failure.",
+            tag: "Preventive Lab",
+            deliverable: "Spectrographic Lab Wear Certificate"
+          },
+          {
+            title: "SKU Rationalization & Consolidation",
+            desc: "Streamline dozens of legacy oils down to a core set of Australian high-performance Lubricon formulations, cutting inventory holding capital by up to 30%.",
+            tag: "Cost Reduction",
+            deliverable: "Consolidated SKU Reduction Matrix"
+          },
+          {
+            title: "Bulk Storage & Dispensing Solutions",
+            desc: "Turnkey supply of 1,000L IBCs, high-flow pneumatic dispensing stations, and contamination-free color-coded transfer systems for spotless plant maintenance.",
+            tag: "Turnkey Setup",
+            deliverable: "Turnkey Storage & Dispensing Blueprint"
+          }
+        ],
+        consultationBadge: "● Get Instant Support",
+        consultationTitle: "You are a few minutes away from the help you need.",
+        consultationDesc: "At Lubricon Specialities India, we redefine performance, reliability, and innovation in lubrication solutions. Powered by cutting-edge Australian technology, we deliver products that enhance efficiency and protect your machinery.",
+        callbackBtnText: "Get A Callback",
+        callNumber: "1800 569 6363"
+      }
+    }
+  });
+
+  // 10. Contact Us Page Sections
+  const contactPage = await prisma.page.upsert({
+    where: { slug: "contact" },
+    update: {
+      title: "Contact Us",
+      metaTitle: "Contact Us | Lubricon Specialities India",
+      metaDescription: "Get in touch with Lubricon Specialities India for industrial lubrication consultations, commercial orders, and plant audits.",
+      targetKeywords: "contact lubricon, lubricants supplier phone, lubricon india address",
+      visibility: "published",
+      isStatic: true
+    },
+    create: {
+      slug: "contact",
+      title: "Contact Us",
+      metaTitle: "Contact Us | Lubricon Specialities India",
+      metaDescription: "Get in touch with Lubricon Specialities India for industrial lubrication consultations, commercial orders, and plant audits.",
+      targetKeywords: "contact lubricon, lubricants supplier phone, lubricon india address",
+      visibility: "published",
+      isStatic: true
+    }
+  });
+
+  await prisma.section.deleteMany({ where: { pageId: contactPage.id } });
+  await prisma.section.create({
+    data: {
+      pageId: contactPage.id,
+      type: "ContactHero",
+      order: 1,
+      content: {
+        badge: "24/7 Technical Support & Dispatch",
+        heading: "Contact Lubricon Specialities India",
+        description: "Speak with our lubrication specialists, request on-site oil analysis, or submit institutional tenders and wholesale supply inquiries.",
+        helpline: "1800 569 6363",
+        email: "info@lubricon.in",
+        image: "/images/contact-hero.jpg"
+      }
+    }
+  });
+
+  await prisma.section.create({
+    data: {
+      pageId: contactPage.id,
+      type: "ContactFaq",
+      order: 2,
+      content: {
+        badge: "Help Center",
+        heading: "Frequently Asked Questions",
+        subtitle: "Answers to common questions regarding technical specs, delivery logistics, and commercial supply.",
+        faqs: [
+          {
+            q: "What product grades do you offer for heavy diesel engines?",
+            a: "We offer the full range from API CF-4 through to the latest API CK-4 (ACEA E9) specification. For modern Euro 6 engines with DPF and SCR, we recommend our Lubricon XtremeX CK-4 15W40.",
+            tag: "Engine Oils"
+          },
+          {
+            q: "Do you supply AdBlue / DEF for Euro 6 compliance?",
+            a: "Yes! Lubricon AdBlue is ISO 22241-compliant 32.5% urea solution (AUS32/DEF), available in 10L, 20L, and 1000L IBC. It is fully compatible with all SCR emission control systems.",
+            tag: "AdBlue / DEF"
+          },
+          {
+            q: "Can you supply lubricants for plastic injection molding machines?",
+            a: "Absolutely. We provide non-staining hydraulic oils, tie-bar greases, gear oils, and rust preventives specifically suited to the high-pressure, high-temperature demands of injection molding.",
+            tag: "Industrial"
+          },
+          {
+            q: "Do you offer technical support for lubrication selection?",
+            a: "Yes — our technical team provides free lubrication audits and product recommendations. Call our toll-free number or use the callback form and we will connect you with an expert.",
+            tag: "Support"
+          },
+          {
+            q: "What are your minimum order quantities?",
+            a: "We have flexible ordering from retail sizes (500ml, 1L) to bulk industrial supplies (210L drums, 1000L IBCs). Contact us for bulk pricing and custom packing.",
+            tag: "Orders"
+          },
+          {
+            q: "Are your products compatible with major OEM equipment?",
+            a: "Yes, our products meet or exceed the API, ACEA, and DIN specifications required by major OEM equipment manufacturers. Specific OEM approval lists are available on request.",
+            tag: "Compatibility"
+          }
         ]
       }
     }

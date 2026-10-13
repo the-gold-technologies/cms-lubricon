@@ -47,9 +47,20 @@ export async function GET(request: Request) {
       return NextResponse.json({ success: true, data: product, seo });
     }
 
+    const search = searchParams.get('search') || searchParams.get('q');
     const where: any = {};
     if (categorySlug && categorySlug !== 'all') {
       where.categorySlug = categorySlug;
+    }
+    if (search && search.trim()) {
+      const term = search.trim();
+      where.OR = [
+        { name: { contains: term, mode: 'insensitive' } },
+        { description: { contains: term, mode: 'insensitive' } },
+        { subCategoryTitle: { contains: term, mode: 'insensitive' } },
+        { categoryName: { contains: term, mode: 'insensitive' } },
+        { specsText: { contains: term, mode: 'insensitive' } },
+      ];
     }
 
     const products = await prisma.product.findMany({

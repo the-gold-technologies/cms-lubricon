@@ -6,8 +6,15 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const limit = searchParams.get('limit');
+    const type = searchParams.get('type');
+
+    const where: any = {};
+    if (type) {
+      where.type = type;
+    }
 
     const enquiries = await prisma.enquiry.findMany({
+      where,
       orderBy: { createdAt: 'desc' },
       ...(limit ? { take: parseInt(limit, 10) } : {}),
     });
@@ -36,12 +43,18 @@ export async function POST(request: Request) {
 
     const created = await prisma.enquiry.create({
       data: {
+        type: body.type || 'General',
         name,
         email: email || 'noemail@provided.com',
         phone: phone || null,
         company: company || body.companyName || null,
+        location: body.location || null,
+        industry: body.industry || null,
+        service: body.service || null,
+        timeframe: body.timeframe || null,
         interestedIn: interestedIn || null,
         product: product || interestedIn || null,
+        packaging: body.packaging || null,
         budget: budget || null,
         message: message || null,
         status: 'Pending',

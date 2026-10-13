@@ -167,7 +167,7 @@ export default function GlobalSEOPage() {
             label="Default Site Title"
             value={formData.siteTitle}
             onChange={(e) => setFormData({ ...formData, siteTitle: e.target.value })}
-            placeholder="e.g. Jai Deva Oil Co. | Multi-Brand Lubricant Distributor"
+            placeholder="e.g. Lubricon Specialities India | Multi-Brand Lubricant Distributor"
             tooltip="The main title of your website. Appears in browser tabs and search results."
           />
           <TextAreaField
@@ -324,7 +324,7 @@ export default function GlobalSEOPage() {
           label="JSON-LD Schema Markup"
           value={formData.schema}
           onChange={(e) => setFormData({ ...formData, schema: e.target.value })}
-          placeholder='{\n  "@context": "https://schema.org",\n  "@type": "LocalBusiness",\n  "name": "Jai Deva Oil Co."\n}'
+          placeholder='{\n  "@context": "https://schema.org",\n  "@type": "LocalBusiness",\n  "name": "Lubricon Specialities India"\n}'
           rows={6}
           tooltip="Raw JSON-LD markup to provide structured business data to Google."
         />

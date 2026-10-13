@@ -40,7 +40,7 @@ export default auth((req) => {
 
   // 2. Auth Routes & Public Pages
   const isApiAuthRoute = nextUrl.pathname.startsWith('/api/auth');
-  const isPublicRoute = ['/login', '/register'].includes(nextUrl.pathname);
+  const isPublicRoute = ['/login', '/register', '/robots.txt', '/sitemap.xml'].includes(nextUrl.pathname);
 
   if (isApiAuthRoute) return NextResponse.next();
 

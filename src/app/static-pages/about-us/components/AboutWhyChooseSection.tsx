@@ -108,7 +108,7 @@ export function AboutWhyChooseSection({ initialData }: { initialData?: any }) {
   return (
     <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col gap-6 transition-all">
       <SectionHeader
-        title="5. Why Choose Jai Deva Oil Co."
+        title="5. Why Choose Lubricon Specialities India"
         description="Manage the value pillars, core advantages, and trust factors highlighting your business."
         badge={`${items.length} Pillars`}
         isOpen={isOpen}
@@ -128,7 +128,7 @@ export function AboutWhyChooseSection({ initialData }: { initialData?: any }) {
                 label="Section Heading / Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g. WHY CHOOSE JAI DEVA OIL CO.?"
+                placeholder="e.g. WHY CHOOSE LUBRICON SPECIALITIES INDIA?"
               />
               <InputField
                 label="Pillars Subtitle / Tagline"

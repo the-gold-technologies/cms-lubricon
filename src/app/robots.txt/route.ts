@@ -8,7 +8,7 @@ export async function GET() {
     const config = await prisma.globalConfig.findFirst();
 
     const robotsContent =
-      config?.robotsTxt || 'User-agent: *\nAllow: /\n\nSitemap: https://jaidevaoil.com/sitemap.xml';
+      config?.robotsTxt || 'User-agent: *\nAllow: /\n\nSitemap: https://lubricon.in/sitemap.xml';
 
     return new NextResponse(robotsContent, {
       headers: {

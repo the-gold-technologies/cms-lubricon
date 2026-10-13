@@ -95,7 +95,7 @@ export function EventsContentSection({ initialData, onSave }: EventsContentSecti
               rows={4}
               value={introText}
               onChange={(e) => setIntroText(e.target.value)}
-              placeholder="Jai Deva Oil Co. actively engages with their stakeholders..."
+              placeholder="Lubricon Specialities India actively engages with their stakeholders..."
               required
             />
 

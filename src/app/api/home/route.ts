@@ -6,17 +6,25 @@ const HOME_SLUG = 'home';
 
 export async function GET() {
   try {
-    const page = await prisma.page.findUnique({
-      where: { slug: HOME_SLUG },
-      include: {
-        sections: {
-          orderBy: { order: 'asc' },
+    const [page, products, categories] = await Promise.all([
+      prisma.page.findUnique({
+        where: { slug: HOME_SLUG },
+        include: {
+          sections: {
+            orderBy: { order: 'asc' },
+          },
         },
-      },
-    });
+      }),
+      prisma.product.findMany({
+        orderBy: { order: 'asc' },
+      }),
+      prisma.productCategory.findMany({
+        orderBy: { order: 'asc' },
+      }),
+    ]);
 
     if (!page) {
-      return NextResponse.json({ success: true, data: {}, seo: null });
+      return NextResponse.json({ success: true, data: {}, products: [], categories: [], seo: null });
     }
 
     const sectionsMap: Record<string, any> = {};
@@ -35,7 +43,13 @@ export async function GET() {
       headingOptions: page.headingOptions,
     };
 
-    return NextResponse.json({ success: true, data: sectionsMap, seo });
+    return NextResponse.json({
+      success: true,
+      data: sectionsMap,
+      products,
+      categories,
+      seo,
+    });
   } catch (error) {
     console.error('Error fetching home page content:', error);
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });

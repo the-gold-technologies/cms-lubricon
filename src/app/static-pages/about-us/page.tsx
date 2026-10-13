@@ -1,72 +1,70 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { PageHeader } from '@/components/PageHeader';
+import React, { useState, useEffect } from "react";
+import { PageHeader } from "@/components/PageHeader";
 import {
   AboutHeroSection,
-  AboutJaiDevaContentSection,
-  OurTeamStructureSection,
-  OurJourneySection,
-  AboutWhyChooseSection,
-  AboutImageGallerySection,
-} from './components';
+  AboutStatsSection,
+  AboutValuesSection,
+  AboutPortfolioSection,
+  AboutTimelineSection,
+  AboutCtaBannerSection,
+} from "./components";
 
 export default function AboutUsPageEditor() {
   const [aboutData, setAboutData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadAboutData() {
       try {
-        const res = await fetch('/api/about-us');
+        setLoading(true);
+        const res = await fetch("/api/about-us");
         const json = await res.json();
         if (json.success && json.data) {
           setAboutData(json.data);
         }
       } catch (err) {
-        console.error('Failed to load about us data:', err);
+        console.error("Failed to load about us data:", err);
+      } finally {
+        setLoading(false);
       }
     }
     loadAboutData();
   }, []);
 
-  const whyChooseData =
-    aboutData?.AboutWhyChooseSection ||
-    (aboutData?.AboutJaiDevaContent
-      ? {
-          title:
-            aboutData.AboutJaiDevaContent.whyChooseTitle || aboutData.AboutJaiDevaContent.title,
-          subtitle:
-            aboutData.AboutJaiDevaContent.whyChooseSubtitle ||
-            aboutData.AboutJaiDevaContent.subtitle,
-          items:
-            aboutData.AboutJaiDevaContent.whyChooseItems || aboutData.AboutJaiDevaContent.items,
-        }
-      : null);
-
   return (
-    <section className="flex flex-col gap-8 pb-12">
+    <section className="flex flex-col gap-8 pb-16">
       <PageHeader
         title="About Us Page Content"
-        description="Manage all live sections of the About Us page: Hero Banner, Company Story, Team Structure, Journey Timeline, Why Choose Us, and Facilities Gallery."
+        description="Manage all 6 live sections of the Lubricon About Us page: Hero & Company Narrative, Stats, Core Principles, Product Portfolio, Historical Journey Timeline, and Closing CTA Banner."
       />
 
-      {/* 1. Hero */}
-      <AboutHeroSection initialData={aboutData?.AboutHero} />
+      {loading ? (
+        <div className="py-20 text-center text-gray-400 text-sm animate-pulse">
+          Loading About Us sections from database...
+        </div>
+      ) : (
+        <div className="flex flex-col gap-8">
+          {/* 1. Hero & Narrative */}
+          <AboutHeroSection initialData={aboutData?.AboutHero} />
 
-      {/* 2. Story & Mentor */}
-      <AboutJaiDevaContentSection initialData={aboutData?.AboutJaiDevaContent} />
+          {/* 2. Key Stats Strip */}
+          <AboutStatsSection initialData={aboutData?.AboutStats} />
 
-      {/* 3. Team Structure */}
-      <OurTeamStructureSection initialData={aboutData?.OurTeamStructureSection} />
+          {/* 3. Core Principles & Values */}
+          <AboutValuesSection initialData={aboutData?.AboutValues} />
 
-      {/* 4. Journey Timeline */}
-      <OurJourneySection initialData={aboutData?.OurJourneySection} />
+          {/* 4. Complete Lubrication Portfolio */}
+          <AboutPortfolioSection initialData={aboutData?.AboutPortfolio} />
 
-      {/* 5. Why Choose Jai Deva Oil Co. */}
-      <AboutWhyChooseSection initialData={whyChooseData} />
+          {/* 5. Historical Journey Timeline */}
+          <AboutTimelineSection initialData={aboutData?.AboutTimeline} />
 
-      {/* 6. Facilities & Logistics Gallery */}
-      <AboutImageGallerySection initialData={aboutData?.AboutImageGallerySection} />
+          {/* 6. Closing Call-To-Action Banner */}
+          <AboutCtaBannerSection initialData={aboutData?.AboutCtaBanner} />
+        </div>
+      )}
     </section>
   );
 }

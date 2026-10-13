@@ -42,14 +42,14 @@ function getFromAddress(): string {
     return process.env.SMTP_FROM;
   }
   if (process.env.SMTP_FROM_EMAIL) {
-    const name = process.env.SMTP_FROM_NAME || 'Jai Deva Oil Co.';
+    const name = process.env.SMTP_FROM_NAME || 'Lubricon Specialities India';
     return `"${name}" <${process.env.SMTP_FROM_EMAIL}>`;
   }
   if (process.env.SMTP_USER) {
-    const name = process.env.SMTP_FROM_NAME || 'Jai Deva Oil Co.';
+    const name = process.env.SMTP_FROM_NAME || 'Lubricon Specialities India';
     return `"${name}" <${process.env.SMTP_USER}>`;
   }
-  return '"Jai Deva Oil Co." <sales@jaidevaoil.com>';
+  return '"Lubricon Specialities India" <sales@lubricon.in>';
 }
 
 const BRAND_LOGO_URL =
@@ -86,7 +86,7 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Customer Enquiry - Jai Deva Oil Co.</title>
+  <title>New Customer Enquiry - Lubricon Specialities India</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #F1F5F9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1E293B;">
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #F1F5F9; padding: 30px 10px;">
@@ -98,7 +98,7 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
           <tr>
             <td style="background: linear-gradient(135deg, #0C356A 0%, #061933 100%); padding: 32px 30px; text-align: center; border-top: 4px solid #C86218;">
               <div style="background-color: #FFFFFF; display: inline-block; padding: 8px 18px; border-radius: 12px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                <img src="${BRAND_LOGO_URL}" alt="Jai Deva Oil Co." style="max-height: 42px; width: auto; display: block; margin: 0 auto;" />
+                <img src="${BRAND_LOGO_URL}" alt="Lubricon Specialities India" style="max-height: 42px; width: auto; display: block; margin: 0 auto;" />
               </div>
               <p style="margin: 0 0 6px 0; color: #CBD5E1; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">
                 Multi-Brand Industrial & Automotive Lubricants
@@ -253,10 +253,10 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
           <tr>
             <td style="background-color: #F8FAFC; padding: 24px 30px; border-top: 1px solid #E2E8F0; text-align: center;">
               <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 700; color: #475569;">
-                Jai Deva Oil Co. CMS &bull; Real-time Lead Dispatch
+                Lubricon Specialities India CMS &bull; Real-time Lead Dispatch
               </p>
               <p style="margin: 0; font-size: 11px; color: #94A3B8;">
-                Industrial Area & Regional Distribution Hub, India &bull; sales@jaidevaoil.com
+                Industrial Area & Regional Distribution Hub, India &bull; sales@lubricon.in
               </p>
             </td>
           </tr>
@@ -285,7 +285,7 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thank You for Contacting Us - Jai Deva Oil Co.</title>
+  <title>Thank You for Contacting Us - Lubricon Specialities India</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #F1F5F9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1E293B;">
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #F1F5F9; padding: 30px 10px;">
@@ -296,7 +296,7 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
           <tr>
             <td style="background: linear-gradient(135deg, #0C356A 0%, #061933 100%); padding: 32px 30px; text-align: center; border-top: 4px solid #C86218;">
               <div style="background-color: #FFFFFF; display: inline-block; padding: 8px 18px; border-radius: 12px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                <img src="${BRAND_LOGO_URL}" alt="Jai Deva Oil Co." style="max-height: 42px; width: auto; display: block; margin: 0 auto;" />
+                <img src="${BRAND_LOGO_URL}" alt="Lubricon Specialities India" style="max-height: 42px; width: auto; display: block; margin: 0 auto;" />
               </div>
               <p style="margin: 6px 0 0 0; color: #CBD5E1; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">
                 Multi-Brand Industrial & Automotive Lubricants
@@ -330,7 +330,7 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
 
               <p style="margin: 0; font-size: 13px; color: #64748B;">
                 Warm regards,<br>
-                <strong style="color: #0C356A; font-size: 14px;">Jai Deva Oil Co. Team</strong><br>
+                <strong style="color: #0C356A; font-size: 14px;">Lubricon Specialities India Team</strong><br>
                 Multi-Brand Lubricant Distributor
               </p>
             </td>
@@ -338,7 +338,7 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
 
           <tr>
             <td style="background-color: #F8FAFC; padding: 20px 30px; border-top: 1px solid #E2E8F0; text-align: center; font-size: 11px; color: #94A3B8;">
-              &copy; 2026 Jai Deva Oil Co. All rights reserved.
+              &copy; 2026 Lubricon Specialities India All rights reserved.
             </td>
           </tr>
 
@@ -354,7 +354,7 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
         .sendMail({
           from: fromAddress,
           to: data.email,
-          subject: `Thank you for contacting Jai Deva Oil Co.`,
+          subject: `Thank you for contacting Lubricon Specialities India`,
           html: customerAckHtml,
         })
         .catch((e) => console.error('Error sending customer acknowledgement email:', e));

@@ -17,27 +17,27 @@ export async function GET() {
       });
     }
 
-    const domain = process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://jaidevaoil.com';
+    const domain = process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://lubricon.in';
     const baseUrl = domain.replace(/\/$/, '');
 
     // Static pages
     const staticSlugs: string[] = [
       '',
-      '/about-us',
+      '/about',
       '/products',
-      '/blogs',
-      '/events',
-      '/contact-us',
+      '/industries',
+      '/contact',
       '/privacy-policy',
     ];
 
     // Fetch dynamic products & blogs
-    const [products, blogs] = await Promise.all([
+    const [products, blogs, industries] = await Promise.all([
       prisma.product.findMany({ select: { slug: true, updatedAt: true } }),
       prisma.blogPost.findMany({
         where: { isPublished: true },
         select: { slug: true, updatedAt: true },
       }),
+      prisma.industry.findMany({ select: { slug: true, updatedAt: true } }),
     ]);
 
     const now = new Date().toISOString();
@@ -64,6 +64,17 @@ export async function GET() {
       )
       .join('\n');
 
+    const industriesXml = (industries as Array<{ slug: string; updatedAt: Date | null }>)
+      .map(
+        (ind: { slug: string; updatedAt: Date | null }) => `  <url>
+    <loc>${baseUrl}/industries#${ind.slug}</loc>
+    <lastmod>${ind.updatedAt ? new Date(ind.updatedAt).toISOString() : now}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>`
+      )
+      .join('\n');
+
     const blogsXml = (blogs as Array<{ slug: string; updatedAt: Date | null }>)
       .map(
         (b: { slug: string; updatedAt: Date | null }) => `  <url>
@@ -79,6 +90,7 @@ export async function GET() {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${staticXml}
 ${productsXml}
+${industriesXml}
 ${blogsXml}
 </urlset>`;
 

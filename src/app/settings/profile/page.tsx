@@ -29,16 +29,16 @@ export default function ProfileSettingsPage() {
         const res = await fetch('/api/profile');
         const json = await res.json();
         if (json.success && json.data) {
-          setName(json.data.name || session?.user?.name || 'Jai Deva Admin');
-          setEmail(json.data.email || session?.user?.email || 'admin@jaideva.com');
+          setName(json.data.name || session?.user?.name || 'Lubricon Admin');
+          setEmail(json.data.email || session?.user?.email || 'admin@lubricon.in');
         } else if (session?.user) {
-          setName(session.user.name || 'Jai Deva Admin');
-          setEmail(session.user.email || 'admin@jaideva.com');
+          setName(session.user.name || 'Lubricon Admin');
+          setEmail(session.user.email || 'admin@lubricon.in');
         }
       } catch (err) {
         if (session?.user) {
-          setName(session.user.name || 'Jai Deva Admin');
-          setEmail(session.user.email || 'admin@jaideva.com');
+          setName(session.user.name || 'Lubricon Admin');
+          setEmail(session.user.email || 'admin@lubricon.in');
         }
       } finally {
         setIsFetching(false);
@@ -146,7 +146,7 @@ export default function ProfileSettingsPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                placeholder="e.g. Jai Deva Admin"
+                placeholder="e.g. Lubricon Admin"
                 className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0C356A] transition shadow-2xs"
               />
             </div>
@@ -160,7 +160,7 @@ export default function ProfileSettingsPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                placeholder="admin@jaideva.com"
+                placeholder="admin@lubricon.in"
                 className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#002B5C] transition shadow-2xs"
               />
             </div>

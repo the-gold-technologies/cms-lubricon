@@ -141,7 +141,7 @@ export function IndustriesHeroSection({
                 label="Authority / Badge Text"
                 value={badge}
                 onChange={(e) => setBadge(e.target.value)}
-                placeholder="Jai Deva Oil Co. • Less You Burn, the More You Earn"
+                placeholder="Lubricon Specialities India • Less You Burn, the More You Earn"
               />
               <InputField
                 label="Hero Heading"

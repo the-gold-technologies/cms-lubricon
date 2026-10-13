@@ -115,7 +115,7 @@ export function ContactHeadquarterSection({ initialData, onSave }: ContactHeadqu
                 label="Enterprise Name *"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
-                placeholder="Jai Deva Oil Co."
+                placeholder="Lubricon Specialities India"
                 required
               />
               <InputField
@@ -158,7 +158,7 @@ export function ContactHeadquarterSection({ initialData, onSave }: ContactHeadqu
                 label="Official Email *"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="sales@jaidevaoil.com"
+                placeholder="sales@lubricon.in"
                 required
               />
             </div>

@@ -1,0 +1,770 @@
+
+            <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Lubricon Specialities India</title>
+    <meta name="description" content="Lubricon Specialities India">
+    <meta name="keywords" content="Lubricon Specialities India">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <link rel="canonical" href="index.php">
+    <link rel="shortcut icon" href="https://rankingers.com/projectsjhai/new/copy-10/Favicon/WhatsApp%20Image%202025-07-02%20at%2014.54.27.jpeg">
+    <link defer="defer" href="css/bootstrap.min.css" rel="stylesheet">
+    <link defer="defer" href="css/style.min.css" rel="stylesheet">
+    <link defer="defer" href="css/market.css" rel="stylesheet">
+    <link defer="defer" href="css/responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="google-site-verification" content="VF_OpROlzJgsjEx4flOCUzcABenQP_gPFdF7Zm6mmdU" />
+    <meta name="google-site-verification" content="vl_BKpdT7lIofgEXbV-tBwxf59e8j2166zH-5PIIglY" />
+    <meta name="google-site-verification" content="JtNMTvjylmo1UuJVCg9yEb29ES9Y3jjHg_pN1eY4POQ" />
+    
+     <script type="application/ld+json">
+    {
+    //   "@context" : "https://schema.org",
+    //   "@type" : "WebSite",
+    //   "name" : "Example Company",
+    //   "alternateName" : "EC",
+    //   "url" : "https://polyhos.com/",
+    //   "potentialAction": {
+    //     "@type": "SearchAction",
+    //     "target": {
+    //       "@type": "EntryPoint",
+    //       "urlTemplate": "https://query.example.com/search?q={search_term_string}"
+    //     },
+    //     "query-input": "required name=search_term_string"
+    //   }
+    }
+  </script>
+</head>
+  
+<style>
+    .float {
+        position: fixed;
+        text-align: left;
+        width: 60px;
+        height: 60px;
+        bottom: 40px;
+        right: 40px;
+        margin-bottom: 150px;
+        background-color: #25d366;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 30px;
+        box-shadow: 2px 2px 3px #999;
+        z-index: 100;
+    }
+
+    .my-float {
+        margin-top: 16px;
+    }
+</style>
+
+<body style="overflow-x: hidden;"> 
+            
+
+
+
+
+
+<!-- <a href="'.($data['Product_Url'] ==NULL? 'index.php':'supermarket-racks.php?id='. $data['Product_id']).'"> -->
+
+<style>
+    @media (max-width: 767px) {
+        .uuper{
+            display:none !important;
+        }
+        .small{
+            display:none !important;
+        }
+    }
+    .logo-outer{
+
+}
+
+.logo img{
+    width:250px;
+}
+
+</style>
+<div class="page-wrapper">
+    <header class="main-header header-style-one">
+        <div class="header-top" >
+        
+                <div class="inner-container clearfix">
+                    <div class="top-left">
+                        <ul class="clearfix">
+
+                            <li style="    font-size: 16px;
+        padding-left: 10px;
+    font-weight: 700;
+    color: #e4e4e4;
+    margin-top: 9px;;">Lubricon Specialities India</li>
+                        
+                        </ul>
+                    </div>
+                    <div class="top-right clearfix" >
+                        <ul class="social-icon-one clearfix">
+                            
+                                    <li>
+                                    <a href="https://m.facebook.com/LubriconIndia"
+                                        target="_blank" rel="noreferrer" style="color: #ffe000;">
+                                        <img src="https://store-images.s-microsoft.com/image/apps.30645.9007199266245907.cb06f1f9-9154-408e-b4ef-d19f2325893b.ac3b465e-4384-42a8-9142-901c0405e1bc" style="width: 18px;border-radius: 4px;">
+                                    </a>
+                                </li>
+                            
+                                    <li>
+                                    <a href="https://www.instagram.com/" target="_blank"
+                                        rel="noreferrer">
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3Sxu0lyuJ6iB2d0nYI1-GIKP2VPUPQ4KQvA&s" style="width: 18px;border-radius: 4px;">
+                                    </a>
+                                </li>
+                            
+                                    <li>
+                                    <a href="https://www.linkedin.com/company/lubriconindia" target="_blank"
+                                        rel="noreferrer">
+                                        <img src="data:image/png;base64,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" style="width: 18px;border-radius: 4px;">
+                                    </a>
+                                </li>                                                                                    
+                                    <li>
+                                    <a href="https://www.youtube.com/" target="_blank"
+                                        rel="noreferrer">
+                                        <img src="images/youtube.png" style="width: 20px;border-radius: 4px;">
+                                    </a>
+                                </li>                                 <li>
+                                     <a 
+                                        style="background: #ffe000;
+    color: black;
+    border-radius: 10px;
+    box-shadow: 1px 3px 6px #e9cf13;
+    border: 3px solid black;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-bottom: 0px;
+    line-height: 23px;
+    text-transform: uppercase;" 
+                                        href="#" 
+                                        target="_blank">
+                                        Call Now
+                                        </a>
+
+                                 </li>
+                                <li>
+                                    <input style="margin-bottom: 0px !important;
+    height: 22px;
+    margin-top: 4px;
+    border: 3px solid #ffe000;
+    background: black;
+    color: white;" type="text" placeholder="Search Products..." >
+                                </li>
+
+                        </ul>
+                    </div>
+                </div>
+           
+        </div>
+
+
+        <div class="header-upper" style="background-color: #faf384; ">
+            <div class="auto-container">
+                <div class="clearfix">
+                    <div class="pull-left logo-outer">
+                        <div class="logo">
+                            <a href="index.php">
+                                <img src="admin/Upload/67efaa3ec0283_"
+                                    alt="Logo Lubricon" title="" style="width: 250px; position:relative; right:60px; ">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pull-right upper-right clearfix">
+                        <div class="uuper">
+                     <div class="upper-column info-box">
+                            <div class="icon-box" style="    margin-top: 10px;">
+                               <img  src="https://rankingers.com/projectsjhai/new/copy-10/css/images/ChatGPT%20Image%20Jun%2017%2C%202025%2C%2006_03_47%20PM.png" >
+                            </div>
+                            <ul>
+                                <li style="margin-top: 10px;">Toll Free                             
+                                <li>
+                                     1800 569 6363
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="upper-column info-box">
+                            <div class="icon-box" style="    margin-top: 10px;">
+                                <span class="flaticon-mail"></span>
+                            </div>
+                            <ul>
+                                <li style="margin-top: 10px;">Email                                </li>
+                                <li>
+                                     info@lubriconindia.com
+                                </li>
+                            </ul>
+                        </div>
+                      
+                        <div class="upper-column info-box">
+                            <ul>
+                                <li>
+                                    <input type="text" placeholder="Search..." style="
+                                margin-bottom: 0px !important;
+    height: 22px;
+    margin-top: 8px;
+    border: 3px solid #ffe000;
+    background: black;
+    color: white;">
+                                </li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="header-lower" style="   position: absolute; height: 0;">
+            <div class="auto-container" style=" border-bottom: 4px solid #ffe000;
+    border-top: 2px solid #ffe000;">
+                <div class="nav-outer clearfix">
+                    <div class="mobile-none pull-left logo-outer ">
+                        <div class="logo">
+                            <a href="index.php">
+                                <img src="admin/Upload/67efaa3ec0283_"
+                                    alt="Logo Lubricon" title="" style="width: 250px;">
+                            </a>
+                        </div>
+                    </div>
+                    <nav class="main-menu">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+
+                        <div class="navbar-collapse collapse clearfix">
+                            <ul class="navigation clearfix" style="    background: #000000c4;
+    border-radius: 220px;
+    width: 109%;
+    margin-right: 6px;">
+                                  
+                                <li>
+                                    <a href="index.php">Home</a>
+                                </li>
+                                <li>
+                                    <a href="about-us.php">About Us</a>
+                                </li>
+                                <!--<li class="dropdown">-->
+                                <!--    <a href="all-products.php">Our Products</a>-->
+                                <!--    <li class="dropdown">
+                <a href="atf">ATF</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul><li class="dropdown">
+                <a href="atf-steering-oil">ATF (Steering Oil)</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li></ul></li><li class="dropdown">
+                <a href="engine-oil">Engine Oil</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul><li class="dropdown">
+                <a href="cf4-15w40-engine-oils">CF4 15w40 Engine Oils</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="ch4-15w40-engine-oils">CH4 15W40 Engine Oils</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="ci4-15w40-engine-oils">CI4 15W40 Engine Oils</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="ci4-plus-15w40-engine-oils">CI4 Plus 15W40 Engine Oils</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="ck4-15w40-engine-oils">CK4 15w40 Engine Oils</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="multigrade-engine-oil">Multigrade Engine Oil</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li></ul></li><li class="dropdown">
+                <a href="gear-oil">Gear Oil</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul><li class="dropdown">
+                <a href="automotive-gear-oils--80w90">Automotive Gear Oils - 80W90</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="automotive-gear-oils--85w140">Automotive Gear Oils - 85W140</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="automotive-gear-oils--vg-140">Automotive Gear Oils - VG 140</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="automotive-gear-oils--vg-90">Automotive Gear Oils - VG 90</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="heavy-duty-gear-oils">Heavy Duty Gear Oils</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li></ul></li><li class="dropdown">
+                <a href="adbluedef">AdBlue/DEF</a></li><li class="dropdown">
+                <a href="brake-fluid">Brake Fluid</a></li><li class="dropdown">
+                <a href="compressor-oil">Compressor Oil</a></li><li class="dropdown">
+                <a href="vacuum-pump-oil">Vacuum Pump Oil</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul><li class="dropdown">
+                <a href="lubricon-vaccusyn-100">Lubricon VaccuSyn 100</a></li></ul></li><li class="dropdown">
+                <a href="rust-preventive-oil">Rust Preventive Oil</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul><li class="dropdown">
+                <a href="lubricon-rustguard-pro">LUBRICON RUSTGUARD PRO</a></li></ul></li><li class="dropdown">
+                <a href="edm-oil">EDM Oil</a></li>-->
+                                <!--</li>-->
+                                
+                                <li class="dropdown">
+                                    <a href="#">Products</a>
+                                    <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div>
+                                    <ul>
+                                        <li class="dropdown">
+                                                    <a href="atf">ATF</a><div class="dropdown-btn"><span class="fa fa-angle-right"></span></div><ul><li class="dropdown">
+                <a href="atf-steering-oil">ATF (Steering Oil)</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li></ul></li><li class="dropdown">
+                                                    <a href="engine-oil">Engine Oil</a><div class="dropdown-btn"><span class="fa fa-angle-right"></span></div><ul><li class="dropdown">
+                <a href="cf4-15w40-engine-oils">CF4 15w40 Engine Oils</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="ch4-15w40-engine-oils">CH4 15W40 Engine Oils</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="ci4-15w40-engine-oils">CI4 15W40 Engine Oils</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="ci4-plus-15w40-engine-oils">CI4 Plus 15W40 Engine Oils</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="ck4-15w40-engine-oils">CK4 15w40 Engine Oils</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="multigrade-engine-oil">Multigrade Engine Oil</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li></ul></li><li class="dropdown">
+                                                    <a href="gear-oil">Gear Oil</a><div class="dropdown-btn"><span class="fa fa-angle-right"></span></div><ul><li class="dropdown">
+                <a href="automotive-gear-oils--80w90">Automotive Gear Oils - 80W90</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="automotive-gear-oils--85w140">Automotive Gear Oils - 85W140</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="automotive-gear-oils--vg-140">Automotive Gear Oils - VG 140</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="automotive-gear-oils--vg-90">Automotive Gear Oils - VG 90</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li><li class="dropdown">
+                <a href="heavy-duty-gear-oils">Heavy Duty Gear Oils</a><div class="dropdown-btn"><span class="fa fa-angle-down"></span></div><ul></ul></li></ul></li></li></li></li><li class="dropdown">
+                                                    <a href="adbluedef">AdBlue/DEF</a></li><li class="dropdown">
+                                                    <a href="brake-fluid">Brake Fluid</a></li><li class="dropdown">
+                                                    <a href="compressor-oil">Compressor Oil</a></li><li class="dropdown">
+                                                    <a href="vacuum-pump-oil">Vacuum Pump Oil</a><div class="dropdown-btn"><span class="fa fa-angle-right"></span></div><ul><li class="dropdown">
+                <a href="lubricon-vaccusyn-100">Lubricon VaccuSyn 100</a></li></ul></li><li class="dropdown">
+                                                    <a href="rust-preventive-oil">Rust Preventive Oil</a><div class="dropdown-btn"><span class="fa fa-angle-right"></span></div><ul><li class="dropdown">
+                <a href="lubricon-rustguard-pro">LUBRICON RUSTGUARD PRO</a></li></ul></li><li class="dropdown">
+                                                    <a href="edm-oil">EDM Oil</a></li>                                    </ul>
+                                </li>
+
+                                <li class="dropdown">
+                                    <a href="#">Industries We Serve</a>
+                                    <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div>
+                                    <ul>
+                                        </li></li></li><li class="dropdown">
+                                                    <a href="plastic-injection-molding">Plastic Injection Molding</a></li><li class="dropdown">
+                                                    <a href="paper-mills">Paper Mills</a></li><li class="dropdown">
+                                                    <a href="steel-plants">Steel Plants</a></li></li></li></li></li></li></li>                                    </ul>
+                                </li>
+                                
+                                
+                                <li>
+                                    <a href="contactus.php">Contact us</a>
+                                </li>
+                            </ul>
+                            
+                        </div>
+                    </nav>
+
+                    <div class="outer-box">
+                        <div class="dropdown dropdown-outer">
+                            <a href="tel:1800 569 6363" style="color:green; font-size:30px;">
+    <i class="fa fa-phone small" ></i>
+</a>
+                        </div>
+                        <div class="link-box" style="line-height: 13px;
+    margin-top: 10px;
+    padding-right: 5px;">
+                            
+                            <a style="    color: black;
+    font-size: 12px;
+    letter-spacing: 0.1rem;
+    font-weight: 900;
+    margin-top: 10px;" href=""> 1800 569 6363</a><br>
+                            <a style="    color: black;
+    font-size: 12px;
+    letter-spacing: 0.1rem;
+    font-weight: 900;
+    margin-top: 10px;" href="">info@lubriconindia.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    <li data-target="#demo" style="margin-right: 5px;" data-slide-to="0" class="active"></li><li data-target="#demo" style="margin-right: 5px;" data-slide-to="1" ></li><li data-target="#demo" style="margin-right: 5px;" data-slide-to="2" ></li>
+
+ <div id="demo" class="carousel slide" style="margin-top: 0px;" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#demo" style="margin-right: 5px;" data-slide-to="0" class="active"></li><li data-target="#demo" style="margin-right: 5px;" data-slide-to="1" ></li><li data-target="#demo" style="margin-right: 5px;" data-slide-to="2" ></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="item active">
+                <img src="admin/Upload/686f7957f2128_Untitled design (8).png" alt="Neat Cutting Oil" title="Neat Cutting Oil">
+                 </div> <div class="item">
+                <img src="admin/Upload/686f7a404368c_1.png" alt="Soluble Cutting Oil" title="Soluble Cutting Oil">
+                 </div> <div class="item">
+                <img src="admin/Upload/686f7a559feaa_3.png" alt="Hydraulic Oil" title="Hydraulic Oil">
+                 </div>
+        </div>
+    </div>             <br><br>
+            <p style="font-size: 30px; text-align: center;">Industries We Serve</p>
+            <section class="product-section auto-container">
+            
+               <div class=" clearfix">
+                        <div class="content-side col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                            <div class="row clearfix">
+                                                                    <div class="shop-item col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="inner-box">
+                                            <div class="image">
+                                                <a href="plastic-injection-molding">
+                                                    <!--projects/demo3/hello/polyhos/admin/Upload/7042460177%208060490177%20(9).png-->
+                                                    <img src="admin/Upload/6.png " width="266" height="305.41" alt="red display racks">
+                                                </a>
+                                            </div>
+                                            <div class="lower-content">
+                                                <!--'.$data['Product_Name_slug'].'-->
+                                                <a href="plastic-injection-molding" class="more" style="    font-size: 16px !important;padding: 3px 64px !important;">
+                                                    Plastic Injection Molding                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                                    <div class="shop-item col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="inner-box">
+                                            <div class="image">
+                                                <a href="paper-mills">
+                                                    <!--projects/demo3/hello/polyhos/admin/Upload/7042460177%208060490177%20(9).png-->
+                                                    <img src="admin/Upload/5.png " width="266" height="305.41" alt="red display racks">
+                                                </a>
+                                            </div>
+                                            <div class="lower-content">
+                                                <!--'.$data['Product_Name_slug'].'-->
+                                                <a href="paper-mills" class="more" style="    font-size: 16px !important;padding: 3px 64px !important;">
+                                                    Paper Mills                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                                    <div class="shop-item col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="inner-box">
+                                            <div class="image">
+                                                <a href="steel-plants">
+                                                    <!--projects/demo3/hello/polyhos/admin/Upload/7042460177%208060490177%20(9).png-->
+                                                    <img src="admin/Upload/7.png " width="266" height="305.41" alt="red display racks">
+                                                </a>
+                                            </div>
+                                            <div class="lower-content">
+                                                <!--'.$data['Product_Name_slug'].'-->
+                                                <a href="steel-plants" class="more" style="    font-size: 16px !important;padding: 3px 64px !important;">
+                                                    Steel Plants                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                            </div>
+
+                        </div>
+                    </div>
+
+            </section>
+            <section class="" style="background: url('https://rankingers.com/projectsjhai/new/copy-10/images/rest.png') no-repeat center center / cover;    ">
+                <div class="auto-container">
+                    <br><br>
+                    <div class="row align-items-center" style="padding: 20px 20px 40px 20px;">
+                        <!-- Content Column -->
+                        <div class="content-column col-lg-6 col-md-12 mb-4 mb-lg-0">
+                            <div class="inner-column pe-lg-4">
+                                <div class="sec-title">
+                                    <h2 style="color:black">About Us</h2>
+                                </div>
+                                <p style="text-align: justify;">
+                                    <p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-size:18px"><span style="color:#000000"><span style="font-family:Calibri,sans-serif"><strong>At Lubricon Specialities India, we are redefining performance, reliability, and innovation in lubrication solutions. Backed by advanced Australian technology, Lubricon brings to the Indian industry a comprehensive range of speciality and conventional lubricants engineered for modern industrial and automotive demands.</strong></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-size:18px"><span style="color:#000000"><span style="font-family:Calibri,sans-serif"><strong>With exclusive rights to represent the Lubricon brand in India, Lubricon Specialities India operates independently, delivering international-quality products tailored for Indian operating conditions. Our formulations are driven by deep technical know-how, field-tested performance, and a commitment to operational efficiency.</strong></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-size:18px"><span style="color:#000000"><span style="font-family:Calibri,sans-serif"><strong>Whether it&rsquo;s High-performance Greases, Metalworking Fluids, or Industrial-grade Oils, our solutions are trusted by leading Manufacturers, Workshops, and Engineering units across the country.</strong></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-size:18px"><span style="color:#000000"><span style="font-family:Calibri,sans-serif"><strong>At Lubricon, we don&rsquo;t just sell lubricants &mdash; we enable uptime, protect assets, and help you run smoother</strong></span></span></span></p>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Image Column -->
+                        <div class="col-lg-6 col-md-12 text-center">
+                            <div class="inner-column">
+                                <figure class="image mb-0">
+                                    <img src="images/aboutlubricon.jpeg" alt="About Us Image" style="
+                            width: 70%;
+                            border: 9px solid #ffe000;
+                            border-radius: 30px 0px 30px 0px;
+                        ">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <br><br>
+
+
+            <!--<section class="fun-fact-section" style="padding: 0 20px;background-image:linear-gradient(green,#ff0)">-->
+            <!--    <div class="auto-container">-->
+            <!--        <div class="row clearfix">-->
+            <!--            <div class="title-column col-md-4 col-sm-12 col-xs-12">-->
+            <!--                <div class="inner-column">-->
+            <!--                    <h3>We Have Great Achievement To Show !!</h3>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--            <div class="content-column col-md-8 col-sm-12 col-xs-12">-->
+            <!--                <div class="inner-column">-->
+            <!--                    <div class="row clearfix">-->
+            <!--                        <div class="counter-column col-md-3 col-sm-6 col-xs-12">-->
+            <!--                            <div class="count-box">-->
+            <!--                                <span class="icon flaticon-file"></span>-->
+            <!--                                <h4 class="counter-title">Products</h4>-->
+            <!--                                <span class="count-text" data-speed="1548" data-stop="25">0</span>+-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                        <div class="counter-column col-md-3 col-sm-6 col-xs-12">-->
+            <!--                            <div class="count-box">-->
+            <!--                                <span class="icon flaticon-users-1"></span>-->
+            <!--                                <h4 class="counter-title">Clients</h4>-->
+            <!--                                <span class="count-text" data-speed="300" data-stop="800">0</span>+-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                        <div class="counter-column col-md-3 col-sm-6 col-xs-12">-->
+            <!--                            <div class="count-box">-->
+            <!--                                <span class="icon flaticon-engineer"></span>-->
+            <!--                                <h4 class="counter-title">Workers</h4>-->
+            <!--                                <span class="count-text" data-speed="3000" data-stop="87">0</span>+-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                        <div class="counter-column col-md-3 col-sm-6 col-xs-12">-->
+            <!--                            <div class="count-box">-->
+            <!--                                <span class="icon flaticon-quality"></span>-->
+            <!--                                <h4 class="counter-title">Awards</h4>-->
+            <!--                                <span class="count-text" data-speed="3000" data-stop="12">0</span>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</section>-->
+
+
+            <div class="sidebar-page-container alternate">
+                <div class="auto-container">
+                    <div class="sec-title text-center">
+
+                         </h1>
+                    </div>
+                </div>
+            </div>
+
+
+            <section style="background: #ffe109; padding: 60px 20px; font-family: 'Segoe UI', sans-serif;">
+  <div style="max-width: 1200px; margin: 0 auto; background: #fff; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-wrap: wrap;">
+    
+    <!-- Left Content with Contact Info + Social -->
+    <div style="flex: 1 1 50%; padding: 40px; border-right: 1px solid #ddd; min-width: 300px;">
+      <h2 style="font-size: 32px; color: #222; margin-bottom: 20px; line-height: 1.3;">
+        You are <br><span style="color: black;">a few minutes away</span> from the help you need.
+      </h2>
+      <p style="font-size: 16px; color: #555; margin-bottom: 40px;">
+        At Lubricon Specialities India, we redefine performance, reliability, and innovation in lubrication solutions. Powered by cutting-edge Australian technology, we deliver products that enhance efficiency and protect your machinery.
+      </p>
+      
+      <!-- Contact Info -->
+      <div style="font-size: 16px; color: #333; line-height: 1.6; margin-bottom: 30px;">
+        <!--<div style="display: flex; align-items: center; margin-bottom: 20px;">-->
+        <!--  <svg xmlns="http://www.w3.org/2000/svg" fill="black" width="24" height="24" viewBox="0 0 24 24" style="margin-right: 12px;">-->
+        <!--    <path d="M12 2C8.13401 2 5 5.13401 5 9C5 13.25 12 22 12 22C12 22 19 13.25 19 9C19 5.13401 15.866 2 12 2ZM12 11.5C10.6193 11.5 9.5 10.3807 9.5 9C9.5 7.61929 10.6193 6.5 12 6.5C13.3807 6.5 14.5 7.61929 14.5 9C14.5 10.3807 13.3807 11.5 12 11.5Z"/>-->
+        <!--  </svg>-->
+        <!--  <span>123 Main Street, New Delhi, India</span>-->
+        <!--</div>-->
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="black" width="24" height="24" viewBox="0 0 24 24" style="margin-right: 12px;">
+            <path d="M6.62 10.79a15.09 15.09 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21c1.2.48 2.5.74 3.83.74a1 1 0 011 1v3.5a1 1 0 01-1 1A17 17 0 013 6a1 1 0 011-1h3.5a1 1 0 011 1c0 1.33.26 2.63.74 3.83a1 1 0 01-.21 1.11l-2.2 2.2z"/>
+          </svg>
+          <span>1800 569 6363</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="black" width="24" height="24" viewBox="0 0 24 24" style="margin-right: 12px;">
+            <path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 2v.01L12 13 4 6.01V6h16zm0 12H4V8l8 5 8-5v10z"/>
+          </svg>
+          <span>info@lubriconindia.com</span>
+        </div>
+      </div>
+
+      <!-- Social Links -->
+      <div style="display: flex; gap: 20px;">
+        <a href="https://www.facebook.com/LubriconIndia?_rdr" target="_blank" aria-label="Facebook" style="color: black; transition: color 0.3s;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="28" height="28" viewBox="0 0 24 24">
+            <path d="M22 12.07c0-5.52-4.48-10-10-10S2 6.55 2 12.07c0 4.98 3.65 9.1 8.44 9.88v-6.99H7.9v-2.89h2.54v-2.2c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56v1.87h2.76l-.44 2.89h-2.32v6.99C18.35 21.17 22 17.06 22 12.07z"/>
+          </svg>
+        </a>
+        <a href="https://www.youtube.com/" target="_blank" aria-label="YouTube" style="color: black; transition: color 0.3s;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="28" height="28" viewBox="0 0 24 24">
+            <path d="M19.615 3.184C21.045 3.414 22 4.441 22 5.88v12.24c0 1.439-.955 2.466-2.385 2.696-2.52.393-7.884.393-7.884.393s-5.364 0-7.884-.393C2.955 20.586 2 19.559 2 18.12V5.88c0-1.439.955-2.466 2.385-2.696C7.905 2.79 13.27 2.79 13.27 2.79s5.364 0 7.884.393zM10 16.5l6-4.5-6-4.5v9z"/>
+          </svg>
+        </a>
+
+        <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram" style="color: black; transition: color 0.3s;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="28" height="28" viewBox="0 0 24 24">
+            <path d="M7.75 2h8.5A5.76 5.76 0 0122 7.75v8.5A5.76 5.76 0 0116.25 22h-8.5A5.76 5.76 0 012 16.25v-8.5A5.76 5.76 0 017.75 2zm4.25 5.2a4.05 4.05 0 104.05 4.05 4.05 4.05 0 00-4.05-4.05zm4.9-2.54a1.2 1.2 0 11-1.2-1.2 1.2 1.2 0 011.2 1.2z"/>
+          </svg>
+        </a>
+        <a href="https://www.linkedin.com/company/lubriconindia" target="_blank" aria-label="LinkedIn" style="color: black; transition: color 0.3s;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="28" height="28" viewBox="0 0 24 24">
+            <path d="M16 8a6 6 0 016 6v6h-4v-6a2 2 0 00-4 0v6h-4v-12h4v2a4 4 0 014-2zM6 9H2v12h4zM4 3a2 2 0 110 4 2 2 0 010-4z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Form Column -->
+    <div style="flex: 1 1 50%; padding: 40px; background: #f9f9f9; min-width: 300px;">
+      <h4 style="color: black; border-bottom: 2px solid black; display: inline-block; margin-bottom: 20px; font-size: 20px;">GET A CALLBACK</h4>
+
+      <form method="post" action="Action/Home_Enquery.php">
+        <div style="margin-bottom: 15px;">
+          <input type="text" name="username" placeholder="Your Name" required
+            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px;" />
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <input type="email" name="email" placeholder="Your Email" required
+            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px;" />
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <input type="number" name="mobile" placeholder="Your Mobile Number" required
+            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px;" />
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <input type="text" name="location" placeholder="Your Location" required
+            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px;" />
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <textarea name="requirement" placeholder="Message" rows="4"
+            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+        </div>
+
+        <div>
+          <button type="submit" name="submit"
+            style="    background: #ffd400; color: white; padding: 12px 30px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%;">
+            Submit Now
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <br>
+<footer class="main-footer">
+<div class="background" style="padding: 0 20px;">
+    <div class="auto-container">
+        <div class="widgets-section">
+            <div class="row clearfix">
+                <!-- Column 5 -->
+                <div class="footer-column col-md-4 col-sm-6 col-xs-12">
+                    <img src=images/logo.png>
+                    <br>
+                    <h6  class="pt-4" style="font-size:17px; padding-top:20px; ">Lubricon Specialities India delivers premium industrial and automotive lubricants powered by Australian technology. Engineered for Indian conditions to maximize performance, reduce downtime, and extend equipment life.</h6>
+                </div>
+                <!-- Column 1 -->
+                <div class="footer-column col-md-3 col-sm-6 col-xs-12">
+                    <div class="footer-widget about-widget">
+                       
+                        <!--<img src="https://rankingers.com/projectsjhai/new/copy-10/admin/Upload/67efaa3ec0283_" width="100%">-->
+                        
+                        <h4 class="" style="color: black;font-size: 21px;margin: 6px 0;">Lubricon Specialities India</h4>
+                        <div class="widget-content">
+                            <div class="text" style="text-align: unset;">
+                                Offers advanced Australian technology lubricants, engineered for peak industrial and automotive performance.
+                            </div>
+                            <div class="footer-widget contact-widget">
+                                <br>
+                        <h4 class="widget-title">Contact</h4>
+                        
+                        <ul class="contact-list">
+                            <li><span class="fa fa-phone"></span><a href="tel:1800 569 6363" style="color: black;font-size: 19px;">1800 569 6363</a></li><li><span class="fa fa-envelope"></span><a href="mailto:info@lubriconindia.com" style="color: black;font-size: 19px;">info@lubriconindia.com</a></li>                        </ul>
+                    </div>
+                            <ul class="social-icon-two">
+                                <li><a href="https://m.facebook.com/LubriconIndia" target="_blank"><img src="https://store-images.s-microsoft.com/image/apps.30645.9007199266245907.cb06f1f9-9154-408e-b4ef-d19f2325893b.ac3b465e-4384-42a8-9142-901c0405e1bc" width: 18pxborder-radius: 4px;"></span></a></li><li><a href="https://www.instagram.com/" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3Sxu0lyuJ6iB2d0nYI1-GIKP2VPUPQ4KQvA&amp;s" width: 18pxborder-radius: 4px;"></a></li><li><a href="https://www.linkedin.com/company/lubriconindia" target="_blank"><img src="data:image/png;base64,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" width: 18pxborder-radius: 4px;"></a></li><li><a href="https://www.youtube.com/" target="_blank"><img src="images/youtube.png" style="width: 30px;border-radius: 4px;"></a></li>                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="footer-column col-md-3 col-sm-6 col-xs-12">
+                    <div class="footer-widget links-widget">
+                        <h4 class="widget-title">Industries We Serve </h4>
+                        <ul class="list">
+                            <li><a href="/plastic-injection-molding" style=" color: black;font-size: 19px;">Plastic Injection Moulding</a></li>
+                            <li><a href="/plastic-injection-molding" style=" color: black;font-size: 19px;">Paper Mills</a></li>
+                            <li><a href="/plastic-injection-molding" style=" color: black;font-size: 19px;">Steel Plants</a></li>
+                                                    </ul>
+                    </div>
+                </div>
+
+                
+
+                <!-- Column 4 -->
+                <div class="footer-column col-md-2 col-sm-6 col-xs-12">
+                    <div class="footer-widget">
+                        <h4 class="widget-title">Quick Links</h4>
+                        <ul class="list">
+                            <li><a href="/" style="color: black;font-size: 19px;">Home</a></li>
+                            <li><a href="/about.php" style="color: black;font-size: 19px;">About Us</a></li>
+                            <li><a href="/products" style="color: black;font-size: 19px;">Products</a></li>
+                            <li><a href="/plastic-injection-molding" style=" color: black;font-size: 19px;">Industries We Serve</a></li>
+                            <li><a href="/contactus.php" style=" color: black;font-size: 19px;">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                
+
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="auto-container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="scroll-to-top scroll-to-target" data-target="html">
+                            <span class="icon fa fa-angle-up"></span>
+                        </div>
+                        <div class="copyright-text">
+                            © 2024 Lubricon. All rights reserved. Managed and Promoted by 
+                            <a href="https://webdigitalvyapar.com/" target="_blank">Web Digital Vyapar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</footer>
+            <script defer="defer" src="js/jquery.js"></script>
+
+<script defer="defer" src="js/bootstrap.min.js"></script>
+<script defer="defer" src="js/owl.js"></script>
+<script defer="defer" src="js/appear.js"></script>
+<script defer="defer" src="js/script.js"></script>
+<!-- <script src="js/map-script.js"></script> -->
+
+<script
+    src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202402050101/show_ads_impl_fy2021.js?bust=31080933">
+</script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js">
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3CH0D35CD1"></script>
+<script>
+
+
+
+function gtag() {
+    dataLayer.push(arguments)
+}
+window.dataLayer = window.dataLayer || [], gtag("js", new Date), gtag("config", "G-3CH0D35CD1")
+
+$(document).ready(function() {
+    $("#testimonial-slider").owlCarousel({
+        items: 2,
+        itemsDesktop: [1000, 2],
+        itemsDesktopSmall: [979, 2],
+        itemsTablet: [768, 1],
+        pagination: false,
+        navigation: true,
+        navigationText: ["", ""],
+        autoPlay: true
+    });
+});
+</script>
+
+</body>
+</html>        

@@ -30,7 +30,20 @@ export async function GET() {
       headingOptions: page.headingOptions,
     };
 
-    return NextResponse.json({ success: true, data: sectionsMap, seo });
+    const industries = await prisma.industry.findMany({
+      orderBy: { order: "asc" },
+    });
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        ...sectionsMap,
+        sections: sectionsMap,
+        industries,
+      },
+      industries,
+      seo,
+    });
   } catch (error) {
     console.error('Error fetching industries page data:', error);
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });

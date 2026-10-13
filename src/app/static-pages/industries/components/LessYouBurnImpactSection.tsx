@@ -142,7 +142,7 @@ export function LessYouBurnImpactSection({
                 label="Eyebrow Badge"
                 value={badge}
                 onChange={(e) => setBadge(e.target.value)}
-                placeholder="The Jai Deva Operating Standard"
+                placeholder="The Lubricon Operating Standard"
               />
               <InputField
                 label="Headline"

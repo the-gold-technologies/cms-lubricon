@@ -2,16 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/PageHeader';
-import { HomeHeroSection } from './components/HomeHeroSection';
-import { ProductsServicesSection } from './components/ProductsServicesSection';
-import { MultiBrandSolutionsSection } from './components/MultiBrandSolutionsSection';
-import { IndustriesWeServeSection } from './components/IndustriesWeServeSection';
-import { WhyJaiDevaSection } from './components/WhyJaiDevaSection';
-import { TrustedClientsSection } from './components/TrustedClientsSection';
-import { BrandClosingBannerSection } from './components/BrandClosingBannerSection';
-import { InstagramRibbonCMS } from './components/InstagramRibbonCMS';
-import { LocateDistributorSection } from './components/LocateDistributorSection';
-import { FirstTimePopupSection } from './components/FirstTimePopupSection';
+import { HomeHeroSliderSection } from './components/HomeHeroSliderSection';
+import { HomeStatsSection } from './components/HomeStatsSection';
+import { HomeGovernmentProcurementSection } from './components/HomeGovernmentProcurementSection';
+import { HomeIndustriesSection } from './components/HomeIndustriesSection';
+import { HomeAboutStripSection } from './components/HomeAboutStripSection';
+import { HomeProductShowcaseSection } from './components/HomeProductShowcaseSection';
+import { HomeLubricantFinderSection } from './components/HomeLubricantFinderSection';
+import { HomeCtaBannerSection } from './components/HomeCtaBannerSection';
 
 export default function HomePageEditor() {
   const [homeData, setHomeData] = useState<any>(null);
@@ -38,35 +36,33 @@ export default function HomePageEditor() {
         description="Manage the live layout sections of your homepage. Edit fields below to update the website immediately."
       />
 
-      {/* 1. Homepage Hero (Live Website Centerpiece) */}
-      <HomeHeroSection initialData={homeData?.HomeHero} />
+      {/* 1. Hero Carousel / Slider */}
+      <HomeHeroSliderSection initialData={homeData?.HeroSlider} />
 
-      {/* 2. First-Time Visitor Popup Configuration */}
-      <FirstTimePopupSection initialData={homeData?.FirstTimePopup} />
+      {/* 2. Key Stats & Metric Numbers */}
+      <HomeStatsSection initialData={homeData?.HomeStats} />
 
-      {/* 3. Our Product Range */}
-      <ProductsServicesSection initialData={homeData?.ProductsServicesSection} />
+      {/* 3. Government & Institutional Procurement (GeM & IREPS) */}
+      <HomeGovernmentProcurementSection
+        initialData={homeData?.HomeGovernmentProcurement || homeData?.GovernmentProcurement}
+      />
 
-      {/* 4. Multi-Brand Lubricant Solutions */}
-      <MultiBrandSolutionsSection initialData={homeData?.MultiBrandSolutionsSection} />
+      {/* 4. Industries We Serve */}
+      <HomeIndustriesSection initialData={homeData?.HomeIndustries} />
 
-      {/* 5. Industries We Serve */}
-      <IndustriesWeServeSection initialData={homeData?.IndustriesWeServeSection} />
+      {/* 5. About Lubricon Narrative & Framed Photo */}
+      <HomeAboutStripSection initialData={homeData?.HomeAboutStrip} />
 
-      {/* 6. Why Jai Deva Oil Co.? */}
-      <WhyJaiDevaSection initialData={homeData?.WhyJaiDevaSection} />
+      {/* 6. Product Portfolio Showcase */}
+      <HomeProductShowcaseSection initialData={homeData?.HomeProductShowcase} />
 
-      {/* 7. Trusted Clients & Brands Marquee */}
-      <TrustedClientsSection initialData={homeData?.TrustedClientsSection} />
+      {/* 7. Interactive Lubricant Finder Section */}
+      <HomeLubricantFinderSection
+        initialData={homeData?.HomeLubricantFinderSection || homeData?.HomeLubricantFinder}
+      />
 
-      {/* 8. Brand Summary Closing Banner */}
-      <BrandClosingBannerSection initialData={homeData?.BrandClosingBannerSection} />
-
-      {/* 9 Instagram Live Marquee Ribbon */}
-      <InstagramRibbonCMS initialData={homeData?.InstagramRibbon} />
-
-      {/* 10. Locate Distributor & Direct Enquiry Contact */}
-      <LocateDistributorSection initialData={homeData?.LocateDistributorSection} />
+      {/* 8. Conversion CTA Banner */}
+      <HomeCtaBannerSection initialData={homeData?.HomeCtaBanner} />
     </section>
   );
 }

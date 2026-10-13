@@ -216,7 +216,7 @@ export function AboutImageGallerySection({ initialData }: { initialData?: any })
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={2}
-                placeholder="Take a visual tour inside Jai Deva Oil Co.'s modern logistics infrastructure…"
+                placeholder="Take a visual tour inside Lubricon Specialities India's modern logistics infrastructure…"
               />
             </div>
 

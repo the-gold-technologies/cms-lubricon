@@ -64,7 +64,7 @@ export async function PUT(request: Request) {
       where: { id: 'global' },
       create: {
         id: 'global',
-        siteTitle: body.siteTitle || 'Jai Deva Oil Co.',
+        siteTitle: body.siteTitle || 'Lubricon Specialities India',
         siteDescription: body.siteDescription || 'HP Lubricants Distributor',
         ...body,
       },

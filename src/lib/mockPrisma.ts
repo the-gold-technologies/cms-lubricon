@@ -3,8 +3,8 @@
 let mockUsers: any[] = [
   {
     id: 'user-1',
-    name: 'Jai Deva Admin',
-    email: 'admin@jaidevaoil.com',
+    name: 'Lubricon Admin',
+    email: 'admin@lubricon.in',
     role: 'admin',
     password: '$2a$10$YourHashedPasswordHere',
     avatar:
@@ -15,10 +15,10 @@ let mockUsers: any[] = [
 ];
 
 let mockSettings: Record<string, string> = {
-  site_name: 'Jai Deva Oil Co.',
+  site_name: 'Lubricon Specialities India',
   company_tagline: 'Multi-Brand Industrial & Automotive Lubricant Distributor',
-  proprietor_name: 'Jai Deva Oil Co.',
-  contact_email: 'sales@jaidevaoil.com',
+  proprietor_name: 'Lubricon Specialities India',
+  contact_email: 'sales@lubricon.in',
   contact_phone: '+91 98765 43210',
   contact_address: 'Industrial Area & Regional Distribution Hub, India',
   primary_color: '#0C356A',
@@ -97,15 +97,15 @@ let mockPages: any[] = [
     visibility: 'published',
     isStatic: true,
     description: 'Multi-Brand Industrial & Automotive Lubricant Distributor.',
-    metaTitle: 'Jai Deva Oil Co. | Multi-Brand Industrial & Automotive Lubricant Distributor',
+    metaTitle: 'Lubricon Specialities India | Multi-Brand Industrial & Automotive Lubricant Distributor',
     metaDescription:
       'Established in 2008, trusted multi-brand lubricant distributor supplying industrial oils, automotive lubricants, and greases.',
     targetKeywords:
       'jai deva oil co, industrial lubricants distributor, automotive lubricants supplier',
-    canonicalUrl: 'https://jaidevaoil.com',
+    canonicalUrl: 'https://lubricon.in',
     noIndex: false,
     featuredImage: '',
-    ogTitle: 'Jai Deva Oil Co.',
+    ogTitle: 'Lubricon Specialities India',
     ogDescription: 'Multi-Brand Industrial & Automotive Lubricant Distributor',
     ogImage: '',
     headingOptions: 'h1',
@@ -192,7 +192,7 @@ let mockPages: any[] = [
           subtitle1: 'Multi-Brand Industrial & Automotive Lubricant Distributor',
           subtitle2: 'Reliable Lubrication Solutions for Every Industry & Application',
           paragraph1:
-            'Established in 2008, Jai Deva Oil Co. is a trusted Authorized Distributors of Industrial & Automotive Lubricants, offering a comprehensive range of quality lubrication products from leading brands.',
+            'Established in 2008, Lubricon Specialities India is a trusted Authorized Distributors of Industrial & Automotive Lubricants, offering a comprehensive range of quality lubrication products from leading brands.',
           paragraph2:
             'From Engine Oil, Hydraulic Oil and Gear Oil to Automotive Grease, Cutting Oil, Rust Preventive Oil and Specialty Lubricants, we provide reliable lubrication solutions for diverse industrial, automotive and machinery applications.',
           primaryBtnLabel: 'Explore Products',
@@ -271,7 +271,7 @@ let mockPages: any[] = [
           title: 'Multiple Brands.',
           titleHighlight: 'One Reliable Partner.',
           paragraph1:
-            'At Jai Deva Oil Co., we bring together a diverse portfolio of leading lubricant and industrial solution brands, making it easier for businesses to source the right products from one trusted distributor.',
+            'At Lubricon Specialities India, we bring together a diverse portfolio of leading lubricant and industrial solution brands, making it easier for businesses to source the right products from one trusted distributor.',
           paragraph2:
             'Our multi-brand approach allows us to cater to different industrial, automotive and machinery lubrication requirements with a broad range of products and applications.',
           btnLabel: 'Explore Our Brands',
@@ -336,7 +336,7 @@ let mockPages: any[] = [
         type: 'WhyJaiDevaSection',
         order: 6,
         content: {
-          title: 'WHY JAI DEVA OIL CO.?',
+          title: 'WHY LUBRICON SPECIALITIES INDIA?',
           subtitle: 'Your Trusted Lubrication Partner Since 2008',
           points: [
             {
@@ -384,17 +384,17 @@ let mockPages: any[] = [
         type: 'BrandClosingBannerSection',
         order: 7,
         content: {
-          badge: 'JAI DEVA OIL CO.',
+          badge: 'LUBRICON SPECIALITIES INDIA',
           title: 'YOUR TRUSTED PARTNER IN INDUSTRIAL & AUTOMOTIVE LUBRICATION',
           description:
-            'With 18+ years of industry experience, a diverse multi-brand portfolio and a customer-focused approach, Jai Deva Oil Co. continues to provide dependable lubrication products and solutions for industries, machinery and automotive applications.',
+            'With 18+ years of industry experience, a diverse multi-brand portfolio and a customer-focused approach, Lubricon Specialities India continues to provide dependable lubrication products and solutions for industries, machinery and automotive applications.',
           highlights: [
             'Quality Products',
             'Multiple Brands',
             'Reliable Supply',
             'Customer-Focused Service',
           ],
-          btnLabel: 'PARTNER WITH JAI DEVA OIL CO.',
+          btnLabel: 'PARTNER WITH LUBRICON SPECIALITIES INDIA',
           btnUrl: '/contact-us',
         },
       },
@@ -409,15 +409,15 @@ let mockPages: any[] = [
           paragraph1:
             'Every machine and application has different lubrication requirements. Our team can help you identify suitable products based on your equipment, application and operating conditions.',
           paragraph2:
-            'Whether you require Hydraulic Oil, Gear Oil, Engine Oil, Industrial Grease, Cutting Oil or other specialty lubricants, Jai Deva Oil Co. is ready to assist.',
+            'Whether you require Hydraulic Oil, Gear Oil, Engine Oil, Industrial Grease, Cutting Oil or other specialty lubricants, Lubricon Specialities India is ready to assist.',
           primaryBtnLabel: 'Send Your Enquiry',
           secondaryBtnLabel: 'Talk to Our Team',
-          contactTitle: 'JAI DEVA OIL CO.',
-          companyName: 'Jai Deva Oil Co.',
+          contactTitle: 'LUBRICON SPECIALITIES INDIA',
+          companyName: 'Lubricon Specialities India',
           address: 'Industrial Area & Distribution Hub, India',
           phone: '+91 98765 43210',
           workingHours: 'Working Hours: Mon - Sat: 9:00 AM - 6:30 PM',
-          email: 'sales@jaidevaoil.com',
+          email: 'sales@lubricon.in',
           btn1Text: 'Send Enquiry',
           btn2Text: 'Become a Distributor',
         },
@@ -434,16 +434,16 @@ let mockPages: any[] = [
     visibility: 'published',
     isStatic: true,
     description:
-      'Learn more about Jai Deva Oil Co., our mentor Mr. Mayank Goyal, and our multi-brand lubricant distribution network.',
-    metaTitle: 'About Us | Jai Deva Oil Co. - Multi-Brand Lubricant Distributor',
+      'Learn more about Lubricon Specialities India, our mentor Mr. Mayank Goyal, and our multi-brand lubricant distribution network.',
+    metaTitle: 'About Us | Lubricon Specialities India - Multi-Brand Lubricant Distributor',
     metaDescription:
-      'Established in 2008, Jai Deva Oil Co. is a leading wholesaler, distributor, and trader of industrial and automotive lubricants across India.',
+      'Established in 2008, Lubricon Specialities India is a leading wholesaler, distributor, and trader of industrial and automotive lubricants across India.',
     targetKeywords:
       'about jai deva oil co, multi-brand lubricants distributor, lubricants wholesaler trader',
-    canonicalUrl: 'https://jaidevaoil.com/about-us',
+    canonicalUrl: 'https://lubricon.in/about-us',
     noIndex: false,
     featuredImage: '',
-    ogTitle: 'About Us - Jai Deva Oil Co.',
+    ogTitle: 'About Us - Lubricon Specialities India',
     ogDescription: 'Multi-Brand Industrial & Automotive Lubricant Distributor',
     ogImage: '',
     headingOptions: 'h1',
@@ -457,7 +457,7 @@ let mockPages: any[] = [
         order: 0,
         content: {
           image: '/About-HPCL.jpg',
-          altText: 'About JAI DEVA OIL CO. Banner',
+          altText: 'About LUBRICON SPECIALITIES INDIA Banner',
         },
       },
       {
@@ -466,17 +466,17 @@ let mockPages: any[] = [
         type: 'AboutJaiDevaContent',
         order: 1,
         content: {
-          title: 'ABOUT JAI DEVA OIL CO.',
-          mainTitle: 'ABOUT JAI DEVA OIL CO.',
-          subtitle: 'Mr. Mayank Goyal – Mentor & Proprietor, Jai Deva Oil Co.',
-          mentorSubHeader: 'Mr. Mayank Goyal – Mentor, Jai Deva Oil Co.',
-          proprietorSubHeader: 'Mr. Mayank Goyal – Mentor, Jai Deva Oil Co.',
+          title: 'ABOUT LUBRICON SPECIALITIES INDIA',
+          mainTitle: 'ABOUT LUBRICON SPECIALITIES INDIA',
+          subtitle: 'Mr. Mayank Goyal – Mentor & Proprietor, Lubricon Specialities India',
+          mentorSubHeader: 'Mr. Mayank Goyal – Mentor, Lubricon Specialities India',
+          proprietorSubHeader: 'Mr. Mayank Goyal – Mentor, Lubricon Specialities India',
           paragraphs: [
-            'Established in the year 2008, Jai Deva Oil Co. is the leading prominent Wholesaler, Distributor, and Trader of Lubricants Oil, Engine Oil, Automotive Grease, Hydraulic Oil, Cutting Oil, Gear Oil, Rust Preventive Oil and much more. Made by making use of finest quality inputs altogether with superior machinery, these are very much-admired and recommended. Also, these are tested carefully before getting delivered at the end of our customers. To add, their effectiveness, these are enormously popular. Accessible with us in a plethora of sizes and packing, these could be purchased from us at most affordable costs.',
+            'Established in the year 2008, Lubricon Specialities India is the leading prominent Wholesaler, Distributor, and Trader of Lubricants Oil, Engine Oil, Automotive Grease, Hydraulic Oil, Cutting Oil, Gear Oil, Rust Preventive Oil and much more. Made by making use of finest quality inputs altogether with superior machinery, these are very much-admired and recommended. Also, these are tested carefully before getting delivered at the end of our customers. To add, their effectiveness, these are enormously popular. Accessible with us in a plethora of sizes and packing, these could be purchased from us at most affordable costs.',
             "Our team of professionals keeps a check on clients' rising necessities and therefore aids us in meeting the same in certain period of time. Owing to our quality centric approach, we have been highly proficient to meet the desires of clients all over the marketplace. Also, we have with us a team of skilled and dexterous professionals who own years of expertise in this business realm.",
             'We are headed by our mentor Mr. Mayank Goyal, who has enormous knowledge and experience of the field. Owing to his balanced business plans and policies, we have attained a noteworthy position in the industry.',
           ],
-          whyChooseTitle: 'WHY CHOOSE JAI DEVA OIL CO.',
+          whyChooseTitle: 'WHY CHOOSE LUBRICON SPECIALITIES INDIA',
           whyChooseSubtitle: 'Delivering Quality Lubricants. Building Trust Since 2008.',
           whyChooseItems: [
             {
@@ -519,13 +519,13 @@ let mockPages: any[] = [
         type: 'LubesHeadquarterSection',
         order: 2,
         content: {
-          title: 'JAI DEVA OIL CO.',
+          title: 'LUBRICON SPECIALITIES INDIA',
           badge: 'MULTI-BRAND INDUSTRIAL & AUTOMOTIVE LUBRICANTS DISTRIBUTOR',
           proprietor: 'Mr. Mayank Goyal',
           servingRegion: 'Industrial Belts & Nationwide Distribution Hubs, India',
           establishment: 'Est. 2008 | 18+ Years Experience | Leading Wholesaler & Trader',
           phone: '+91 98765 43210',
-          email: 'sales@jaidevaoil.com',
+          email: 'sales@lubricon.in',
         },
       },
     ],
@@ -540,16 +540,16 @@ let mockPages: any[] = [
     visibility: 'published',
     isStatic: true,
     description:
-      'Get in touch with Jai Deva Oil Co. for bulk lubricants supply, enquiries, and dealership.',
-    metaTitle: 'Contact Us | Jai Deva Oil Co. - Multi-Brand Lubricants Distributor',
+      'Get in touch with Lubricon Specialities India for bulk lubricants supply, enquiries, and dealership.',
+    metaTitle: 'Contact Us | Lubricon Specialities India - Multi-Brand Lubricants Distributor',
     metaDescription:
-      'Reach out to Jai Deva Oil Co. sales and technical team for industrial oils, automotive lubricants, and greases across India.',
+      'Reach out to Lubricon Specialities India sales and technical team for industrial oils, automotive lubricants, and greases across India.',
     targetKeywords:
       'contact jai deva oil co, multi-brand lubricant distributor contact, bulk lubricants quote',
-    canonicalUrl: 'https://jaidevaoil.com/contact-us',
+    canonicalUrl: 'https://lubricon.in/contact-us',
     noIndex: false,
     featuredImage: '/contact-us-banner.jpg',
-    ogTitle: 'Contact Us - Jai Deva Oil Co.',
+    ogTitle: 'Contact Us - Lubricon Specialities India',
     ogDescription: 'Multi-Brand Industrial & Automotive Lubricants Distributor',
     ogImage: '/contact-us-banner.jpg',
     headingOptions: 'h1',
@@ -565,7 +565,7 @@ let mockPages: any[] = [
           title: 'Contact Us',
           subtitle: '',
           image: '/contact-us-banner.jpg',
-          altText: 'Contact Us - Jai Deva Oil Co.',
+          altText: 'Contact Us - Lubricon Specialities India',
         },
       },
       {
@@ -574,7 +574,7 @@ let mockPages: any[] = [
         type: 'ContactHeadquarter',
         order: 1,
         content: {
-          companyName: 'Jai Deva Oil Co.',
+          companyName: 'Lubricon Specialities India',
           badge: 'Multi-Brand Industrial & Automotive Lubricants Distributor',
           description:
             'Connect with our team for bulk lubricants supply, dealership opportunities, technical data sheets, and custom quotes.',
@@ -582,7 +582,7 @@ let mockPages: any[] = [
           address: 'Industrial Area & Regional Distribution Hub, India',
           phone: '+91 98765 43210',
           whatsapp: '919876543210',
-          email: 'sales@jaidevaoil.com',
+          email: 'sales@lubricon.in',
           workingHours: 'Monday to Saturday: 10:00 AM – 6:00 PM',
         },
       },
@@ -610,15 +610,15 @@ let mockPages: any[] = [
     type: 'static',
     visibility: 'published',
     isStatic: true,
-    description: 'Events & Activities Gallery for Jai Deva Oil Co.',
-    metaTitle: 'Events & Gallery | Jai Deva Oil Co.',
+    description: 'Events & Activities Gallery for Lubricon Specialities India',
+    metaTitle: 'Events & Gallery | Lubricon Specialities India',
     metaDescription:
-      'Explore photo gallery and coverage of distributor meets, exhibitions, and industrial seminars by Jai Deva Oil Co.',
+      'Explore photo gallery and coverage of distributor meets, exhibitions, and industrial seminars by Lubricon Specialities India',
     targetKeywords: 'events, gallery, jai deva oil co exhibition, distributor meet',
-    canonicalUrl: 'https://jaidevaoil.com/events',
+    canonicalUrl: 'https://lubricon.in/events',
     noIndex: false,
     featuredImage: '/events-banner.jpg',
-    ogTitle: 'Events & Activities - Jai Deva Oil Co.',
+    ogTitle: 'Events & Activities - Lubricon Specialities India',
     ogDescription: 'Events and activities gallery',
     ogImage: '/events-banner.jpg',
     headingOptions: 'h1',
@@ -632,7 +632,7 @@ let mockPages: any[] = [
         order: 0,
         content: {
           image: '/events-banner.jpg',
-          altText: 'Jai Deva Oil Co. Events & Activities Gallery Banner',
+          altText: 'Lubricon Specialities India Events & Activities Gallery Banner',
         },
       },
       {
@@ -643,7 +643,7 @@ let mockPages: any[] = [
         content: {
           title: 'EVENTS',
           introText:
-            'Jai Deva Oil Co. actively engages with their stakeholders by frequently hosting meetings and events with them. This includes meeting business partners, strategic partners, distributors, OEMs, agencies, mechanics, and industrial clients.',
+            'Lubricon Specialities India actively engages with their stakeholders by frequently hosting meetings and events with them. This includes meeting business partners, strategic partners, distributors, OEMs, agencies, mechanics, and industrial clients.',
         },
       },
       {
@@ -676,15 +676,15 @@ let mockPages: any[] = [
             },
             {
               id: 4,
-              title: 'Excon 2017 Jai Deva Oil Co. Stall Sideview',
+              title: 'Excon 2017 Lubricon Specialities India Stall Sideview',
               image: 'https://www.hplubricants.in/sites/default/files/b4.jpg',
-              altText: 'Excon 2017 Jai Deva Oil Co. Stall Sideview',
+              altText: 'Excon 2017 Lubricon Specialities India Stall Sideview',
             },
             {
               id: 5,
-              title: 'Excon 2017 Jai Deva Oil Co. Stall',
+              title: 'Excon 2017 Lubricon Specialities India Stall',
               image: 'https://www.hplubricants.in/sites/default/files/b3.jpg',
-              altText: 'Excon 2017 Jai Deva Oil Co. Stall',
+              altText: 'Excon 2017 Lubricon Specialities India Stall',
             },
             {
               id: 6,
@@ -760,15 +760,15 @@ let mockPages: any[] = [
             },
             {
               id: 18,
-              title: 'Jai Deva Oil Co. ConMac 2017 Showcase',
+              title: 'Lubricon Specialities India ConMac 2017 Showcase',
               image: 'https://www.hplubricants.in/sites/default/files/8.jpg',
-              altText: 'Jai Deva Oil Co. ConMac 2017 Showcase',
+              altText: 'Lubricon Specialities India ConMac 2017 Showcase',
             },
             {
               id: 19,
-              title: 'Jai Deva Oil Co. ConMac 2017',
+              title: 'Lubricon Specialities India ConMac 2017',
               image: 'https://www.hplubricants.in/sites/default/files/7.jpg',
-              altText: 'Jai Deva Oil Co. ConMac 2017',
+              altText: 'Lubricon Specialities India ConMac 2017',
             },
             {
               id: 20,
@@ -821,15 +821,15 @@ let mockPages: any[] = [
     visibility: 'published',
     isStatic: true,
     description:
-      'Technical articles, educational guides, and lubrication maintenance recommendations from Jai Deva Oil Co.',
-    metaTitle: 'Blogs & Insights | Jai Deva Oil Co.',
+      'Technical articles, educational guides, and lubrication maintenance recommendations from Lubricon Specialities India',
+    metaTitle: 'Blogs & Insights | Lubricon Specialities India',
     metaDescription:
-      'Learn how often to change engine oils, hydraulic fluid maintenance, and lubrication best practices from Jai Deva Oil Co.',
+      'Learn how often to change engine oils, hydraulic fluid maintenance, and lubrication best practices from Lubricon Specialities India',
     targetKeywords: 'blogs, engine oil change guide, lubrication maintenance, industrial oils',
-    canonicalUrl: 'https://jaidevaoil.com/blogs',
+    canonicalUrl: 'https://lubricon.in/blogs',
     noIndex: false,
     featuredImage: '/blogs-banner.jpg',
-    ogTitle: 'Blogs & Lubrication Insights - Jai Deva Oil Co.',
+    ogTitle: 'Blogs & Lubrication Insights - Lubricon Specialities India',
     ogDescription: 'Lubrication best practices and technical articles',
     ogImage: '/blogs-banner.jpg',
     headingOptions: 'h1',
@@ -843,7 +843,7 @@ let mockPages: any[] = [
         order: 0,
         content: {
           image: '/blogs-banner.jpg',
-          altText: 'Blogs - Jai Deva Oil Co. Lubricants',
+          altText: 'Blogs - Lubricon Specialities India Lubricants',
         },
       },
       {
@@ -891,7 +891,7 @@ let mockCategories: any[] = [
     shortDesc:
       'High performance hydraulic, compressor, turbine, transformer, gear, film, and machinery lubricants.',
     fullDesc:
-      "Discover JAI DEVA OIL CO.' industrial oils tailored for hydraulic systems, gearboxes, compressors, sugar mills, and more. Trusted for quality, innovation, and reliability.",
+      "Discover LUBRICON SPECIALITIES INDIA' industrial oils tailored for hydraulic systems, gearboxes, compressors, sugar mills, and more. Trusted for quality, innovation, and reliability.",
     coverImage:
       'https://www.hplubricants.in/sites/default/files/styles/product_category_thumb/public/Compressor-Oils.png',
     order: 0,
@@ -906,7 +906,7 @@ let mockCategories: any[] = [
     shortDesc:
       'Extreme pressure lithium, complex, wheel bearing, and specialty temperature resistant greases.',
     fullDesc:
-      'JAI DEVA OIL CO. supplies premium industrial greases formulated for heavy machinery bearings, steel mills, and high temperature applications.',
+      'LUBRICON SPECIALITIES INDIA supplies premium industrial greases formulated for heavy machinery bearings, steel mills, and high temperature applications.',
     coverImage:
       'https://www.hplubricants.in/sites/default/files/styles/product_category_thumb/public/Industrial-Greases.png',
     order: 1,
@@ -920,7 +920,7 @@ let mockCategories: any[] = [
     slug: 'automotive-oils',
     shortDesc: 'High-quality automotive, agricultural, passenger car, and engine oils.',
     fullDesc:
-      "Explore JAI DEVA OIL CO.' range of automotive, agricultural, and commercial engine oils offering superior quality and performance for all your vehicles.",
+      "Explore LUBRICON SPECIALITIES INDIA' range of automotive, agricultural, and commercial engine oils offering superior quality and performance for all your vehicles.",
     coverImage:
       'https://www.hplubricants.in/sites/default/files/styles/product_category_thumb/public/Automotive-Oils.png',
     order: 2,
@@ -2573,7 +2573,7 @@ let mockBlogs: any[] = [
           ],
           bulletPoints: [
             'API Standards (CK-4 / CI-4 Plus): Look for API donut marks. API CK-4 and CJ-4 low-SAPS oils are mandatory for modern BS-VI engines equipped with DPF and SCR systems, while API CI-4 Plus is ideal for BS-IV fleets.',
-            'OEM Approvals: Top lubricants distributed by JAI DEVA OIL CO. carry OEM approvals from major vehicle manufacturers (Tata Motors, Ashok Leyland, Mahindra, Cummins), giving extra assurance of performance.',
+            'OEM Approvals: Top lubricants distributed by LUBRICON SPECIALITIES INDIA carry OEM approvals from major vehicle manufacturers (Tata Motors, Ashok Leyland, Mahindra, Cummins), giving extra assurance of performance.',
           ],
         },
         {
@@ -2606,12 +2606,12 @@ let mockBlogs: any[] = [
         {
           heading: '8. Cost vs. Performance',
           paragraphs: [
-            'Weigh short-term lubricant costs against long-term fuel efficiency, reduced maintenance, and engine overhaul prevention. Investing in high-grade lubricants from JAI DEVA OIL CO. saves significant operating costs over time.',
+            'Weigh short-term lubricant costs against long-term fuel efficiency, reduced maintenance, and engine overhaul prevention. Investing in high-grade lubricants from LUBRICON SPECIALITIES INDIA saves significant operating costs over time.',
           ],
         },
       ],
       conclusion:
-        'Selecting the right Diesel Engine Oil requires balancing vehicle manufacturer specifications, climate conditions, duty cycles, and budget. Choosing HP MILCY series diesel lubricants from Jai Deva Oil Co. ensures maximum engine protection, extended drain intervals, and optimal fuel economy for your commercial fleet or personal vehicle.',
+        'Selecting the right Diesel Engine Oil requires balancing vehicle manufacturer specifications, climate conditions, duty cycles, and budget. Choosing HP MILCY series diesel lubricants from Lubricon Specialities India ensures maximum engine protection, extended drain intervals, and optimal fuel economy for your commercial fleet or personal vehicle.',
       recommendedProducts: [
         'HP MILCY TURBO ULTIMA 10W-40',
         'HP MILCY POWER 15W-40',
@@ -2676,7 +2676,7 @@ let mockBlogs: any[] = [
         },
       ],
       conclusion:
-        'Trust the HP MILCY 15W-40 series from Jai Deva Oil Co. for exceptional engine cleanliness, reduced oil consumption, and long-term machinery protection.',
+        'Trust the HP MILCY 15W-40 series from Lubricon Specialities India for exceptional engine cleanliness, reduced oil consumption, and long-term machinery protection.',
       recommendedProducts: [
         'HP MILCY TURBO STAR 15W-40',
         'HP MILCY SUPER 15W-40',
@@ -2777,14 +2777,14 @@ let mockBlogs: any[] = [
           ],
         },
         {
-          heading: '3. Advanced Lubrication Technology by JAI DEVA OIL CO.',
+          heading: '3. Advanced Lubrication Technology by LUBRICON SPECIALITIES INDIA',
           paragraphs: [
             'HP RACER 4T oils are blended with premium Group II base stocks and synthetic additives. They deliver exceptional thermal stability, preventing oil breakdown when idling in dense Indian city traffic.',
           ],
         },
       ],
       conclusion:
-        'Keep your motorcycle engine smooth, responsive, and long-lasting with HP RACER 4T series motorcycle oils supplied by Jai Deva Oil Co..',
+        'Keep your motorcycle engine smooth, responsive, and long-lasting with HP RACER 4T series motorcycle oils supplied by Lubricon Specialities India.',
       recommendedProducts: [
         'HP RACER 4T 20W-40',
         'HP RACER 4T SYNTH 10W-30',
@@ -2851,14 +2851,14 @@ let mockBlogs: any[] = [
     category: 'Bike Oils',
     publishDate: 'February 08, 2026',
     readTime: '6 min read',
-    author: 'Jai Deva Two-Wheeler Lube Advisory',
+    author: 'Lubricon Two-Wheeler Lube Advisory',
     excerpt:
       'Discover why HP RACER 4T series is the top choice for two-wheelers, delivering wet clutch friction control, reduced oil consumption, and lower maintenance costs.',
     coverImage:
       'https://www.hplubricants.in/sites/default/files/The-best-engine-oil-for-your-bike-thumb.jpg',
     content: {
       intro:
-        "Choosing the right engine oil for your bike is crucial for maintaining performance, efficiency, and engine longevity. JAI DEVA OIL CO.' Two Wheeler Engine Oil range is engineered to meet the stringent demands of modern motorcycles, commuters, and scooters across Indian road conditions.",
+        "Choosing the right engine oil for your bike is crucial for maintaining performance, efficiency, and engine longevity. LUBRICON SPECIALITIES INDIA' Two Wheeler Engine Oil range is engineered to meet the stringent demands of modern motorcycles, commuters, and scooters across Indian road conditions.",
       sections: [
         {
           heading: '1. Enhanced Engine Durability',
@@ -2886,7 +2886,7 @@ let mockBlogs: any[] = [
         },
       ],
       conclusion:
-        'Experience an unparalleled biking experience with HP RACER 4T motorcycle lubricants from Jai Deva Oil Co..',
+        'Experience an unparalleled biking experience with HP RACER 4T motorcycle lubricants from Lubricon Specialities India.',
       recommendedProducts: ['HP RACER 4T 20W-40', 'HP RACER 4T SYNTH 10W-30', 'HP RACER 4T 10W-30'],
     },
     recommendedProducts: [],

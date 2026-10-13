@@ -26,8 +26,8 @@ export async function GET() {
       return NextResponse.json({
         success: true,
         data: {
-          name: 'Jai Deva Admin',
-          email: 'admin@jaidevaoil.com',
+          name: 'Lubricon Admin',
+          email: 'admin@lubricon.in',
           role: 'admin',
         },
       });

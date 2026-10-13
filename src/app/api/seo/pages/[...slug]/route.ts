@@ -83,7 +83,7 @@ export async function GET(
               metaTitle: blogPost.title,
               metaDescription: blogPost.excerpt,
               targetKeywords: blogPost.category,
-              canonicalUrl: `https://jaidevaoil.com/${slug}`,
+              canonicalUrl: `https://lubricon.in/${slug}`,
               noIndex: false,
               headingOptions: 'h1',
             },

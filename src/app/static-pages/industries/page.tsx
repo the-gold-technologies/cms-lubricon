@@ -9,6 +9,7 @@ import {
   MachineryFeatureSection,
   PlantProcessSection,
   IndustriesConsultationCTA,
+  IndustriesPlantSupportSection,
 } from './components';
 
 export default function IndustriesPageEditor() {
@@ -81,6 +82,13 @@ export default function IndustriesPageEditor() {
         initialData={industriesData?.IndustriesConsultationCTA}
         isOpen={openSection === 'cta'}
         onToggle={() => toggleSection('cta')}
+      />
+
+      {/* 7. Plant Engineering Services & Support Banner */}
+      <IndustriesPlantSupportSection
+        initialData={industriesData?.IndustriesPlantSupport}
+        isOpen={openSection === 'support'}
+        onToggle={() => toggleSection('support')}
       />
     </section>
   );

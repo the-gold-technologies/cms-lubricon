@@ -85,7 +85,7 @@ export function AboutJaiDevaContentSection({ initialData }: { initialData?: any 
       const json = await res.json();
       if (json.success) {
         setSaved(true);
-        toast.success('About Jai Deva story & mentor details saved successfully');
+        toast.success('About Lubricon story & mentor details saved successfully');
         setTimeout(() => setSaved(false), 3000);
       } else {
         toast.error(json.error || 'Failed to save');
@@ -123,13 +123,13 @@ export function AboutJaiDevaContentSection({ initialData }: { initialData?: any 
                 label="Section Heading / Title"
                 value={mainTitle}
                 onChange={(e) => setMainTitle(e.target.value)}
-                placeholder="e.g. ABOUT JAI DEVA OIL CO."
+                placeholder="e.g. ABOUT LUBRICON SPECIALITIES INDIA"
               />
               <InputField
                 label="Mentor / Leadership Sub-header"
                 value={mentorSubHeader}
                 onChange={(e) => setMentorSubHeader(e.target.value)}
-                placeholder="e.g. Mr. Mayank Goyal – Mentor & Proprietor, Jai Deva Oil Co."
+                placeholder="e.g. Mr. Mayank Goyal – Mentor & Proprietor, Lubricon Specialities India"
               />
             </div>
 
@@ -192,7 +192,7 @@ export function AboutJaiDevaContentSection({ initialData }: { initialData?: any 
                   label="Leader Caption / Tagline"
                   value={founderNote}
                   onChange={(e) => setFounderNote(e.target.value)}
-                  placeholder="e.g. Jai Deva Oil Co. — Trusted Lubricant Distribution"
+                  placeholder="e.g. Lubricon Specialities India — Trusted Lubricant Distribution"
                 />
               </div>
             </div>

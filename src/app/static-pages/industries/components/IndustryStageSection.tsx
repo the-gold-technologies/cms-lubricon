@@ -206,7 +206,7 @@ export function IndustryStageSection({
         heading: heading.trim(),
         description: description.trim(),
         selectorHint: selectorHint.trim() || 'Select a sector to explore',
-        promiseLabel: promiseLabel.trim() || 'The Jai Deva Promise',
+        promiseLabel: promiseLabel.trim() || 'The Lubricon Promise',
         productBadge: productBadge.trim() || 'Refinery Certified',
         recommendedLabel: recommendedLabel.trim() || 'Recommended Industrial Formulation',
         oemPrefix: oemPrefix.trim() || 'OEM Compliance:',

@@ -69,7 +69,7 @@ export default function PageSpecificSEODetail() {
             ...prev,
             title: slug.charAt(0).toUpperCase() + slug.slice(1),
             slug: slug,
-            canonicalUrl: `https://jaidevaoil.com/${slug === 'home' ? '' : slug}`,
+            canonicalUrl: `https://lubricon.in/${slug === 'home' ? '' : slug}`,
           }));
         }
       } catch (error) {
@@ -195,7 +195,7 @@ export default function PageSpecificSEODetail() {
             label="Meta Title (Browser Tab)"
             value={formData.metaTitle}
             onChange={(e) => setFormData({ ...formData, metaTitle: e.target.value })}
-            placeholder="e.g. Products & Industrial Oils | Jai Deva Oil Co."
+            placeholder="e.g. Products & Industrial Oils | Lubricon Specialities India"
             tooltip="Page-specific title. Overrides the default site title to improve search relevance for this page."
           />
 
@@ -220,7 +220,7 @@ export default function PageSpecificSEODetail() {
               label="Canonical URL"
               value={formData.canonicalUrl}
               onChange={(e) => setFormData({ ...formData, canonicalUrl: e.target.value })}
-              placeholder="https://jaidevaoil.com/products"
+              placeholder="https://lubricon.in/products"
               tooltip="The preferred URL for this page. Helps prevent duplicate content issues."
             />
           </div>

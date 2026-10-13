@@ -253,7 +253,7 @@ export default function FooterSocialMediaCMSPage() {
                 label="Footer Copyright Text Notice"
                 value={copyrightText}
                 onChange={(e) => setCopyrightText(e.target.value)}
-                placeholder="© 2026 Jai Deva Oil Co. All rights reserved."
+                placeholder="© 2026 Lubricon Specialities India All rights reserved."
                 helperText="Displays in the bottom-left corner of the website footer."
               />
             </div>

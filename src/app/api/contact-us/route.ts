@@ -6,9 +6,12 @@ const CONTACT_SLUG = 'contact-us';
 
 export async function GET() {
   try {
-    const page = await prisma.page.findUnique({
-      where: { slug: CONTACT_SLUG },
+    const page = await prisma.page.findFirst({
+      where: { slug: { in: ["contact-us", "contact"] } },
       include: { sections: true },
+    });
+    const offices = await prisma.officeLocation.findMany({
+      orderBy: { order: "asc" },
     });
 
     const sectionsMap: Record<string, any> = {};
@@ -36,7 +39,10 @@ export async function GET() {
       success: true,
       data: {
         sections: sectionsMap,
+        ...sectionsMap,
+        offices,
       },
+      offices,
       seo,
     });
   } catch (error) {
