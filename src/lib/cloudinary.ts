@@ -11,8 +11,8 @@ export { cloudinary };
 
 // Default system assets that must never be deleted automatically
 const PROTECTED_PUBLIC_IDS = new Set([
-  'jaideva/logo/jaideva-main-logo',
-  'jaideva/logo/jaideva-main-logo.png',
+  'lubricon/images/logo',
+  'lubricon/favicon',
 ]);
 
 export interface CloudinaryUrlInfo {
@@ -140,7 +140,7 @@ export async function deleteCloudinaryFileByUrl(url: string): Promise<boolean> {
   if (
     PROTECTED_PUBLIC_IDS.has(info.publicId) ||
     PROTECTED_PUBLIC_IDS.has(info.fullPublicId) ||
-    info.publicId.endsWith('jaideva-main-logo')
+    info.publicId.endsWith('logo')
   ) {
     console.log(`[Cloudinary] Skipping protected asset: ${info.publicId}`);
     return false;

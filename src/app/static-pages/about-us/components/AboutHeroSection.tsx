@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { SectionHeader } from '@/components/SectionHeader';
 import { SaveButton } from '@/components/SaveButton';
 import { InputField } from '@/components/InputField';
 import { TextAreaField } from '@/components/TextAreaField';
@@ -14,7 +15,18 @@ interface ValuePillar {
   desc: string;
 }
 
-export function AboutHeroSection({ initialData }: { initialData?: any }) {
+export function AboutHeroSection({
+  initialData,
+  isOpen: controlledIsOpen,
+  onToggle,
+}: {
+  initialData?: any;
+  isOpen?: boolean;
+  onToggle?: () => void;
+}) {
+  const [internalOpen, setInternalOpen] = useState(true);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
   const [badge, setBadge] = useState('Australian Formulation Heritage • Indian Leadership');
   const [heading, setHeading] = useState('Redefining Lubrication for Indian Industry');
   const [narrative, setNarrative] = useState(
@@ -23,7 +35,7 @@ export function AboutHeroSection({ initialData }: { initialData?: any }) {
   const [secondaryText, setSecondaryText] = useState(
     'With dedicated technical engineers and a pan-India logistics network, we deliver customized audits, high-viscosity formulations, and responsive delivery directly to industrial plant gates.'
   );
-  const [images, setImages] = useState<(File | string | null)[]>(['/images/aboutlubricon.jpeg']);
+  const [images, setImages] = useState<(File | string | null)[]>(['https://res.cloudinary.com/dpa93copz/image/upload/v1791888280/lubricon/images/aboutlubricon.jpg']);
   const [officeBadge, setOfficeBadge] = useState('Lubricon India HQ');
   const [cardTag, setCardTag] = useState('Australian Technology');
   const [cardSubtag, setCardSubtag] = useState('Tailored for Indian Operations');
@@ -94,7 +106,7 @@ export function AboutHeroSection({ initialData }: { initialData?: any }) {
     setLoading(true);
     try {
       const firstImg = images[0];
-      const imageStr = typeof firstImg === 'string' ? firstImg : '/images/aboutlubricon.jpeg';
+      const imageStr = typeof firstImg === 'string' ? firstImg : 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888280/lubricon/images/aboutlubricon.jpg';
 
       const payload = {
         badge,
@@ -138,96 +150,103 @@ export function AboutHeroSection({ initialData }: { initialData?: any }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-      <div className="flex items-center justify-between pb-5 border-b border-gray-100">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-bold">
-            <ShieldCheck size={20} />
-          </div>
-          <div>
-            <h2 className="text-lg font-bold text-gray-900">About Hero & Company Narrative</h2>
-            <p className="text-xs text-gray-500">Live hero banner, Australian technology card, and core value pillars.</p>
-          </div>
-        </div>
-        <SaveButton onClick={handleSave} loading={loading} />
-      </div>
+    <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col gap-4 transition-all">
+      <SectionHeader
+        title="1. Hero & Company Narrative"
+        description="Live hero banner, Australian technology card, and core value pillars."
+        badge={images[0] ? 'Image Set' : 'No Image'}
+        isOpen={isOpen}
+        onToggle={handleToggle}
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
-        <InputField label="Badge Text" value={badge} onChange={(e) => setBadge(e.target.value)} />
-        <InputField label="Hero Heading" value={heading} onChange={(e) => setHeading(e.target.value)} />
+      <div
+        className={"grid transition-all duration-300 ease-in-out " + (isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
+      >
+        <div className="overflow-hidden">
+          <div className="flex flex-col gap-6 pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <InputField label="Badge Text" value={badge} onChange={(e) => setBadge(e.target.value)} />
+              <InputField label="Hero Heading" value={heading} onChange={(e) => setHeading(e.target.value)} />
 
-        <div className="md:col-span-2">
-          <TextAreaField label="Main Company Narrative" value={narrative} onChange={(e) => setNarrative(e.target.value)} rows={3} />
-        </div>
+              <div className="md:col-span-2">
+                <TextAreaField label="Main Company Narrative" value={narrative} onChange={(e) => setNarrative(e.target.value)} rows={3} />
+              </div>
 
-        <div className="md:col-span-2">
-          <TextAreaField label="Secondary Supporting Text" value={secondaryText} onChange={(e) => setSecondaryText(e.target.value)} rows={2} />
-        </div>
+              <div className="md:col-span-2">
+                <TextAreaField label="Secondary Supporting Text" value={secondaryText} onChange={(e) => setSecondaryText(e.target.value)} rows={2} />
+              </div>
 
-        <ImageUploadField
-          label="Hero Main Photo"
-          images={images}
-          onImagesChange={setImages}
-          maxImages={1}
-          folder="lubricon/about"
-        />
+              <div className="md:col-span-2">
+                <ImageUploadField
+                  label="Office / Factory Hero Banner Graphic"
+                  images={images}
+                  onImagesChange={setImages}
+                  maxImages={1}
+                  folder="lubricon/about"
+                />
+              </div>
 
-        <div className="space-y-4">
-          <InputField label="Card Tag" value={cardTag} onChange={(e) => setCardTag(e.target.value)} />
-          <InputField label="Card Subtag" value={cardSubtag} onChange={(e) => setCardSubtag(e.target.value)} />
-          <InputField label="Office Badge" value={officeBadge} onChange={(e) => setOfficeBadge(e.target.value)} />
-        </div>
-
-        <InputField label="ISO Badge Title" value={isoBadgeTitle} onChange={(e) => setIsoBadgeTitle(e.target.value)} />
-        <InputField label="ISO Badge Subtitle" value={isoBadgeSub} onChange={(e) => setIsoBadgeSub(e.target.value)} />
-        <InputField label="Toll-Free Helpline" value={tollFree} onChange={(e) => setTollFree(e.target.value)} />
-        <InputField label="Primary Button Text" value={primaryBtnText} onChange={(e) => setPrimaryBtnText(e.target.value)} />
-        <InputField label="Primary Button Link" value={primaryBtnLink} onChange={(e) => setPrimaryBtnLink(e.target.value)} />
-        <InputField label="Secondary Button Text" value={secondaryBtnText} onChange={(e) => setSecondaryBtnText(e.target.value)} />
-        <InputField label="Secondary Button Link" value={secondaryBtnLink} onChange={(e) => setSecondaryBtnLink(e.target.value)} />
-      </div>
-
-      {/* Value Pillars List */}
-      <div className="mt-8 pt-6 border-t border-gray-100">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold text-gray-900">Value Pillars (3 Cards)</h3>
-          <button
-            type="button"
-            onClick={addPillar}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-600 hover:text-amber-700 bg-amber-50 px-3 py-1.5 rounded-lg transition"
-          >
-            <Plus size={14} /> Add Pillar
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {valuePillars.map((pillar, idx) => (
-            <div key={idx} className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3 relative group">
-              <button
-                type="button"
-                onClick={() => removePillar(idx)}
-                className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition"
-              >
-                <Trash2 size={15} />
-              </button>
-              <InputField
-                label="Pillar Title"
-                value={pillar.title}
-                onChange={(e) => handlePillarChange(idx, 'title', e.target.value)}
-              />
-              <InputField
-                label="Icon (cpu, shield, factory)"
-                value={pillar.icon}
-                onChange={(e) => handlePillarChange(idx, 'icon', e.target.value)}
-              />
-              <TextAreaField
-                label="Description"
-                value={pillar.desc}
-                onChange={(e) => handlePillarChange(idx, 'desc', e.target.value)}
-                rows={2}
-              />
+              <InputField label="Card Tag" value={cardTag} onChange={(e) => setCardTag(e.target.value)} />
+              <InputField label="Card Subtag" value={cardSubtag} onChange={(e) => setCardSubtag(e.target.value)} />
+              <InputField label="Office Badge" value={officeBadge} onChange={(e) => setOfficeBadge(e.target.value)} />
             </div>
-          ))}
+
+            <InputField label="ISO Badge Title" value={isoBadgeTitle} onChange={(e) => setIsoBadgeTitle(e.target.value)} />
+            <InputField label="ISO Badge Subtitle" value={isoBadgeSub} onChange={(e) => setIsoBadgeSub(e.target.value)} />
+            <InputField label="Toll-Free Helpline" value={tollFree} onChange={(e) => setTollFree(e.target.value)} />
+            <InputField label="Primary Button Text" value={primaryBtnText} onChange={(e) => setPrimaryBtnText(e.target.value)} />
+            <InputField label="Primary Button Link" value={primaryBtnLink} onChange={(e) => setPrimaryBtnLink(e.target.value)} />
+            <InputField label="Secondary Button Text" value={secondaryBtnText} onChange={(e) => setSecondaryBtnText(e.target.value)} />
+            <InputField label="Secondary Button Link" value={secondaryBtnLink} onChange={(e) => setSecondaryBtnLink(e.target.value)} />
+
+            {/* Value Pillars List */}
+            <div className="mt-8 pt-6 border-t border-gray-100">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-bold text-gray-900">Value Pillars (3 Cards)</h3>
+                <button
+                  type="button"
+                  onClick={addPillar}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-600 hover:text-amber-700 bg-amber-50 px-3 py-1.5 rounded-lg transition"
+                >
+                  <Plus size={14} /> Add Pillar
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {valuePillars.map((pillar, idx) => (
+                  <div key={idx} className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3 relative group">
+                    <button
+                      type="button"
+                      onClick={() => removePillar(idx)}
+                      className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition"
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                    <InputField
+                      label="Pillar Title"
+                      value={pillar.title}
+                      onChange={(e) => handlePillarChange(idx, 'title', e.target.value)}
+                    />
+                    <InputField
+                      label="Icon (cpu, shield, factory)"
+                      value={pillar.icon}
+                      onChange={(e) => handlePillarChange(idx, 'icon', e.target.value)}
+                    />
+                    <TextAreaField
+                      label="Description"
+                      value={pillar.desc}
+                      onChange={(e) => handlePillarChange(idx, 'desc', e.target.value)}
+                      rows={2}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-4 border-t border-gray-100">
+              <SaveButton onClick={handleSave} loading={loading} />
+            </div>
+          </div>
         </div>
       </div>
     </div>

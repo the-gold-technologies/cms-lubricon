@@ -35,13 +35,20 @@ export interface NetworkLocationItem {
 interface ExistingBusinessNetworkCMSSectionProps {
   initialData?: any;
   onSave: (data: any) => Promise<void>;
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
 export function ExistingBusinessNetworkCMSSection({
   initialData,
   onSave,
+  isOpen: controlledIsOpen,
+  onToggle,
 }: ExistingBusinessNetworkCMSSectionProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
+  
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -181,11 +188,12 @@ export function ExistingBusinessNetworkCMSSection({
           description="Manage northern industrial corridor coverage, regional map graphic, directory cards, and interactive Google Map pins."
           badge="Regional Network"
           isOpen={isOpen}
-          onToggle={() => setIsOpen(!isOpen)}
+          onToggle={handleToggle}
         />
 
-        {isOpen && (
-          <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-8">
+        <div className={"grid transition-all duration-300 ease-in-out " + (isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
+          <div className="overflow-hidden">
+            <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-8">
             {/* SUBSECTION 1: Header & Regional Graphic */}
             <div className="flex flex-col gap-5 p-6 rounded-2xl bg-slate-50/70 border border-slate-100">
               <div className="flex items-center gap-2 text-sm font-bold text-[#0C356A]">
@@ -220,7 +228,7 @@ export function ExistingBusinessNetworkCMSSection({
                 label="Regional Operating Map Graphic"
                 value={regionalMapImage}
                 onChange={setRegionalMapImage}
-                folder="jaideva/contact"
+                folder="lubricon/contact"
                 helperText="Upload the curated regional map diagram shown in the Regional Map view."
               />
             </div>
@@ -512,7 +520,8 @@ export function ExistingBusinessNetworkCMSSection({
               />
             </div>
           </form>
-        )}
+          </div>
+        </div>
       </div>
     </div>
   );

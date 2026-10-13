@@ -2,13 +2,29 @@
 
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { SectionHeader } from '@/components/SectionHeader';
 import { ImageUploadField } from '@/components/ImageUploadField';
 import { InputField } from '@/components/InputField';
 import { TextAreaField } from '@/components/TextAreaField';
 import { SaveButton } from '@/components/SaveButton';
-import { Headphones } from 'lucide-react';
 
-export function ContactHeroSection({ initialData, onSave }: { initialData?: any; onSave?: (data: any) => Promise<any> }) {
+export interface ContactHeroSectionProps {
+  initialData?: any;
+  onSave?: (data: any) => Promise<any>;
+  isOpen?: boolean;
+  onToggle?: () => void;
+}
+
+export function ContactHeroSection({
+  initialData,
+  onSave,
+  isOpen: controlledIsOpen,
+  onToggle,
+}: ContactHeroSectionProps) {
+  const [internalOpen, setInternalOpen] = useState(true);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
+
   const [badge, setBadge] = useState('24/7 Technical Support & Dispatch');
   const [heading, setHeading] = useState('Contact Lubricon Specialities India');
   const [description, setDescription] = useState(
@@ -17,7 +33,7 @@ export function ContactHeroSection({ initialData, onSave }: { initialData?: any;
   const [helpline, setHelpline] = useState('1800 569 6363');
   const [email, setEmail] = useState('info@lubricon.in');
   const [address, setAddress] = useState('Lubricon Specialities India, Industrial Area, Haryana / Delhi NCR, India');
-  const [images, setImages] = useState<(File | string | null)[]>(['/images/contact-hero.jpg']);
+  const [images, setImages] = useState<(File | string | null)[]>(['https://res.cloudinary.com/dpa93copz/image/upload/v1791888282/lubricon/images/contact-hero.jpg']);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -38,7 +54,7 @@ export function ContactHeroSection({ initialData, onSave }: { initialData?: any;
     setLoading(true);
     try {
       const firstImg = images[0];
-      const imageStr = typeof firstImg === 'string' ? firstImg : '/images/contact-hero.jpg';
+      const imageStr = typeof firstImg === 'string' ? firstImg : 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888282/lubricon/images/contact-hero.jpg';
 
       const payload = {
         badge,
@@ -78,43 +94,50 @@ export function ContactHeroSection({ initialData, onSave }: { initialData?: any;
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-      <div className="flex items-center justify-between pb-5 border-b border-gray-100">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-bold">
-            <Headphones size={20} />
+    <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col gap-4 transition-all">
+      <SectionHeader
+        title="1. Contact Hero & Direct Channels"
+        description="Live banner text, Australian engineer spotlight image, and toll-free helpline."
+        badge={images[0] ? 'Image Set' : 'No Image'}
+        isOpen={isOpen}
+        onToggle={handleToggle}
+      />
+
+      <div
+        className={"grid transition-all duration-300 ease-in-out " + (isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
+      >
+        <div className="overflow-hidden">
+          <div className="flex flex-col gap-6 pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <InputField label="Eyebrow Badge" value={badge} onChange={(e) => setBadge(e.target.value)} />
+              <InputField label="Hero Heading" value={heading} onChange={(e) => setHeading(e.target.value)} />
+
+              <div className="md:col-span-2">
+                <TextAreaField label="Description Narrative" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
+              </div>
+
+              <InputField label="Toll-Free Helpline" value={helpline} onChange={(e) => setHelpline(e.target.value)} />
+              <InputField label="Direct Support Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+
+              <div className="md:col-span-2">
+                <InputField label="Corporate Address" value={address} onChange={(e) => setAddress(e.target.value)} />
+              </div>
+
+              <div className="md:col-span-2">
+                <ImageUploadField
+                  label="Engineer Spotlight Graphic"
+                  images={images}
+                  onImagesChange={setImages}
+                  maxImages={1}
+                  folder="lubricon/contact"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-4 border-t border-gray-100">
+              <SaveButton onClick={handleSave} loading={loading} />
+            </div>
           </div>
-          <div>
-            <h2 className="text-lg font-bold text-gray-900">Contact Hero & Direct Channels</h2>
-            <p className="text-xs text-gray-500">Live banner text, Australian engineer spotlight image, and toll-free helpline.</p>
-          </div>
-        </div>
-        <SaveButton onClick={handleSave} loading={loading} />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
-        <InputField label="Eyebrow Badge" value={badge} onChange={(e) => setBadge(e.target.value)} />
-        <InputField label="Hero Heading" value={heading} onChange={(e) => setHeading(e.target.value)} />
-
-        <div className="md:col-span-2">
-          <TextAreaField label="Description Narrative" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
-        </div>
-
-        <InputField label="Toll-Free Helpline" value={helpline} onChange={(e) => setHelpline(e.target.value)} />
-        <InputField label="Direct Support Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-
-        <div className="md:col-span-2">
-          <InputField label="Corporate Address" value={address} onChange={(e) => setAddress(e.target.value)} />
-        </div>
-
-        <div className="md:col-span-2">
-          <ImageUploadField
-            label="Engineer Spotlight Graphic"
-            images={images}
-            onImagesChange={setImages}
-            maxImages={1}
-            folder="lubricon/contact"
-          />
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { SaveButton } from '@/components/SaveButton';
 import { InputField } from '@/components/InputField';
 import { TextAreaField } from '@/components/TextAreaField';
-import { Compass } from 'lucide-react';
+import { Compass, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface HomeLubricantFinderSectionProps {
@@ -13,11 +13,19 @@ interface HomeLubricantFinderSectionProps {
     heading?: string;
     description?: string;
     helplineText?: string;
-    tollFree?: string;
-  };
+    tollFree?: string;  };
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
-export function HomeLubricantFinderSection({ initialData }: HomeLubricantFinderSectionProps) {
+export function HomeLubricantFinderSection({
+  initialData,
+  isOpen: controlledIsOpen,
+  onToggle,
+}: HomeLubricantFinderSectionProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
   const [tagline, setTagline] = useState('SMART ADVISOR');
   const [heading, setHeading] = useState('Find the Perfect Lubricant for Your Equipment');
   const [description, setDescription] = useState(
@@ -64,7 +72,8 @@ export function HomeLubricantFinderSection({ initialData }: HomeLubricantFinderS
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xs border border-zinc-200">
-      <div className="flex items-center gap-3 pb-6 border-b border-zinc-100">
+      <div onClick={handleToggle} className="flex items-center justify-between pb-6 border-b border-zinc-100 cursor-pointer select-none group">
+        <div className="flex items-center gap-3">
         <div className="p-2.5 rounded-xl bg-[#ffe000] text-black">
           <Compass className="w-5 h-5 stroke-[2.5]" />
         </div>
@@ -74,9 +83,15 @@ export function HomeLubricantFinderSection({ initialData }: HomeLubricantFinderS
             Manage interactive oil selector advisor copy, header prompts, and engineering helpline number.
           </p>
         </div>
+        </div>
+        <div className={`w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 transition-transform duration-300 ${isOpen ? "rotate-180 bg-[#ffe000] text-black" : ""}`}>
+          <ChevronDown className="w-4 h-4 stroke-[2.5]" />
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+      <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+        <div className="overflow-hidden">
+          <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <InputField
             label="Tagline Badge"
@@ -115,6 +130,8 @@ export function HomeLubricantFinderSection({ initialData }: HomeLubricantFinderS
           <SaveButton loading={loading} label="Save Finder Settings" />
         </div>
       </form>
+        </div>
+      </div>
     </div>
   );
 }

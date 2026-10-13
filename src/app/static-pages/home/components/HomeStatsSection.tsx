@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { SaveButton } from '@/components/SaveButton';
 import { InputField } from '@/components/InputField';
-import { BarChart3 } from 'lucide-react';
+import { BarChart3, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface StatItem {
@@ -16,8 +16,9 @@ interface HomeStatsSectionProps {
   initialData?: {
     heading?: string;
     subtitle?: string;
-    stats?: StatItem[];
-  };
+    stats?: StatItem[];  };
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
 const DEFAULT_STATS: StatItem[] = [
@@ -27,7 +28,14 @@ const DEFAULT_STATS: StatItem[] = [
   { label: 'Quality Assurance', value: 100, suffix: '%' },
 ];
 
-export function HomeStatsSection({ initialData }: HomeStatsSectionProps) {
+export function HomeStatsSection({
+  initialData,
+  isOpen: controlledIsOpen,
+  onToggle,
+}: HomeStatsSectionProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
   const [heading, setHeading] = useState('Our Stats');
   const [subtitle, setSubtitle] = useState(
     'We help you to unleash the power within your machinery and industrial operations.'
@@ -80,7 +88,8 @@ export function HomeStatsSection({ initialData }: HomeStatsSectionProps) {
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xs border border-zinc-200">
-      <div className="flex items-center gap-3 pb-6 border-b border-zinc-100">
+      <div onClick={handleToggle} className="flex items-center justify-between pb-6 border-b border-zinc-100 cursor-pointer select-none group">
+        <div className="flex items-center gap-3">
         <div className="p-2.5 rounded-xl bg-[#ffe000] text-black">
           <BarChart3 className="w-5 h-5 stroke-[2.5]" />
         </div>
@@ -90,9 +99,15 @@ export function HomeStatsSection({ initialData }: HomeStatsSectionProps) {
             Display live verified figures for products, active clients, industry expertise, and QA percentage.
           </p>
         </div>
+        </div>
+        <div className={`w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 transition-transform duration-300 ${isOpen ? "rotate-180 bg-[#ffe000] text-black" : ""}`}>
+          <ChevronDown className="w-4 h-4 stroke-[2.5]" />
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+      <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+        <div className="overflow-hidden">
+          <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <InputField
             label="Section Title"
@@ -108,7 +123,7 @@ export function HomeStatsSection({ initialData }: HomeStatsSectionProps) {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {stats.map((stat, i) => (
             <div key={i} className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-3">
               <span className="text-[10px] font-black uppercase text-zinc-400">Metric {i + 1}</span>
@@ -141,6 +156,8 @@ export function HomeStatsSection({ initialData }: HomeStatsSectionProps) {
           <SaveButton loading={loading} label="Save Stats Bar" />
         </div>
       </form>
+        </div>
+      </div>
     </div>
   );
 }

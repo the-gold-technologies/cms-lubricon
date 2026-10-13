@@ -6,7 +6,7 @@ import { InputField } from '@/components/InputField';
 import { TextAreaField } from '@/components/TextAreaField';
 import { ImageUploadField } from '@/components/ImageUploadField';
 import { StringListEditor } from '@/components/StringListEditor';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface HomeCtaBannerSectionProps {
@@ -21,8 +21,9 @@ interface HomeCtaBannerSectionProps {
     trustMarkers?: string[];
     archImage?: string;
     floaterTitle?: string;
-    floaterSubtitle?: string;
-  };
+    floaterSubtitle?: string;  };
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
 const DEFAULT_TRUST_MARKERS = [
@@ -31,7 +32,14 @@ const DEFAULT_TRUST_MARKERS = [
   'Pan-India Dispatch',
 ];
 
-export function HomeCtaBannerSection({ initialData }: HomeCtaBannerSectionProps) {
+export function HomeCtaBannerSection({
+  initialData,
+  isOpen: controlledIsOpen,
+  onToggle,
+}: HomeCtaBannerSectionProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
   const [subTag, setSubTag] = useState('Engineered for Maximum Machine Uptime');
   const [headline, setHeadline] = useState(
     'Your machinery deserves peak protection. So does your business.'
@@ -44,7 +52,7 @@ export function HomeCtaBannerSection({ initialData }: HomeCtaBannerSectionProps)
   const [secondaryBtnText, setSecondaryBtnText] = useState('Get in Touch');
   const [secondaryBtnLink, setSecondaryBtnLink] = useState('/contact');
   const [trustMarkers, setTrustMarkers] = useState<string[]>(DEFAULT_TRUST_MARKERS);
-  const [archImage, setArchImage] = useState('/images/ind-steel.png');
+  const [archImage, setArchImage] = useState('https://res.cloudinary.com/dpa93copz/image/upload/v1791888287/lubricon/images/ind-steel.png');
   const [floaterTitle, setFloaterTitle] = useState('Australian Precision');
   const [floaterSubtitle, setFloaterSubtitle] = useState('100% Quality');
   const [loading, setLoading] = useState(false);
@@ -104,7 +112,8 @@ export function HomeCtaBannerSection({ initialData }: HomeCtaBannerSectionProps)
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xs border border-zinc-200">
-      <div className="flex items-center gap-3 pb-6 border-b border-zinc-100">
+      <div onClick={handleToggle} className="flex items-center justify-between pb-6 border-b border-zinc-100 cursor-pointer select-none group">
+        <div className="flex items-center gap-3">
         <div className="p-2.5 rounded-xl bg-[#ffe000] text-black">
           <Sparkles className="w-5 h-5 stroke-[2.5]" />
         </div>
@@ -114,9 +123,15 @@ export function HomeCtaBannerSection({ initialData }: HomeCtaBannerSectionProps)
             Manage the bottom high-conversion banner, dual pill buttons, trust badges, and organic arch graphic.
           </p>
         </div>
+        </div>
+        <div className={`w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 transition-transform duration-300 ${isOpen ? "rotate-180 bg-[#ffe000] text-black" : ""}`}>
+          <ChevronDown className="w-4 h-4 stroke-[2.5]" />
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+      <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+        <div className="overflow-hidden">
+          <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <InputField
             label="Category Sub-Tag"
@@ -195,6 +210,8 @@ export function HomeCtaBannerSection({ initialData }: HomeCtaBannerSectionProps)
           <SaveButton loading={loading} label="Save CTA Banner" />
         </div>
       </form>
+        </div>
+      </div>
     </div>
   );
 }

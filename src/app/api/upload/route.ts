@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   try {
     const data = await request.formData();
     const file: File | null = data.get('file') as unknown as File;
-    const folder = (data.get('folder') as string) || 'jaideva/uploads';
+    const folder = (data.get('folder') as string) || 'lubricon/uploads';
 
     if (!file) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });

@@ -22,10 +22,20 @@ interface HeadquarterData {
 interface ContactHeadquarterSectionProps {
   initialData?: HeadquarterData;
   onSave?: (data: HeadquarterData) => Promise<boolean | void>;
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
-export function ContactHeadquarterSection({ initialData, onSave }: ContactHeadquarterSectionProps) {
-  const [isOpen, setIsOpen] = useState(false);
+export function ContactHeadquarterSection({
+  initialData,
+  onSave,
+  isOpen: controlledIsOpen,
+  onToggle,
+}: ContactHeadquarterSectionProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
+  
   const [companyName, setCompanyName] = useState('');
   const [badge, setBadge] = useState('');
   const [description, setDescription] = useState('');
@@ -100,7 +110,7 @@ export function ContactHeadquarterSection({ initialData, onSave }: ContactHeadqu
         description="Configure the primary enterprise identity, proprietor credentials, office address, and business hours."
         badge="Official HQ"
         isOpen={isOpen}
-        onToggle={() => setIsOpen(!isOpen)}
+        onToggle={handleToggle}
       />
 
       <div

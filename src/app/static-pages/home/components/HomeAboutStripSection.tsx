@@ -6,7 +6,7 @@ import { InputField } from '@/components/InputField';
 import { TextAreaField } from '@/components/TextAreaField';
 import { ImageUploadField } from '@/components/ImageUploadField';
 import { StringListEditor } from '@/components/StringListEditor';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface HomeAboutStripSectionProps {
@@ -22,8 +22,9 @@ interface HomeAboutStripSectionProps {
     secondaryBtnLink?: string;
     photoImage?: string;
     badgeTitle?: string;
-    badgeSubtitle?: string;
-  };
+    badgeSubtitle?: string;  };
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
 const DEFAULT_BULLETS = [
@@ -33,7 +34,14 @@ const DEFAULT_BULLETS = [
   'API, ISO & OEM Standards',
 ];
 
-export function HomeAboutStripSection({ initialData }: HomeAboutStripSectionProps) {
+export function HomeAboutStripSection({
+  initialData,
+  isOpen: controlledIsOpen,
+  onToggle,
+}: HomeAboutStripSectionProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
   const [badgeText, setBadgeText] = useState('About Lubricon Specialities India');
   const [headline, setHeadline] = useState('Redefining Lubrication for Indian Industry');
   const [primaryParagraph, setPrimaryParagraph] = useState(
@@ -47,7 +55,7 @@ export function HomeAboutStripSection({ initialData }: HomeAboutStripSectionProp
   const [primaryBtnLink, setPrimaryBtnLink] = useState('/about');
   const [secondaryBtnText, setSecondaryBtnText] = useState('Speak With an Engineer');
   const [secondaryBtnLink, setSecondaryBtnLink] = useState('tel:18005696363');
-  const [photoImage, setPhotoImage] = useState('/images/aboutlubricon.jpeg');
+  const [photoImage, setPhotoImage] = useState('https://res.cloudinary.com/dpa93copz/image/upload/v1791888280/lubricon/images/aboutlubricon.jpg');
   const [badgeTitle, setBadgeTitle] = useState('Australian Technology');
   const [badgeSubtitle, setBadgeSubtitle] = useState('Engineered for Indian Conditions');
   const [loading, setLoading] = useState(false);
@@ -109,7 +117,8 @@ export function HomeAboutStripSection({ initialData }: HomeAboutStripSectionProp
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xs border border-zinc-200">
-      <div className="flex items-center gap-3 pb-6 border-b border-zinc-100">
+      <div onClick={handleToggle} className="flex items-center justify-between pb-6 border-b border-zinc-100 cursor-pointer select-none group">
+        <div className="flex items-center gap-3">
         <div className="p-2.5 rounded-xl bg-[#ffe000] text-black">
           <BookOpen className="w-5 h-5 stroke-[2.5]" />
         </div>
@@ -119,9 +128,15 @@ export function HomeAboutStripSection({ initialData }: HomeAboutStripSectionProp
             Manage company introduction narrative, Australian tech bullet points, and framed facility photo.
           </p>
         </div>
+        </div>
+        <div className={`w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 transition-transform duration-300 ${isOpen ? "rotate-180 bg-[#ffe000] text-black" : ""}`}>
+          <ChevronDown className="w-4 h-4 stroke-[2.5]" />
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+      <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+        <div className="overflow-hidden">
+          <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <InputField
             label="Tagline Badge"
@@ -207,6 +222,8 @@ export function HomeAboutStripSection({ initialData }: HomeAboutStripSectionProp
           <SaveButton loading={loading} label="Save About Strip" />
         </div>
       </form>
+        </div>
+      </div>
     </div>
   );
 }

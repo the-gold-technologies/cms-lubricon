@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { SectionHeader } from '@/components/SectionHeader';
 import { SaveButton } from '@/components/SaveButton';
 import { InputField } from '@/components/InputField';
 import { TextAreaField } from '@/components/TextAreaField';
@@ -14,7 +15,18 @@ interface PortfolioItem {
   link?: string;
 }
 
-export function AboutPortfolioSection({ initialData }: { initialData?: any }) {
+export function AboutPortfolioSection({
+  initialData,
+  isOpen: controlledIsOpen,
+  onToggle,
+}: {
+  initialData?: any;
+  isOpen?: boolean;
+  onToggle?: () => void;
+}) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
   const [badge, setBadge] = useState('Comprehensive Range');
   const [title, setTitle] = useState('Complete Lubrication Portfolio Summary');
   const [subtitle, setSubtitle] = useState('High-performance formulations engineered for extreme industrial and automotive operating conditions.');
@@ -145,99 +157,88 @@ export function AboutPortfolioSection({ initialData }: { initialData?: any }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-      <div className="flex items-center justify-between pb-5 border-b border-gray-100">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-bold">
-            <Package size={20} />
-          </div>
-          <div>
-            <h2 className="text-lg font-bold text-gray-900">Portfolio Overview Grid</h2>
-            <p className="text-xs text-gray-500">Live 6 product categories: Engine Oils, Gear Oils, ATF, Industrial, DEF, Greases.</p>
-          </div>
-        </div>
-        <SaveButton onClick={handleSave} loading={loading} />
-      </div>
+    <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col gap-4 transition-all">
+      <SectionHeader
+        title="4. Complete Lubrication Portfolio Summary"
+        description="Live 6 product categories: Engine Oils, Gear Oils, ATF, Industrial, DEF, Greases."
+        badge={portfolios.length + ' Categories'}
+        isOpen={isOpen}
+        onToggle={handleToggle}
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
-        <InputField label="Badge Text" value={badge} onChange={(e) => setBadge(e.target.value)} />
-        <InputField label="Section Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <div className="md:col-span-2">
-          <TextAreaField label="Section Subtitle" value={subtitle} onChange={(e) => setSubtitle(e.target.value)} rows={2} />
-        </div>
-      </div>
-
-      <div className="mt-8 pt-6 border-t border-gray-100">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold text-gray-900">Product Categories (6 Cards)</h3>
-          <button
-            type="button"
-            onClick={addCard}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-600 hover:text-amber-700 bg-amber-50 px-3 py-1.5 rounded-lg transition"
-          >
-            <Plus size={14} /> Add Category
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {portfolios.map((card, idx) => (
-            <div key={idx} className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3 relative">
-              <button
-                type="button"
-                onClick={() => removeCard(idx)}
-                className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition"
-              >
-                <Trash2 size={15} />
-              </button>
-              <InputField
-                label="Card Title"
-                value={card.title}
-                onChange={(e) => handleCardChange(idx, 'title', e.target.value)}
-              />
-              <div className="grid grid-cols-2 gap-2">
-                <InputField
-                  label="Icon Emoji"
-                  value={card.icon}
-                  onChange={(e) => handleCardChange(idx, 'icon', e.target.value)}
-                />
-                <InputField
-                  label="Link"
-                  value={card.link || ''}
-                  onChange={(e) => handleCardChange(idx, 'link', e.target.value)}
-                />
+      <div
+        className={"grid transition-all duration-300 ease-in-out " + (isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
+      >
+        <div className="overflow-hidden">
+          <div className="flex flex-col gap-6 pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <InputField label="Badge Text" value={badge} onChange={(e) => setBadge(e.target.value)} />
+              <InputField label="Section Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+              <div className="md:col-span-2">
+                <TextAreaField label="Section Subtitle" value={subtitle} onChange={(e) => setSubtitle(e.target.value)} rows={2} />
               </div>
+            </div>
 
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-semibold text-gray-700">Bullets</span>
-                  <button
-                    type="button"
-                    onClick={() => addBullet(idx)}
-                    className="text-[11px] text-amber-600 hover:underline"
-                  >
-                    + Add bullet
-                  </button>
-                </div>
-                {card.items.map((bullet, bIdx) => (
-                  <div key={bIdx} className="flex items-center gap-1.5 mb-1.5">
-                    <input
-                      type="text"
-                      value={bullet}
-                      onChange={(e) => handleBulletChange(idx, bIdx, e.target.value)}
-                      className="flex-1 text-xs px-2.5 py-1.5 rounded-lg border border-gray-200 bg-white"
+            <div className="space-y-6">
+              <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Portfolio Cards ({portfolios.length})</span>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {portfolios.map((item, cIdx) => (
+                  <div key={cIdx} className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3">
+                    <InputField
+                      label="Category Title"
+                      value={item.title}
+                      onChange={(e) => handleCardChange(cIdx, 'title', e.target.value)}
                     />
-                    <button
-                      type="button"
-                      onClick={() => removeBullet(idx, bIdx)}
-                      className="text-gray-400 hover:text-red-500 p-1"
-                    >
-                      <Trash2 size={13} />
-                    </button>
+                    <InputField
+                      label="Emoji / Icon"
+                      value={item.icon}
+                      onChange={(e) => handleCardChange(cIdx, 'icon', e.target.value)}
+                    />
+                    <InputField
+                      label="Catalog Link"
+                      value={item.link || ''}
+                      onChange={(e) => handleCardChange(cIdx, 'link', e.target.value)}
+                    />
+
+                    <div className="space-y-2 pt-2 border-t border-gray-200">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] font-bold text-gray-500">Bullet Highlights</span>
+                        <button
+                          type="button"
+                          onClick={() => addBullet(cIdx)}
+                          className="text-[11px] font-bold text-amber-600 hover:text-amber-700"
+                        >
+                          + Add Bullet
+                        </button>
+                      </div>
+                      {item.items.map((bullet, bIdx) => (
+                        <div key={bIdx} className="flex items-center gap-1.5">
+                          <input
+                            type="text"
+                            value={bullet}
+                            onChange={(e) => handleBulletChange(cIdx, bIdx, e.target.value)}
+                            className="flex-1 text-xs px-2.5 py-1.5 rounded-lg border border-gray-200 bg-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeBullet(cIdx, bIdx)}
+                            className="text-gray-400 hover:text-red-500 p-1"
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-          ))}
+
+            <div className="flex justify-end pt-4 border-t border-gray-100">
+              <SaveButton onClick={handleSave} loading={loading} />
+            </div>
+          </div>
         </div>
       </div>
     </div>

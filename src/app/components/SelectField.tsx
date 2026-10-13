@@ -16,8 +16,10 @@ export const SelectField: React.FC<SelectFieldProps> = ({
   className = '',
   icon,
   options,
+  value,
   ...props
 }) => {
+  const safeValue = value !== undefined && value !== null ? value : "";
   return (
     <div className={`flex flex-col gap-1.5 ${containerClassName}`}>
       {label && (
@@ -31,6 +33,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
         )}
         <select
           className={`w-full ${icon ? 'pl-12' : 'px-5'} pr-10 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl text-sm focus:ring-2 focus:ring-[#C86218]/20 focus:border-[#C86218] outline-none transition-all appearance-none cursor-pointer text-gray-800 ${className}`}
+          value={safeValue}
           {...props}
         >
           {options.map((opt) => (

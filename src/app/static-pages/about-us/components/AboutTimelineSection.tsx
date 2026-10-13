@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { SectionHeader } from '@/components/SectionHeader';
 import { SaveButton } from '@/components/SaveButton';
 import { InputField } from '@/components/InputField';
 import { TextAreaField } from '@/components/TextAreaField';
@@ -13,7 +14,18 @@ interface MilestoneItem {
   description: string;
 }
 
-export function AboutTimelineSection({ initialData }: { initialData?: any }) {
+export function AboutTimelineSection({
+  initialData,
+  isOpen: controlledIsOpen,
+  onToggle,
+}: {
+  initialData?: any;
+  isOpen?: boolean;
+  onToggle?: () => void;
+}) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
   const [badge, setBadge] = useState('Our Journey');
   const [title, setTitle] = useState('Over a Decade of Industrial Excellence');
   const [subtitle, setSubtitle] = useState('The key milestones that built Lubricon into one of India’s most trusted specialty lubrication brands.');
@@ -112,70 +124,75 @@ export function AboutTimelineSection({ initialData }: { initialData?: any }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-      <div className="flex items-center justify-between pb-5 border-b border-gray-100">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-bold">
-            <Clock size={20} />
-          </div>
-          <div>
-            <h2 className="text-lg font-bold text-gray-900">Historical Timeline (Our Journey)</h2>
-            <p className="text-xs text-gray-500">Live milestones: 2014 founding to 2025 next-gen releases.</p>
-          </div>
-        </div>
-        <SaveButton onClick={handleSave} loading={loading} />
-      </div>
+    <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col gap-4 transition-all">
+      <SectionHeader
+        title="5. Historical Timeline (Our Journey)"
+        description="Live milestones: 2014 founding to 2025 next-gen releases."
+        badge={milestones.length + ' Milestones'}
+        isOpen={isOpen}
+        onToggle={handleToggle}
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
-        <InputField label="Badge Text" value={badge} onChange={(e) => setBadge(e.target.value)} />
-        <InputField label="Section Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <div className="md:col-span-2">
-          <TextAreaField label="Section Subtitle" value={subtitle} onChange={(e) => setSubtitle(e.target.value)} rows={2} />
-        </div>
-      </div>
-
-      <div className="mt-8 pt-6 border-t border-gray-100">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold text-gray-900">Milestone Track</h3>
-          <button
-            type="button"
-            onClick={addMilestone}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-600 hover:text-amber-700 bg-amber-50 px-3 py-1.5 rounded-lg transition"
-          >
-            <Plus size={14} /> Add Milestone
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {milestones.map((m, idx) => (
-            <div key={idx} className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3 relative">
-              <button
-                type="button"
-                onClick={() => removeMilestone(idx)}
-                className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition"
-              >
-                <Trash2 size={15} />
-              </button>
-              <div className="w-24">
-                <InputField
-                  label="Year"
-                  value={m.year}
-                  onChange={(e) => handleMilestoneChange(idx, 'year', e.target.value)}
-                />
+      <div
+        className={"grid transition-all duration-300 ease-in-out " + (isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
+      >
+        <div className="overflow-hidden">
+          <div className="flex flex-col gap-6 pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <InputField label="Badge Text" value={badge} onChange={(e) => setBadge(e.target.value)} />
+              <InputField label="Section Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+              <div className="md:col-span-2">
+                <TextAreaField label="Section Subtitle" value={subtitle} onChange={(e) => setSubtitle(e.target.value)} rows={2} />
               </div>
-              <InputField
-                label="Milestone Title"
-                value={m.title}
-                onChange={(e) => handleMilestoneChange(idx, 'title', e.target.value)}
-              />
-              <TextAreaField
-                label="Description"
-                value={m.description}
-                onChange={(e) => handleMilestoneChange(idx, 'description', e.target.value)}
-                rows={3}
-              />
             </div>
-          ))}
+
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Milestones ({milestones.length})</span>
+                <button
+                  type="button"
+                  onClick={addMilestone}
+                  className="inline-flex items-center gap-1 text-xs font-bold text-amber-600 hover:text-amber-700 bg-amber-50 px-3 py-1.5 rounded-lg transition"
+                >
+                  <Plus size={14} /> Add Milestone
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {milestones.map((m, idx) => (
+                  <div key={idx} className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3 relative">
+                    <button
+                      type="button"
+                      onClick={() => removeMilestone(idx)}
+                      className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition"
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                    <InputField
+                      label="Year / Period"
+                      value={m.year}
+                      onChange={(e) => handleMilestoneChange(idx, 'year', e.target.value)}
+                    />
+                    <InputField
+                      label="Milestone Title"
+                      value={m.title}
+                      onChange={(e) => handleMilestoneChange(idx, 'title', e.target.value)}
+                    />
+                    <TextAreaField
+                      label="Description"
+                      value={m.description}
+                      onChange={(e) => handleMilestoneChange(idx, 'description', e.target.value)}
+                      rows={2}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-4 border-t border-gray-100">
+              <SaveButton onClick={handleSave} loading={loading} />
+            </div>
+          </div>
         </div>
       </div>
     </div>

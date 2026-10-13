@@ -1,6 +1,6 @@
-# Jai Deva Oil Co. — Headless Content Management System (CMS)
+# Lubricon Specialities India — Headless Content Management System (CMS)
 
-A dedicated, enterprise-grade Headless Content Management System and Administration Portal engineered for **Jai Deva Oil Co.** This service manages live site configuration, product catalogs, TDS/MSDS technical documents, multi-page layout blocks, incoming commercial enquiries, and dynamic notification dispatch.
+A dedicated, enterprise-grade Headless Content Management System and Administration Portal engineered for **Lubricon Specialities India**. This service manages live site configuration, product catalogs, TDS/MSDS technical documents, multi-page layout blocks, incoming commercial enquiries, and dynamic notification dispatch.
 
 ---
 
@@ -48,7 +48,7 @@ A dedicated, enterprise-grade Headless Content Management System and Administrat
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd jai-deva-cms
+cd lubricon-cms
 
 # Install dependencies
 npm install
@@ -90,7 +90,7 @@ SMTP_PORT="587"
 SMTP_SECURE="false"
 SMTP_USER="your_smtp_username"
 SMTP_PASS="your_smtp_password"
-SMTP_FROM="Jai Deva Oil Co. <no-reply@yourdomain.com>"
+SMTP_FROM="Lubricon Specialities India <no-reply@yourdomain.com>"
 ADMIN_NOTIFICATION_EMAIL="admin@yourdomain.com"
 ```
 
@@ -133,5 +133,5 @@ The CMS administration interface will be available at [http://localhost:3001](ht
 
 ## 📄 License & Confidentiality
 
-© **Jai Deva Oil Co.** All rights reserved.  
+© **Lubricon Specialities India**. All rights reserved.  
 This software and documentation are proprietary and confidential. Unauthorized copying, distribution, or deployment is strictly prohibited.

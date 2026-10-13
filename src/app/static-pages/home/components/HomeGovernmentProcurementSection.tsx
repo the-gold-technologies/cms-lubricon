@@ -5,7 +5,7 @@ import { SaveButton } from '@/components/SaveButton';
 import { InputField } from '@/components/InputField';
 import { TextAreaField } from '@/components/TextAreaField';
 import { ImageUploadField } from '@/components/ImageUploadField';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface ProcurementCard {
@@ -22,8 +22,9 @@ interface HomeGovernmentProcurementSectionProps {
     title?: string;
     subtitle?: string;
     gemCard?: ProcurementCard;
-    irepsCard?: ProcurementCard;
-  };
+    irepsCard?: ProcurementCard;  };
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
 const DEFAULT_GEM: ProcurementCard = {
@@ -31,7 +32,7 @@ const DEFAULT_GEM: ProcurementCard = {
   badge: 'Registered Seller',
   description: 'Registered vendor for direct procurement by Central & State government departments and PSUs.',
   link: 'https://gem.gov.in',
-  logo: '/images/gem-logo.png',
+  logo: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888283/lubricon/images/gem-logo.png',
 };
 
 const DEFAULT_IREPS: ProcurementCard = {
@@ -39,10 +40,17 @@ const DEFAULT_IREPS: ProcurementCard = {
   badge: 'Approved Vendor',
   description: 'Approved vendor on the official Indian Railways E-Procurement portal for zonal and workshop supplies.',
   link: 'https://www.ireps.gov.in',
-  logo: '/images/ireps-logo.png',
+  logo: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888290/lubricon/images/ireps-logo.png',
 };
 
-export function HomeGovernmentProcurementSection({ initialData }: HomeGovernmentProcurementSectionProps) {
+export function HomeGovernmentProcurementSection({
+  initialData,
+  isOpen: controlledIsOpen,
+  onToggle,
+}: HomeGovernmentProcurementSectionProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
   const [badgeText, setBadgeText] = useState('Official E-Procurement Registration');
   const [title, setTitle] = useState('We Are Registered on GeM & IREPS');
   const [subtitle, setSubtitle] = useState('Registered and approved supplier for institutional and government procurement.');
@@ -87,7 +95,8 @@ export function HomeGovernmentProcurementSection({ initialData }: HomeGovernment
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xs border border-zinc-200">
-      <div className="flex items-center gap-3 pb-6 border-b border-zinc-100">
+      <div onClick={handleToggle} className="flex items-center justify-between pb-6 border-b border-zinc-100 cursor-pointer select-none group">
+        <div className="flex items-center gap-3">
         <div className="p-2.5 rounded-xl bg-[#ffe000] text-black">
           <ShieldCheck className="w-5 h-5 stroke-[2.5]" />
         </div>
@@ -97,9 +106,15 @@ export function HomeGovernmentProcurementSection({ initialData }: HomeGovernment
             Manage Government e-Marketplace and Indian Railways E-Procurement vendor credentials and direct links.
           </p>
         </div>
+        </div>
+        <div className={`w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 transition-transform duration-300 ${isOpen ? "rotate-180 bg-[#ffe000] text-black" : ""}`}>
+          <ChevronDown className="w-4 h-4 stroke-[2.5]" />
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+      <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+        <div className="overflow-hidden">
+          <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <InputField
             label="Badge Tag"
@@ -192,6 +207,8 @@ export function HomeGovernmentProcurementSection({ initialData }: HomeGovernment
           <SaveButton loading={loading} label="Save GeM & IREPS Details" />
         </div>
       </form>
+        </div>
+      </div>
     </div>
   );
 }

@@ -243,7 +243,7 @@ export default function FooterSocialMediaCMSPage() {
                 label="Footer Brand Logo / Icon"
                 value={footerLogo}
                 onChange={(url) => setFooterLogo(url)}
-                folder="jaideva/footer"
+                folder="lubricon/footer"
                 helperText="Official company logo displayed inside the white emblem container on the left of the footer."
               />
             </div>
@@ -307,7 +307,7 @@ export default function FooterSocialMediaCMSPage() {
                 label="Official Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="sales@jaideva.com"
+                placeholder="sales@lubricon.in"
                 helperText="Official sales/support inquiry email address."
               />
             </div>

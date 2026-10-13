@@ -26,7 +26,7 @@ let mockSettings: Record<string, string> = {
   working_hours: 'Monday - Saturday: 9:00 AM - 6:00 PM (Closed on Public Holidays)',
   gstin: '07AABCU9603R1ZM',
   established_year: '2008',
-  logo: 'https://res.cloudinary.com/dpa93copz/image/upload/v1788504772/jaideva/logo/jaideva-main-logo.png',
+  logo: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888291/lubricon/images/logo.png',
 };
 
 let mockNavigation: any[] = [
@@ -101,7 +101,7 @@ let mockPages: any[] = [
     metaDescription:
       'Established in 2008, trusted multi-brand lubricant distributor supplying industrial oils, automotive lubricants, and greases.',
     targetKeywords:
-      'jai deva oil co, industrial lubricants distributor, automotive lubricants supplier',
+      'lubricon specialities india, industrial lubricants distributor, automotive lubricants supplier',
     canonicalUrl: 'https://lubricon.in',
     noIndex: false,
     featuredImage: '',
@@ -333,7 +333,7 @@ let mockPages: any[] = [
       {
         id: 'sec-4',
         pageId: 'page-home',
-        type: 'WhyJaiDevaSection',
+        type: 'WhyLubriconSection',
         order: 6,
         content: {
           title: 'WHY LUBRICON SPECIALITIES INDIA?',
@@ -439,7 +439,7 @@ let mockPages: any[] = [
     metaDescription:
       'Established in 2008, Lubricon Specialities India is a leading wholesaler, distributor, and trader of industrial and automotive lubricants across India.',
     targetKeywords:
-      'about jai deva oil co, multi-brand lubricants distributor, lubricants wholesaler trader',
+      'about lubricon specialities india, multi-brand lubricants distributor, lubricants wholesaler trader',
     canonicalUrl: 'https://lubricon.in/about-us',
     noIndex: false,
     featuredImage: '',
@@ -463,7 +463,7 @@ let mockPages: any[] = [
       {
         id: 'sec-a2',
         pageId: 'page-about',
-        type: 'AboutJaiDevaContent',
+        type: 'AboutLubriconContent',
         order: 1,
         content: {
           title: 'ABOUT LUBRICON SPECIALITIES INDIA',
@@ -545,7 +545,7 @@ let mockPages: any[] = [
     metaDescription:
       'Reach out to Lubricon Specialities India sales and technical team for industrial oils, automotive lubricants, and greases across India.',
     targetKeywords:
-      'contact jai deva oil co, multi-brand lubricant distributor contact, bulk lubricants quote',
+      'contact lubricon specialities india, multi-brand lubricant distributor contact, bulk lubricants quote',
     canonicalUrl: 'https://lubricon.in/contact-us',
     noIndex: false,
     featuredImage: '/contact-us-banner.jpg',
@@ -614,7 +614,7 @@ let mockPages: any[] = [
     metaTitle: 'Events & Gallery | Lubricon Specialities India',
     metaDescription:
       'Explore photo gallery and coverage of distributor meets, exhibitions, and industrial seminars by Lubricon Specialities India',
-    targetKeywords: 'events, gallery, jai deva oil co exhibition, distributor meet',
+    targetKeywords: 'events, gallery, lubricon specialities india exhibition, distributor meet',
     canonicalUrl: 'https://lubricon.in/events',
     noIndex: false,
     featuredImage: '/events-banner.jpg',

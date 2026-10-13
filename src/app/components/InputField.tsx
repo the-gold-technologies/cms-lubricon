@@ -21,8 +21,10 @@ export const InputField: React.FC<InputFieldProps> = ({
   tooltip,
   helperText,
   error,
+  value,
   ...props
 }) => {
+  const safeValue = value !== undefined && value !== null ? value : "";
   const [showPassword, setShowPassword] = useState(false);
   const inputClass = `w-full ${
     icon ? 'pl-12' : 'px-5'
@@ -36,7 +38,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   const inputElement = (
     <div className="relative w-full">
       {icon && <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">{icon}</div>}
-      <input className={inputClass} type={currentType} {...props} />
+      <input className={inputClass} type={currentType} value={safeValue} {...props} />
       {isPassword && (
         <button
           type="button"

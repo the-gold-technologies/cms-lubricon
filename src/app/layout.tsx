@@ -19,9 +19,9 @@ export const metadata: Metadata = {
   },
   description: 'Manage Lubricon Specialities India catalog, static pages, leads, and SEO',
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
+    icon: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888265/lubricon/favicon.png',
+    shortcut: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888265/lubricon/favicon.png',
+    apple: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888265/lubricon/favicon.png',
   },
 };
 

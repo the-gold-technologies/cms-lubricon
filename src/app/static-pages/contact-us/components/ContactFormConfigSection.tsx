@@ -17,10 +17,20 @@ interface ContactFormData {
 interface ContactFormConfigSectionProps {
   initialData?: ContactFormData;
   onSave?: (data: ContactFormData) => Promise<boolean | void>;
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
-export function ContactFormConfigSection({ initialData, onSave }: ContactFormConfigSectionProps) {
-  const [isOpen, setIsOpen] = useState(false);
+export function ContactFormConfigSection({
+  initialData,
+  onSave,
+  isOpen: controlledIsOpen,
+  onToggle,
+}: ContactFormConfigSectionProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
+  
   const [badge, setBadge] = useState('');
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState(
@@ -82,7 +92,7 @@ export function ContactFormConfigSection({ initialData, onSave }: ContactFormCon
         description="Customize the right-hand enquiry form badge tag, card title, help instructions, and submission button label."
         badge="Enquiry Form"
         isOpen={isOpen}
-        onToggle={() => setIsOpen(!isOpen)}
+        onToggle={handleToggle}
       />
 
       <div

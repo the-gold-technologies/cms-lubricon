@@ -53,7 +53,7 @@ function getFromAddress(): string {
 }
 
 const BRAND_LOGO_URL =
-  'https://res.cloudinary.com/dpa93copz/image/upload/v1788504772/jaideva/logo/jaideva-main-logo.png';
+  'https://res.cloudinary.com/dpa93copz/image/upload/v1791888291/lubricon/images/logo.png';
 
 /**
  * Send an email notification when a new customer enquiry is received.

@@ -14,6 +14,13 @@ import {
 export default function AboutUsPageEditor() {
   const [aboutData, setAboutData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
+    hero: true, // Only hero section is open by default
+  });
+
+  const toggleSection = (key: string) => {
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   useEffect(() => {
     async function loadAboutData() {
@@ -47,22 +54,46 @@ export default function AboutUsPageEditor() {
       ) : (
         <div className="flex flex-col gap-8">
           {/* 1. Hero & Narrative */}
-          <AboutHeroSection initialData={aboutData?.AboutHero} />
+          <AboutHeroSection
+            initialData={aboutData?.AboutHero}
+            isOpen={openSections.hero ?? true}
+            onToggle={() => toggleSection('hero')}
+          />
 
           {/* 2. Key Stats Strip */}
-          <AboutStatsSection initialData={aboutData?.AboutStats} />
+          <AboutStatsSection
+            initialData={aboutData?.AboutStats}
+            isOpen={openSections.stats ?? false}
+            onToggle={() => toggleSection('stats')}
+          />
 
           {/* 3. Core Principles & Values */}
-          <AboutValuesSection initialData={aboutData?.AboutValues} />
+          <AboutValuesSection
+            initialData={aboutData?.AboutValues}
+            isOpen={openSections.values ?? false}
+            onToggle={() => toggleSection('values')}
+          />
 
           {/* 4. Complete Lubrication Portfolio */}
-          <AboutPortfolioSection initialData={aboutData?.AboutPortfolio} />
+          <AboutPortfolioSection
+            initialData={aboutData?.AboutPortfolio}
+            isOpen={openSections.portfolio ?? false}
+            onToggle={() => toggleSection('portfolio')}
+          />
 
           {/* 5. Historical Journey Timeline */}
-          <AboutTimelineSection initialData={aboutData?.AboutTimeline} />
+          <AboutTimelineSection
+            initialData={aboutData?.AboutTimeline}
+            isOpen={openSections.timeline ?? false}
+            onToggle={() => toggleSection('timeline')}
+          />
 
           {/* 6. Closing Call-To-Action Banner */}
-          <AboutCtaBannerSection initialData={aboutData?.AboutCtaBanner} />
+          <AboutCtaBannerSection
+            initialData={aboutData?.AboutCtaBanner}
+            isOpen={openSections.cta ?? false}
+            onToggle={() => toggleSection('cta')}
+          />
         </div>
       )}
     </section>

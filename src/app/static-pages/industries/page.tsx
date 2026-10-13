@@ -14,7 +14,7 @@ import {
 
 export default function IndustriesPageEditor() {
   const [industriesData, setIndustriesData] = useState<any>(null);
-  const [openSection, setOpenSection] = useState<string | null>(null);
+  const [openSection, setOpenSection] = useState<string | null>('hero');
 
   const toggleSection = (sectionKey: string) => {
     setOpenSection((prev) => (prev === sectionKey ? null : sectionKey));

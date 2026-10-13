@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
 
@@ -5,6 +6,23 @@ const prisma = new PrismaClient();
 
 async function main() {
   console.log('Starting full Lubricon Specialities CMS database seeding...');
+
+  // 0. Clean slate: Delete previous data from DB before seeding new data
+  console.log('Deleting previous data from database...');
+  await prisma.section.deleteMany({});
+  await prisma.product.deleteMany({});
+  await prisma.productCategory.deleteMany({});
+  await prisma.page.deleteMany({});
+  await prisma.industry.deleteMany({});
+  await prisma.blogPost.deleteMany({});
+  await prisma.event.deleteMany({});
+  await prisma.officeLocation.deleteMany({});
+  await prisma.enquiry.deleteMany({});
+  await prisma.distributorApplication.deleteMany({});
+  await prisma.navLink.deleteMany({});
+  await prisma.globalConfig.deleteMany({});
+  await prisma.user.deleteMany({});
+  console.log('✓ Previous database data cleared successfully.');
 
   // 1. Admin User
   const adminPassword = await bcrypt.hash('Admin@123', 10);
@@ -31,8 +49,8 @@ async function main() {
       phone: '1800 569 6363',
       email: 'info@lubricon.in',
       address: 'Lubricon Specialities India, Industrial Area, Haryana / Delhi NCR, India',
-      logo: '/images/logo.png',
-      favicon: '/favicon.ico',
+      logo: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888291/lubricon/images/logo.png',
+      favicon: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888265/lubricon/favicon.png',
       socialLinks: {
         facebook: 'https://m.facebook.com/LubriconIndia',
         instagram: 'https://www.instagram.com/',
@@ -52,8 +70,8 @@ async function main() {
       phone: '1800 569 6363',
       email: 'info@lubricon.in',
       address: 'Lubricon Specialities India, Industrial Area, Haryana / Delhi NCR, India',
-      logo: '/images/logo.png',
-      favicon: '/favicon.ico',
+      logo: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888291/lubricon/images/logo.png',
+      favicon: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888265/lubricon/favicon.png',
       socialLinks: {
         facebook: 'https://m.facebook.com/LubriconIndia',
         instagram: 'https://www.instagram.com/',
@@ -97,7 +115,7 @@ async function main() {
       slug: 'engine-oil',
       shortDesc: 'Heavy-duty diesel and automotive engine oils engineered for severe Indian conditions.',
       fullDesc: 'Lubricon high-performance multigrade and synthetic engine oils provide maximum engine cleanliness, soot handling, and extended drain intervals.',
-      coverImage: '/images/lubricon-can-5l.jpg',
+      coverImage: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg',
       featuredBadgeText: 'API CK-4 & CI-4 Plus',
       order: 0,
       isFeatured: true,
@@ -108,7 +126,7 @@ async function main() {
       slug: 'gear-oil',
       shortDesc: 'Automotive and heavy-duty industrial EP gear oils for high load gearboxes.',
       fullDesc: 'Extreme Pressure (EP) gear lubricants offering superior film strength, micro-pitting resistance, and thermal durability.',
-      coverImage: '/images/lubricon-pail-20l.jpg',
+      coverImage: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888295/lubricon/images/lubricon-pail-20l.jpg',
       featuredBadgeText: 'EP High Load',
       order: 1,
       isFeatured: true,
@@ -119,7 +137,7 @@ async function main() {
       slug: 'atf',
       shortDesc: 'Automatic transmission fluids and power steering lubricants.',
       fullDesc: 'Formulated for smooth shifting, thermal stability, and seal compatibility in passenger and commercial vehicle transmissions.',
-      coverImage: '/images/prod-atf.jpg',
+      coverImage: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888296/lubricon/images/prod-atf.jpg',
       featuredBadgeText: 'Dexron III & Type A',
       order: 2,
       isFeatured: true,
@@ -130,7 +148,7 @@ async function main() {
       slug: 'industrial',
       shortDesc: 'Vacuum pump oils, rust preventives, EDM fluids, and compressor lubricants.',
       fullDesc: 'Australian technology specialty formulations designed for high precision manufacturing, plastic injection molding, and steel plants.',
-      coverImage: '/images/lubricon-drum-clean.jpg',
+      coverImage: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg',
       featuredBadgeText: 'Precision Tech',
       order: 3,
       isFeatured: true,
@@ -141,7 +159,7 @@ async function main() {
       slug: 'fluids',
       shortDesc: 'ISO 22241 AdBlue / DEF and DOT 3/4 brake fluids for fleet safety.',
       fullDesc: 'Clean diesel exhaust fluid reducing emissions and premium polyglycol hydraulic brake fluids ensuring ultimate road safety.',
-      coverImage: '/images/lubricon-can-5l.jpg',
+      coverImage: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg',
       featuredBadgeText: 'Eco & Safety',
       order: 4,
       isFeatured: true,
@@ -200,7 +218,7 @@ async function main() {
       categorySlug: "engine-oil",
       categoryName: "Engine Oils",
       subCategoryTitle: "CK4 Engine Oils",
-      containerImage: "/images/lubricon-can-5l.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       badge: "Latest Grade",
       description: "Premium heavy-duty diesel engine oil formulated for modern engines requiring CK-4 performance. Advanced additive package provides exceptional oxidation stability, shear stability, and wear protection even under severe operating conditions.",
       applicationAreas: "Modern turbocharged diesel engines, Heavy-duty trucks and buses, Construction and mining equipment, Agricultural machinery",
@@ -245,7 +263,7 @@ async function main() {
       categorySlug: "engine-oil",
       categoryName: "Engine Oils",
       subCategoryTitle: "CI4 Plus Engine Oils",
-      containerImage: "/images/lubricon-can-5l.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       badge: "Fleet Choice",
       description: "High-performance CI-4 Plus diesel engine oil engineered for pre-emission and low-emission diesel engines. Provides outstanding protection for EGR-equipped engines.",
       applicationAreas: "EGR-equipped diesel engines, High-mileage trucks, Fleet vehicles, Commercial transport",
@@ -272,7 +290,7 @@ async function main() {
       categorySlug: "engine-oil",
       categoryName: "Engine Oils",
       subCategoryTitle: "CI4 Engine Oils",
-      containerImage: "/images/lubricon-can-5l.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       description: "Reliable CI-4 multigrade engine oil designed for turbocharged commercial vehicles operating under heavy load cycles.",
       applicationAreas: "Turbocharged diesel engines, Mining dump trucks, Stationary generators",
       performanceBenefits: [
@@ -293,7 +311,7 @@ async function main() {
       categorySlug: "engine-oil",
       categoryName: "Engine Oils",
       subCategoryTitle: "CH4 Engine Oils",
-      containerImage: "/images/lubricon-can-5l.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       description: "Proven CH-4 specification heavy-duty engine oil delivering reliable performance for agricultural tractors and medium trucks.",
       applicationAreas: "Tractors, Medium commercial vehicles, Earthmoving equipment",
       performanceBenefits: ["API CH-4 compliant", "Corrosion protection", "Piston deposit control"],
@@ -310,7 +328,7 @@ async function main() {
       categorySlug: "engine-oil",
       categoryName: "Engine Oils",
       subCategoryTitle: "Multigrade Engine Oils",
-      containerImage: "/images/lubricon-can-5l.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       description: "Universal multigrade engine oil for petrol and naturally aspirated diesel vehicles in hot climates.",
       applicationAreas: "Mixed light fleets, 3-wheelers, light delivery vehicles",
       performanceBenefits: ["High film thickness", "Oil consumption control", "Easy cold starts"],
@@ -327,7 +345,7 @@ async function main() {
       categorySlug: "gear-oil",
       categoryName: "Gear Oils",
       subCategoryTitle: "Automotive Gear Oils - 80W90",
-      containerImage: "/images/lubricon-pail-20l.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888295/lubricon/images/lubricon-pail-20l.jpg",
       badge: "Heavy Duty",
       description: "Extreme Pressure hypoid gear lubricant formulated for automotive differentials and manual transmissions operating under severe shock-load conditions.",
       applicationAreas: "Hypoid rear axles, Differentials, Commercial vehicle manual gearboxes",
@@ -351,7 +369,7 @@ async function main() {
       categorySlug: "gear-oil",
       categoryName: "Gear Oils",
       subCategoryTitle: "Automotive Gear Oils - 85W140",
-      containerImage: "/images/lubricon-pail-20l.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888295/lubricon/images/lubricon-pail-20l.jpg",
       description: "Heavy viscosity hypoid gear lubricant specifically designed for heavy axle loads, tippers, off-highway haulers, and ambient high-temperature environments.",
       applicationAreas: "Heavy commercial rear axles, Off-highway dumpers, Mining equipment differentials",
       performanceBenefits: ["High load carrying capacity", "Anti-scuffing film", "Demulsibility"],
@@ -368,7 +386,7 @@ async function main() {
       categorySlug: "gear-oil",
       categoryName: "Gear Oils",
       subCategoryTitle: "Heavy Duty Industrial Gear Oils",
-      containerImage: "/images/lubricon-drum-clean.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       badge: "Industrial Grade",
       description: "Ultra-heavy industrial EP gear oil ISO VG 680 engineered for rolling mills, paper digesters, and heavy cement kiln drives.",
       applicationAreas: "Pulp digester gearboxes, Steel mill drives, Cement mills, Heavy crane drives",
@@ -392,7 +410,7 @@ async function main() {
       categorySlug: "gear-oil",
       categoryName: "Gear Oils",
       subCategoryTitle: "Heavy Duty Industrial Gear Oils",
-      containerImage: "/images/lubricon-drum-clean.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       description: "Industrial EP gear oil ISO VG 460 for high-load slow-speed gearboxes and enclosed industrial gear sets.",
       applicationAreas: "Conveyor drives, Steel plant gearboxes, Rubber extruders, Industrial mixers",
       performanceBenefits: ["ISO VG 460", "EP additives", "Anti-wear protection"],
@@ -409,7 +427,7 @@ async function main() {
       categorySlug: "gear-oil",
       categoryName: "Gear Oils",
       subCategoryTitle: "Heavy Duty Industrial Gear Oils",
-      containerImage: "/images/lubricon-drum-clean.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       description: "Range of industrial EP gear oils covering ISO VG 100 through 320 for diverse enclosed gearbox applications across Indian industry.",
       applicationAreas: "General industrial gearboxes, Conveyor systems, Packaging machinery",
       performanceBenefits: ["Multiple viscosity grades", "EP protection", "Anti-foaming"],
@@ -426,7 +444,7 @@ async function main() {
       categorySlug: "atf",
       categoryName: "ATF & Transmission",
       subCategoryTitle: "Automatic Transmission Fluid",
-      containerImage: "/images/prod-atf.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888296/lubricon/images/prod-atf.jpg",
       badge: "ATF",
       description: "Dexron III compatible automatic transmission fluid for automatic gearboxes, power steering units, and hydraulic systems requiring this specification.",
       applicationAreas: "Automatic transmissions, Power steering, Industrial torque converters",
@@ -449,7 +467,7 @@ async function main() {
       categorySlug: "atf",
       categoryName: "ATF & Transmission",
       subCategoryTitle: "Steering Oil",
-      containerImage: "/images/prod-atf.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888296/lubricon/images/prod-atf.jpg",
       description: "High-quality ATF Type A Suffix A for power steering systems, tractor steering hydraulics, and older transmissions.",
       applicationAreas: "Power steering systems, Commercial vehicle hydraulics",
       performanceBenefits: ["Type A Suffix A specification", "Anti-wear properties", "Non-foaming"],
@@ -465,7 +483,7 @@ async function main() {
       categorySlug: "industrial",
       categoryName: "Industrial Specialities",
       subCategoryTitle: "Vacuum Pump Oil",
-      containerImage: "/images/lubricon-drum-clean.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       badge: "Specialty",
       description: "Premium paraffinic mineral oil specifically formulated for rotary vane and piston-type vacuum pumps. Engineered to achieve deep vacuum levels with minimal oil carryover.",
       applicationAreas: "Rotary vane vacuum pumps, Piston vacuum pumps, Pharmaceutical packaging, Food vacuum packing, Semiconductor manufacture",
@@ -488,7 +506,7 @@ async function main() {
       categorySlug: "industrial",
       categoryName: "Industrial Specialities",
       subCategoryTitle: "Rust Preventive Oil",
-      containerImage: "/images/lubricon-drum-clean.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       badge: "Corrosion Shield",
       description: "Advanced solvent-dispersed rust preventive oil forming an ultra-thin, transparent oily film that protects ferrous components from atmospheric moisture, salt spray, and indoor/outdoor storage corrosion.",
       applicationAreas: "Metal components in storage, Machined tools during export transit, Automotive spare parts protection",
@@ -509,7 +527,7 @@ async function main() {
       categorySlug: "industrial",
       categoryName: "Industrial Specialities",
       subCategoryTitle: "Electrical Discharge Machining Oil",
-      containerImage: "/images/lubricon-drum-clean.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       badge: "Precision",
       description: "High-purity synthetic hydrocarbon dielectric fluid for spark erosion (EDM). Provides optimum spark breakdown, effective particulate flushing, and minimal electrode erosion.",
       applicationAreas: "CNC wire EDM, Die-sinking EDM, Mold & tool manufacturing",
@@ -531,7 +549,7 @@ async function main() {
       categorySlug: "industrial",
       categoryName: "Industrial Specialities",
       subCategoryTitle: "Compressor Oil",
-      containerImage: "/images/lubricon-drum-clean.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       description: "Premium synthetic-fortified compressor lubricant for rotary screw and reciprocating industrial compressors. Prevents carbon deposits on valves.",
       applicationAreas: "Rotary screw air compressors, Industrial reciprocating compressors, Air tools",
       performanceBenefits: [
@@ -551,7 +569,7 @@ async function main() {
       categorySlug: "fluids",
       categoryName: "DEF & Specialty Fluids",
       subCategoryTitle: "AdBlue / DEF",
-      containerImage: "/images/lubricon-can-5l.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       badge: "Eco Compliance",
       description: "High-purity 32.5% urea aqueous solution complying with ISO 22241 / AUS 32 for SCR NOx reduction in BS-IV, BS-VI and Euro 5/6 diesel vehicles.",
       applicationAreas: "BS-VI & Euro 6 trucks, Commercial buses, Modern diesel SUVs, Agricultural tractors",
@@ -574,7 +592,7 @@ async function main() {
       categorySlug: "fluids",
       categoryName: "DEF & Specialty Fluids",
       subCategoryTitle: "Brake Fluid",
-      containerImage: "/images/lubricon-can-5l.jpg",
+      containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       description: "High-boiling polyglycol synthetic brake fluid meeting US FMVSS 116 DOT 3 and DOT 4 standards. Protects against vapor lock in extreme mountain and city braking.",
       applicationAreas: "Hydraulic disc and drum braking systems, Clutch hydraulic systems",
       performanceBenefits: [
@@ -607,7 +625,7 @@ async function main() {
       slug: "plastic-injection-molding",
       name: "Plastic Injection Molding",
       icon: "🏭",
-      image: "/images/ind-plastic.png",
+      image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888286/lubricon/images/ind-plastic.png",
       description: "Precision lubrication solutions for injection molding machines requiring extreme cleanliness, non-staining properties, and excellent thermal stability under high-pressure cycles.",
       challenges: [
         "High-temperature hydraulic system stability",
@@ -629,7 +647,7 @@ async function main() {
       slug: "paper-mills",
       name: "Paper Mills",
       icon: "📄",
-      image: "/images/ind-paper.png",
+      image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888284/lubricon/images/ind-paper.png",
       description: "Lubrication solutions for the highly demanding wet, high-temperature, and contamination-prone paper manufacturing environment. Our products resist washout, emulsification, and support continuous operation.",
       challenges: [
         "Constant water and steam exposure causing lubricant washout",
@@ -651,7 +669,7 @@ async function main() {
       slug: "steel-plants",
       name: "Steel Plants",
       icon: "⚙️",
-      image: "/images/ind-steel.png",
+      image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888287/lubricon/images/ind-steel.png",
       description: "Heavy-duty lubrication engineered for the extreme heat, heavy loads, and contamination challenges of rolling mills, continuous casting, and blast furnace operations.",
       challenges: [
         "Ultra-high loads on rolling mill gearboxes",
@@ -673,7 +691,7 @@ async function main() {
       slug: "automotive-fleet",
       name: "Automotive & Fleet Transport",
       icon: "🚛",
-      image: "/images/ind-steel.png",
+      image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888287/lubricon/images/ind-steel.png",
       description: "Complete lubricant range for fleet operators managing mixed diesel fleets, buses, tippers, and tractor-trailers across diverse Indian road and climate conditions.",
       challenges: [
         "High-mileage engine wear under load",
@@ -695,7 +713,7 @@ async function main() {
       slug: "precision-engineering",
       name: "Precision Engineering",
       icon: "🔧",
-      image: "/images/ind-plastic.png",
+      image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888286/lubricon/images/ind-plastic.png",
       description: "Specialty fluids and lubricants for precision machining, tool room operations, and high-accuracy manufacturing where contamination control and surface finish are critical.",
       challenges: [
         "Ultra-precise surface finish requirements",
@@ -764,7 +782,7 @@ async function main() {
             ctaLink: "/products?cat=industrial",
             secondaryCtaText: "Request Technical Audit",
             secondaryCtaLink: "/contact",
-            image: "/images/slider-1.png"
+            image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888301/lubricon/images/slider-1.png"
           },
           {
             tagline: "COOLANT & EMULSION",
@@ -774,7 +792,7 @@ async function main() {
             ctaLink: "/products?cat=industrial",
             secondaryCtaText: "Toll Free: 1800 569 6363",
             secondaryCtaLink: "tel:18005696363",
-            image: "/images/slider-2.png"
+            image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888302/lubricon/images/slider-2.png"
           },
           {
             tagline: "HIGH PRESSURE ANTI-WEAR",
@@ -784,7 +802,7 @@ async function main() {
             ctaLink: "/products?cat=industrial",
             secondaryCtaText: "Request Technical Audit",
             secondaryCtaLink: "/contact",
-            image: "/images/slider-3.png"
+            image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888304/lubricon/images/slider-3.png"
           },
           {
             tagline: "NEXT-GEN FLEET SOLUTIONS",
@@ -794,7 +812,7 @@ async function main() {
             ctaLink: "/products?cat=engine-oil",
             secondaryCtaText: "Toll Free: 1800 569 6363",
             secondaryCtaLink: "tel:18005696363",
-            image: "/images/1.png"
+            image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888267/lubricon/images/1.png"
           },
           {
             tagline: "AUSTRALIAN TECHNOLOGY",
@@ -804,7 +822,7 @@ async function main() {
             ctaLink: "/products",
             secondaryCtaText: "Schedule Plant Audit",
             secondaryCtaLink: "/contact",
-            image: "/images/2.png"
+            image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888269/lubricon/images/2.png"
           }
         ]
       }
@@ -845,14 +863,14 @@ async function main() {
           badge: "Registered Seller",
           description: "Registered vendor for direct procurement by Central & State government departments and PSUs.",
           link: "https://gem.gov.in",
-          logo: "/images/gem-logo.png"
+          logo: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888283/lubricon/images/gem-logo.png"
         },
         irepsCard: {
           title: "Indian Railways (IREPS)",
           badge: "Approved Vendor",
           description: "Approved vendor on the official Indian Railways E-Procurement portal for zonal and workshop supplies.",
           link: "https://www.ireps.gov.in",
-          logo: "/images/ireps-logo.png"
+          logo: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888290/lubricon/images/ireps-logo.png"
         }
       }
     }
@@ -873,21 +891,21 @@ async function main() {
             title: "Plastic Injection Molding",
             category: "Injection Molding",
             description: "High-temperature hydraulic oils, anti-wear tie-bar greases, and non-staining mold protectants for uninterrupted cycle times.",
-            image: "/images/ind-plastic.png",
+            image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888286/lubricon/images/ind-plastic.png",
             link: "/industries#plastic-injection-molding"
           },
           {
             title: "Paper Mills",
             category: "Paper & Pulp",
             description: "Water-resistant EP gear oils and dryer bearing lubricants resisting extreme steam and high moisture washout.",
-            image: "/images/ind-paper.png",
+            image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888284/lubricon/images/ind-paper.png",
             link: "/industries#paper-mills"
           },
           {
             title: "Steel Plants",
             category: "Heavy Metallurgy",
             description: "Heavy-duty gear oils for rolling mill drives, high-temp caster roll greases, and fire-resistant fluids.",
-            image: "/images/ind-steel.png",
+            image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888287/lubricon/images/ind-steel.png",
             link: "/industries#steel-plants"
           }
         ]
@@ -916,7 +934,7 @@ async function main() {
         primaryBtnLink: "/about",
         secondaryBtnText: "Speak With an Engineer",
         secondaryBtnLink: "tel:18005696363",
-        photoImage: "/images/aboutlubricon.jpeg",
+        photoImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888280/lubricon/images/aboutlubricon.jpg",
         badgeTitle: "Australian Technology",
         badgeSubtitle: "Engineered for Indian Conditions"
       }
@@ -972,7 +990,7 @@ async function main() {
           "API & ISO Certified",
           "Pan-India Dispatch"
         ],
-        archImage: "/images/ind-steel.png",
+        archImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888287/lubricon/images/ind-steel.png",
         floaterTitle: "Australian Precision",
         floaterSubtitle: "100% Quality"
       }
@@ -1073,9 +1091,9 @@ async function main() {
         heading: "World-Class Blending, Testing & Logistics Infrastructure",
         description: "Our state-of-the-art facilities ensure that every drop of lubricant meets stringent international and Indian operational standards.",
         facilities: [
-          { title: "Precision Laboratory", desc: "Spectrographic analysis, kinematic viscosity measurement, and 4-ball weld testing ensuring strict batch consistency.", tag: "Lab & Testing", image: "/images/about-lab.jpg" },
-          { title: "Automated Blending Plant", desc: "High-capacity automated blending tanks utilizing Australian additive packages and premium base oils.", tag: "Manufacturing", image: "/images/about-plant.jpg" },
-          { title: "Centralized Logistics Hub", desc: "Climate-controlled warehousing and bulk 1,000L IBC dispatch fleet delivering reliably nationwide.", tag: "Distribution", image: "/images/about-warehouse.jpg" }
+          { title: "Precision Laboratory", desc: "Spectrographic analysis, kinematic viscosity measurement, and 4-ball weld testing ensuring strict batch consistency.", tag: "Lab & Testing", image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888280/lubricon/images/aboutlubricon.jpg" },
+          { title: "Automated Blending Plant", desc: "High-capacity automated blending tanks utilizing Australian additive packages and premium base oils.", tag: "Manufacturing", image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888289/lubricon/images/industries-hero-banner.jpg" },
+          { title: "Centralized Logistics Hub", desc: "Climate-controlled warehousing and bulk 1,000L IBC dispatch fleet delivering reliably nationwide.", tag: "Distribution", image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888287/lubricon/images/ind-steel.png" }
         ]
       }
     }
@@ -1128,7 +1146,7 @@ async function main() {
         badge: "Heavy Industry & Precision Manufacturing",
         heading: "Industries We Serve",
         description: "From extreme heat in steel rolling mills to high-pressure precision plastic injection molding and wet paper mills, Lubricon formulations are powered by Australian lubrication technology for seamless, continuous machine uptime.",
-        bannerImage: "/images/industries-hero-banner.jpg",
+        bannerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888289/lubricon/images/industries-hero-banner.jpg",
         stats: [
           { value: "0% Downtime", label: "Continuous Uptime Target" },
           { value: "30% Lower", label: "SKU Holding Capital" },
@@ -1216,7 +1234,7 @@ async function main() {
         description: "Speak with our lubrication specialists, request on-site oil analysis, or submit institutional tenders and wholesale supply inquiries.",
         helpline: "1800 569 6363",
         email: "info@lubricon.in",
-        image: "/images/contact-hero.jpg"
+        image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888282/lubricon/images/contact-hero.jpg"
       }
     }
   });
@@ -1312,7 +1330,7 @@ async function main() {
   console.log('\n=========================================');
   console.log('🎉 Lubricon CMS database seeding finished successfully!');
   console.log('Admin login: admin@lubricon.in / Admin@123');
-  console.log('Local Database: postgresql://sudeeshkumar@localhost:5432/lubricon_cms');
+  console.log('Database URL configured from environment.');
   console.log('=========================================\n');
 }
 

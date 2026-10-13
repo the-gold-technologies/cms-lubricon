@@ -104,7 +104,7 @@ export function EventsHeroSection({ initialData, onSave }: EventsHeroSectionProp
               label="Banner Alt Text (SEO & Accessibility)"
               value={altText}
               onChange={(e) => setAltText(e.target.value)}
-              placeholder="e.g. JAI DEVA OIL CO. Events & Activities Gallery Banner"
+              placeholder="e.g. Lubricon Specialities India Events & Activities Gallery Banner"
             />
 
             <div className="pt-4 border-t border-gray-100">

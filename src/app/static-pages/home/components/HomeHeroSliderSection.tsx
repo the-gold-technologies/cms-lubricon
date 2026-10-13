@@ -23,6 +23,8 @@ interface HomeHeroSliderSectionProps {
   initialData?: {
     slides?: HeroSlide[];
   };
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
 const DEFAULT_SLIDES: HeroSlide[] = [
@@ -48,7 +50,14 @@ const DEFAULT_SLIDES: HeroSlide[] = [
   },
 ];
 
-export function HomeHeroSliderSection({ initialData }: HomeHeroSliderSectionProps) {
+export function HomeHeroSliderSection({
+  initialData,
+  isOpen: controlledIsOpen,
+  onToggle,
+}: HomeHeroSliderSectionProps) {
+  const [internalOpen, setInternalOpen] = useState(true);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
   const [slides, setSlides] = useState<HeroSlide[]>(DEFAULT_SLIDES);
   const [loading, setLoading] = useState(false);
   const [openSlideIndex, setOpenSlideIndex] = useState<number | null>(0);
@@ -120,7 +129,7 @@ export function HomeHeroSliderSection({ initialData }: HomeHeroSliderSectionProp
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xs border border-zinc-200">
-      <div className="flex items-center justify-between pb-6 border-b border-zinc-100">
+      <div onClick={handleToggle} className="flex items-center justify-between pb-6 border-b border-zinc-100 cursor-pointer select-none group">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[#ffe000] text-black">
             <Layers className="w-5 h-5 stroke-[2.5]" />
@@ -133,17 +142,27 @@ export function HomeHeroSliderSection({ initialData }: HomeHeroSliderSectionProp
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={handleAddSlide}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black bg-zinc-900 hover:bg-black text-[#ffe000] transition cursor-pointer shadow-xs"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          Add Slide
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddSlide();
+            }}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black bg-zinc-900 hover:bg-black text-[#ffe000] transition cursor-pointer shadow-xs"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            Add Slide
+          </button>
+          <div className={`w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 transition-transform duration-300 ${isOpen ? "rotate-180 bg-[#ffe000] text-black" : ""}`}>
+            <ChevronDown className="w-4 h-4 stroke-[2.5]" />
+          </div>
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+      <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+        <div className="overflow-hidden">
+          <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <div className="space-y-4">
           {slides.map((slide, idx) => {
             const isOpen = openSlideIndex === idx;
@@ -252,6 +271,8 @@ export function HomeHeroSliderSection({ initialData }: HomeHeroSliderSectionProp
           <SaveButton loading={loading} label="Save Hero Slider" />
         </div>
       </form>
+        </div>
+      </div>
     </div>
   );
 }

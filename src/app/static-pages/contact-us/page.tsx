@@ -14,6 +14,13 @@ import toast from 'react-hot-toast';
 export default function ContactUsCMSPage() {
   const [sections, setSections] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
+    hero: true, // Only hero section is open by default
+  });
+
+  const toggleSection = (key: string) => {
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   const fetchContactData = async () => {
     try {
@@ -73,30 +80,40 @@ export default function ContactUsCMSPage() {
           <ContactHeroSection
             initialData={sections.ContactHero}
             onSave={(data) => handleSaveSection('ContactHero', data)}
+            isOpen={openSections.hero ?? true}
+            onToggle={() => toggleSection('hero')}
           />
 
           {/* Section 2: Headquarter Contact Details */}
           <ContactHeadquarterSection
             initialData={sections.ContactHeadquarter}
             onSave={(data) => handleSaveSection('ContactHeadquarter', data)}
+            isOpen={openSections.hq ?? false}
+            onToggle={() => toggleSection('hq')}
           />
 
           {/* Section 3: Enquiry Form Card Settings */}
           <ContactFormConfigSection
             initialData={sections.ContactForm}
             onSave={(data) => handleSaveSection('ContactForm', data)}
+            isOpen={openSections.form ?? false}
+            onToggle={() => toggleSection('form')}
           />
 
           {/* Section 4: Existing Business Network & Map */}
           <ExistingBusinessNetworkCMSSection
             initialData={sections.ExistingBusinessNetwork}
             onSave={(data) => handleSaveSection('ExistingBusinessNetwork', data)}
+            isOpen={openSections.network ?? false}
+            onToggle={() => toggleSection('network')}
           />
 
           {/* Section 5: Frequently Asked Questions */}
           <ContactFaqSection
             initialData={sections.ContactFaq}
-            onSave={(data) => handleSaveSection("ContactFaq", data)}
+            onSave={(data) => handleSaveSection('ContactFaq', data)}
+            isOpen={openSections.faq ?? false}
+            onToggle={() => toggleSection('faq')}
           />
         </div>
       )}

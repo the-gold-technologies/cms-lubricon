@@ -1,13 +1,25 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { SectionHeader } from '@/components/SectionHeader';
 import { SaveButton } from '@/components/SaveButton';
 import { InputField } from '@/components/InputField';
 import { TextAreaField } from '@/components/TextAreaField';
 import { Megaphone } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-export function AboutCtaBannerSection({ initialData }: { initialData?: any }) {
+export function AboutCtaBannerSection({
+  initialData,
+  isOpen: controlledIsOpen,
+  onToggle,
+}: {
+  initialData?: any;
+  isOpen?: boolean;
+  onToggle?: () => void;
+}) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
+  const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
   const [heading, setHeading] = useState('Ready to Upgrade Your Industrial Lubrication?');
   const [subtext, setSubtext] = useState(
     'Get customized quotation lists, bulk drum price rates, and engineering estimates for your machinery specifications. Request a quote or get product technical sheets directly from our lubrication specialists.'
@@ -61,30 +73,36 @@ export function AboutCtaBannerSection({ initialData }: { initialData?: any }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-      <div className="flex items-center justify-between pb-5 border-b border-gray-100">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-bold">
-            <Megaphone size={20} />
-          </div>
-          <div>
-            <h2 className="text-lg font-bold text-gray-900">Closing Call To Action Banner</h2>
-            <p className="text-xs text-gray-500">Live bottom banner prompting quotes, bulk drum price lists, and phone helpline.</p>
-          </div>
-        </div>
-        <SaveButton onClick={handleSave} loading={loading} />
-      </div>
+    <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col gap-4 transition-all">
+      <SectionHeader
+        title="6. Closing Call To Action Banner"
+        description="Live bottom banner prompting quotes, bulk drum price lists, and phone helpline."
+        isOpen={isOpen}
+        onToggle={handleToggle}
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
-        <div className="md:col-span-2">
-          <InputField label="Banner Headline" value={heading} onChange={(e) => setHeading(e.target.value)} />
+      <div
+        className={"grid transition-all duration-300 ease-in-out " + (isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
+      >
+        <div className="overflow-hidden">
+          <div className="flex flex-col gap-6 pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="md:col-span-2">
+                <InputField label="Banner Headline" value={heading} onChange={(e) => setHeading(e.target.value)} />
+              </div>
+              <div className="md:col-span-2">
+                <TextAreaField label="Supporting Paragraph" value={subtext} onChange={(e) => setSubtext(e.target.value)} rows={3} />
+              </div>
+              <InputField label="Primary Button Text" value={buttonText} onChange={(e) => setButtonText(e.target.value)} />
+              <InputField label="Primary Button Link" value={buttonLink} onChange={(e) => setButtonLink(e.target.value)} />
+              <InputField label="Toll-Free Helpline Phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
+            </div>
+
+            <div className="flex justify-end pt-4 border-t border-gray-100">
+              <SaveButton onClick={handleSave} loading={loading} />
+            </div>
+          </div>
         </div>
-        <div className="md:col-span-2">
-          <TextAreaField label="Description Text" value={subtext} onChange={(e) => setSubtext(e.target.value)} rows={3} />
-        </div>
-        <InputField label="Button Text" value={buttonText} onChange={(e) => setButtonText(e.target.value)} />
-        <InputField label="Button Link" value={buttonLink} onChange={(e) => setButtonLink(e.target.value)} />
-        <InputField label="Phone Helpline" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </div>
     </div>
   );
