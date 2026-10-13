@@ -464,9 +464,24 @@ export default function ProductsCatalogCMSPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProducts.map((p) => {
-            const packagingRow = p.propertiesTable?.find((r) =>
-              r.property.toLowerCase().includes('packaging')
-            );
+            const packagingRow = p.propertiesTable?.find((r: any) => {
+              if (!r) return false;
+              if (typeof r.property === 'string') {
+                return r.property.toLowerCase().includes('packaging');
+              }
+              if (Array.isArray(r) && typeof r[0] === 'string') {
+                return r[0].toLowerCase().includes('packaging');
+              }
+              return false;
+            });
+
+            const packagingValue = packagingRow
+              ? (typeof (packagingRow as any).value === 'string'
+                  ? (packagingRow as any).value
+                  : Array.isArray(packagingRow)
+                  ? packagingRow[packagingRow.length - 1]
+                  : null)
+              : null;
 
             return (
               <div
@@ -524,10 +539,10 @@ export default function ProductsCatalogCMSPage() {
                     </p>
                   )}
 
-                  {packagingRow && packagingRow.value && (
+                  {packagingValue && (
                     <div className="mt-2.5">
                       <span className="inline-block px-2 py-0.5 rounded bg-gray-50 text-[10px] font-semibold text-gray-600 border border-gray-100 truncate max-w-full">
-                        Pack: {packagingRow.value}
+                        Pack: {packagingValue}
                       </span>
                     </div>
                   )}

@@ -52,8 +52,6 @@ const sidebarLinks: SidebarLink[] = [
       { title: 'About Us', href: '/static-pages/about-us' },
       { title: 'Industries We Serve', href: '/static-pages/industries' },
       { title: 'Products Catalog', href: '/static-pages/products' },
-      { title: 'Technical Blogs', href: '/static-pages/blogs' },
-      { title: 'Expos & Events', href: '/static-pages/events' },
       { title: 'Contact Us', href: '/static-pages/contact-us' },
       { title: 'Privacy Policy', href: '/static-pages/privacy-policy' },
     ],

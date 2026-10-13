@@ -190,47 +190,6 @@ export async function GET() {
       }
     }
 
-    // 5. Automatically inject Dynamic Blog Posts from DB under Blogs parent
-    let blogParentIdx = mergedData.findIndex((m: any) => m.slug === 'blogs' || m.slug === 'blog');
-    let blogParentId = 'blogs-seo-parent-id';
-
-    if (blogParentIdx !== -1) {
-      blogParentId = mergedData[blogParentIdx].id;
-    }
-
-    const blogPosts = await prisma.blogPost.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
-
-    for (const blog of blogPosts) {
-      const blogPageSlug = `blogs/${blog.slug}`;
-      const normalizedBlogSlug = blogPageSlug.toLowerCase().trim();
-
-      if (!seenSlugs.has(normalizedBlogSlug)) {
-        seenSlugs.add(normalizedBlogSlug);
-        const matchedBlogPage = pages.find(
-          (p: any) => p.slug === blogPageSlug || p.slug === blog.slug
-        );
-
-        mergedData.push({
-          id: `blog-post-${blog.id}`,
-          pageId: blog.id,
-          title: blog.title || 'Untitled Blog',
-          slug: blogPageSlug,
-          metaTitle: matchedBlogPage?.metaTitle || blog.title,
-          metaDescription: matchedBlogPage?.metaDescription || blog.excerpt,
-          type: 'Blog Article',
-          visibility: blog.isPublished ? 'published' : 'draft',
-          parent: blogParentId,
-          order: 0,
-          description: `SEO Configuration for blog article: "${blog.title}".`,
-          navTitle: blog.title,
-          isStatic: false,
-          headingOptions: matchedBlogPage?.headingOptions,
-        });
-      }
-    }
-
     return NextResponse.json({ success: true, data: mergedData });
   } catch (error) {
     console.error('Error fetching pages for SEO:', error);

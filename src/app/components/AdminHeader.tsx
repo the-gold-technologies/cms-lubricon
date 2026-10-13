@@ -18,8 +18,6 @@ const STATIC_SEARCH_ITEMS: SearchItem[] = [
   { title: 'Products Catalog (18+ Products)', category: 'Products', url: '/static-pages/products', icon: Package },
   { title: 'Industries We Serve (Molding, Mills, Steel...)', category: 'Pages', url: '/static-pages/industries', icon: Factory },
   { title: 'Contact Us & Toll-Free Helpline', category: 'Pages', url: '/static-pages/contact-us', icon: FileText },
-  { title: 'Technical Blogs & Articles', category: 'Pages', url: '/static-pages/blogs', icon: FileText },
-  { title: 'Expos & Trade Shows', category: 'Pages', url: '/static-pages/events', icon: FileText },
   { title: 'Privacy Policy', category: 'Pages', url: '/static-pages/privacy-policy', icon: FileText },
   { title: 'Menu Links Navigation', category: 'Navigation', url: '/navigation/menu-links', icon: Compass },
   { title: 'Social Media & Footer', category: 'Navigation', url: '/navigation/social-media', icon: Compass },
