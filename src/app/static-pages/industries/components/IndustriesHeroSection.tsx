@@ -32,7 +32,7 @@ export function IndustriesHeroSection({
   const [ctaPrimaryText, setCtaPrimaryText] = useState('');
   const [ctaPrimaryUrl, setCtaPrimaryUrl] = useState('');
   const [ctaSecondaryText, setCtaSecondaryText] = useState('');
-  const [images, setImages] = useState<(File | string | null)[]>(['']);
+  const [images, setImages] = useState<(File | string | null)[]>([]);
   const [stats, setStats] = useState<{ value: string; label: string; highlight?: boolean }[]>([]);
 
   useEffect(() => {
@@ -76,8 +76,12 @@ export function IndustriesHeroSection({
       const validImages = images.filter((img): img is File | string => !!img);
       let bannerImageUrl = '';
       if (validImages.length > 0) {
-        const [uploaded] = await uploadFiles(validImages);
-        bannerImageUrl = uploaded || '';
+        if (typeof validImages[0] === 'string') {
+          bannerImageUrl = validImages[0];
+        } else {
+          const [uploaded] = await uploadFiles(validImages);
+          if (uploaded) bannerImageUrl = uploaded;
+        }
       }
 
       const payload = {

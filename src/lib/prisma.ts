@@ -1,4 +1,9 @@
 import { PrismaClient } from '@prisma/client';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Reload .env to ensure any updated DB credentials are automatically picked up by dev server
+dotenv.config({ path: path.resolve(process.cwd(), '.env'), override: true });
 
 declare global {
   var prismaInstance: PrismaClient | undefined;
@@ -12,14 +17,9 @@ const getMockPrisma = () => {
 
 try {
   if (process.env.DATABASE_URL) {
-    if (process.env.NODE_ENV === 'production') {
-      prismaClient = new PrismaClient();
-    } else {
-      if (!global.prismaInstance) {
-        global.prismaInstance = new PrismaClient();
-      }
-      prismaClient = global.prismaInstance;
-    }
+    // If DATABASE_URL changed or not set, create a new instance
+    global.prismaInstance = new PrismaClient();
+    prismaClient = global.prismaInstance;
   } else {
     prismaClient = getMockPrisma();
   }

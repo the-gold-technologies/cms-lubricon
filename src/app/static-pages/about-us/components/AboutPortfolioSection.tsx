@@ -27,47 +27,10 @@ export function AboutPortfolioSection({
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
-  const [badge, setBadge] = useState('Comprehensive Range');
-  const [title, setTitle] = useState('Complete Lubrication Portfolio Summary');
-  const [subtitle, setSubtitle] = useState('High-performance formulations engineered for extreme industrial and automotive operating conditions.');
-  const [portfolios, setPortfolios] = useState<PortfolioItem[]>([
-    {
-      title: 'Engine Oils',
-      icon: '🛢️',
-      items: ['CK-4, CI-4 Plus, CI-4, CH-4, CF-4', 'SAE 15W40 heavy duty multigrade range', 'API-certified performance & soot control'],
-      link: '/products?cat=engine-oil',
-    },
-    {
-      title: 'Gear Oils',
-      icon: '⚙️',
-      items: ['Automotive GL-5: 80W90, 85W140', 'Industrial EP: ISO VG 100 to 680', 'Hypoid, worm, and spur gear formulations'],
-      link: '/products?cat=gear-oil',
-    },
-    {
-      title: 'ATF & Steering Fluids',
-      icon: '🔄',
-      items: ['Dexron III ATF automatic transmission', 'ATF Type A for power steering systems', 'Smooth gear engagement & seal protection'],
-      link: '/products?cat=atf',
-    },
-    {
-      title: 'Industrial Specialties',
-      icon: '🏭',
-      items: ['Neat & Soluble CNC Cutting Oils', 'High-Pressure Anti-Wear Hydraulic Oils', 'VaccuSyn Vacuum Pump & Compressor Fluids'],
-      link: '/products?cat=industrial',
-    },
-    {
-      title: 'DEF & Coolants',
-      icon: '💧',
-      items: ['ISO 22241 AdBlue 32.5% (AUS32)', 'Heavy duty radiator coolants', 'Euro 4/5/6 SCR emission compliance'],
-      link: '/products?cat=fluids',
-    },
-    {
-      title: 'Greases & Maintenance',
-      icon: '🔧',
-      items: ['High-temperature lithium complex greases', 'Moly extreme pressure chassis grease', 'Wheel bearing & industrial ball bearing protection'],
-      link: '/products',
-    },
-  ]);
+  const [badge, setBadge] = useState('');
+  const [title, setTitle] = useState('');
+  const [subtitle, setSubtitle] = useState('');
+  const [portfolios, setPortfolios] = useState<PortfolioItem[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -100,7 +63,7 @@ export function AboutPortfolioSection({
   const addBullet = (cardIdx: number) => {
     setPortfolios((prev) => {
       const copy = [...prev];
-      copy[cardIdx] = { ...copy[cardIdx], items: [...copy[cardIdx].items, 'New bullet point'] };
+      copy[cardIdx] = { ...copy[cardIdx], items: [...copy[cardIdx].items, ''] };
       return copy;
     });
   };
@@ -116,7 +79,7 @@ export function AboutPortfolioSection({
   const addCard = () => {
     setPortfolios((prev) => [
       ...prev,
-      { title: 'New Category', icon: '📦', items: ['Specification 1'], link: '/products' },
+      { title: '', icon: '', items: [], link: '' },
     ]);
   };
 

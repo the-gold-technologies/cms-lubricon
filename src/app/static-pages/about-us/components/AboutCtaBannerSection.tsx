@@ -20,13 +20,11 @@ export function AboutCtaBannerSection({
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
-  const [heading, setHeading] = useState('Ready to Upgrade Your Industrial Lubrication?');
-  const [subtext, setSubtext] = useState(
-    'Get customized quotation lists, bulk drum price rates, and engineering estimates for your machinery specifications. Request a quote or get product technical sheets directly from our lubrication specialists.'
-  );
-  const [buttonText, setButtonText] = useState('Get Custom Quote');
-  const [buttonLink, setButtonLink] = useState('/contact');
-  const [phone, setPhone] = useState('1800 569 6363');
+  const [heading, setHeading] = useState('');
+  const [subtext, setSubtext] = useState('');
+  const [buttonText, setButtonText] = useState('');
+  const [buttonLink, setButtonLink] = useState('');
+  const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

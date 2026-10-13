@@ -27,21 +27,7 @@ interface HomeGovernmentProcurementSectionProps {
   onToggle?: () => void;
 }
 
-const DEFAULT_GEM: ProcurementCard = {
-  title: 'Government e Marketplace (GeM)',
-  badge: 'Registered Seller',
-  description: 'Registered vendor for direct procurement by Central & State government departments and PSUs.',
-  link: 'https://gem.gov.in',
-  logo: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888283/lubricon/images/gem-logo.png',
-};
 
-const DEFAULT_IREPS: ProcurementCard = {
-  title: 'Indian Railways (IREPS)',
-  badge: 'Approved Vendor',
-  description: 'Approved vendor on the official Indian Railways E-Procurement portal for zonal and workshop supplies.',
-  link: 'https://www.ireps.gov.in',
-  logo: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888290/lubricon/images/ireps-logo.png',
-};
 
 export function HomeGovernmentProcurementSection({
   initialData,
@@ -51,11 +37,11 @@ export function HomeGovernmentProcurementSection({
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
-  const [badgeText, setBadgeText] = useState('Official E-Procurement Registration');
-  const [title, setTitle] = useState('We Are Registered on GeM & IREPS');
-  const [subtitle, setSubtitle] = useState('Registered and approved supplier for institutional and government procurement.');
-  const [gemCard, setGemCard] = useState<ProcurementCard>(DEFAULT_GEM);
-  const [irepsCard, setIrepsCard] = useState<ProcurementCard>(DEFAULT_IREPS);
+  const [badgeText, setBadgeText] = useState('');
+  const [title, setTitle] = useState('');
+  const [subtitle, setSubtitle] = useState('');
+  const [gemCard, setGemCard] = useState<ProcurementCard>({ title: '', badge: '', description: '', link: '', logo: '' });
+  const [irepsCard, setIrepsCard] = useState<ProcurementCard>({ title: '', badge: '', description: '', link: '', logo: '' });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -63,8 +49,8 @@ export function HomeGovernmentProcurementSection({
       if (initialData.badgeText) setBadgeText(initialData.badgeText);
       if (initialData.title) setTitle(initialData.title);
       if (initialData.subtitle) setSubtitle(initialData.subtitle);
-      if (initialData.gemCard) setGemCard({ ...DEFAULT_GEM, ...initialData.gemCard });
-      if (initialData.irepsCard) setIrepsCard({ ...DEFAULT_IREPS, ...initialData.irepsCard });
+      if (initialData.gemCard) setGemCard(initialData.gemCard);
+      if (initialData.irepsCard) setIrepsCard(initialData.irepsCard);
     }
   }, [initialData]);
 

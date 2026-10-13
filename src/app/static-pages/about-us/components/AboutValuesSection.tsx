@@ -25,27 +25,10 @@ export function AboutValuesSection({
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
-  const [badge, setBadge] = useState('Our Principles');
-  const [title, setTitle] = useState('What We Stand For');
-  const [subtitle, setSubtitle] = useState('Core commitments driving every barrel of lubricant formulated under the Lubricon standard.');
-  const [values, setValues] = useState<ValueItem[]>([
-    {
-      title: 'Australian Technology',
-      desc: 'Formulations rooted in Australian R&D, tailored and field-tested specifically for harsh Indian industrial environments.',
-    },
-    {
-      title: 'Uncompromising Quality',
-      desc: 'Every batch undergoes rigorous quality testing adhering to international API, ISO 9001:2015, and OEM standards.',
-    },
-    {
-      title: 'Equipment Protection',
-      desc: 'Designed to reduce friction, minimize heat, resist oxidation, and deliver extended drain intervals for peak machine uptime.',
-    },
-    {
-      title: 'Application Excellence',
-      desc: 'We do not just sell lubricants — our technical engineering team provides custom lubrication audits and expert consultation.',
-    },
-  ]);
+  const [badge, setBadge] = useState('');
+  const [title, setTitle] = useState('');
+  const [subtitle, setSubtitle] = useState('');
+  const [values, setValues] = useState<ValueItem[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -66,7 +49,7 @@ export function AboutValuesSection({
   };
 
   const addValue = () => {
-    setValues((prev) => [...prev, { title: 'New Principle', desc: 'Principle description.' }]);
+    setValues((prev) => [...prev, { title: '', desc: '' }]);
   };
 
   const removeValue = (index: number) => {

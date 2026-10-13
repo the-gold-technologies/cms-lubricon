@@ -21,12 +21,6 @@ interface HomeStatsSectionProps {
   onToggle?: () => void;
 }
 
-const DEFAULT_STATS: StatItem[] = [
-  { label: 'Advanced Products', value: 40, suffix: '+' },
-  { label: 'Active Clients', value: 800, suffix: '+' },
-  { label: 'Years of Excellence', value: 15, suffix: '+' },
-  { label: 'Quality Assurance', value: 100, suffix: '%' },
-];
 
 export function HomeStatsSection({
   initialData,
@@ -36,11 +30,9 @@ export function HomeStatsSection({
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
-  const [heading, setHeading] = useState('Our Stats');
-  const [subtitle, setSubtitle] = useState(
-    'We help you to unleash the power within your machinery and industrial operations.'
-  );
-  const [stats, setStats] = useState<StatItem[]>(DEFAULT_STATS);
+  const [heading, setHeading] = useState('');
+  const [subtitle, setSubtitle] = useState('');
+  const [stats, setStats] = useState<StatItem[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

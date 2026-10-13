@@ -52,7 +52,7 @@ export function ContactFaqSection({
       {
         q: '',
         a: '',
-        tag: 'General',
+        tag: '',
       },
     ]);
   };

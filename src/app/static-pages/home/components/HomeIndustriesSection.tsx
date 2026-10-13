@@ -27,29 +27,6 @@ interface HomeIndustriesSectionProps {
   onToggle?: () => void;
 }
 
-const DEFAULT_INDUSTRIES: IndustryCard[] = [
-  {
-    title: 'Plastic Injection Molding',
-    category: 'Injection Molding',
-    description: 'High-temperature hydraulic oils, anti-wear tie-bar greases, and non-staining mold protectants for uninterrupted cycle times.',
-    link: '/industries#plastic-injection-molding',
-    image: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888286/lubricon/images/ind-plastic.png',
-  },
-  {
-    title: 'Paper Mills',
-    category: 'Paper & Pulp',
-    description: 'Water-resistant EP gear oils and dryer bearing lubricants resisting extreme steam and high moisture washout.',
-    link: '/industries#paper-mills',
-    image: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888284/lubricon/images/ind-paper.png',
-  },
-  {
-    title: 'Steel Plants',
-    category: 'Heavy Metallurgy',
-    description: 'Heavy-duty gear oils for rolling mill drives, high-temp caster roll greases, and fire-resistant fluids.',
-    link: '/industries#steel-plants',
-    image: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888287/lubricon/images/ind-steel.png',
-  },
-];
 
 export function HomeIndustriesSection({
   initialData,
@@ -59,10 +36,10 @@ export function HomeIndustriesSection({
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
-  const [badgeText, setBadgeText] = useState('Industries We Serve');
-  const [title, setTitle] = useState('Industries We Serve');
-  const [subtitle, setSubtitle] = useState('Engineered lubrication solutions delivering extreme heat resistance, high-pressure stability, and continuous uptime.');
-  const [industries, setIndustries] = useState<IndustryCard[]>(DEFAULT_INDUSTRIES);
+  const [badgeText, setBadgeText] = useState('');
+  const [title, setTitle] = useState('');
+  const [subtitle, setSubtitle] = useState('');
+  const [industries, setIndustries] = useState<IndustryCard[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -73,9 +50,9 @@ export function HomeIndustriesSection({
       if (initialData.industries && Array.isArray(initialData.industries) && initialData.industries.length > 0) {
         setIndustries(
           initialData.industries.map((ind: any) => ({
-            title: ind.title || ind.name || '',
+            title: ind.title || '',
             category: ind.category || '',
-            description: ind.description || ind.summary || '',
+            description: ind.description || '',
             link: ind.link || '',
             image: ind.image || '',
           }))
@@ -96,11 +73,11 @@ export function HomeIndustriesSection({
     setIndustries((prev) => [
       ...prev,
       {
-        title: 'New Industry Sector',
-        category: 'Sector Category',
-        description: 'Specialized industrial lubrication and preventive maintenance.',
-        link: '/industries',
-        image: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888286/lubricon/images/ind-plastic.png',
+        title: '',
+        category: '',
+        description: '',
+        link: '',
+        image: '',
       },
     ]);
   };

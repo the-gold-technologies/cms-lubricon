@@ -27,12 +27,6 @@ interface HomeAboutStripSectionProps {
   onToggle?: () => void;
 }
 
-const DEFAULT_BULLETS = [
-  'Australian Formulation Science',
-  'Engineered for Extreme Temperatures',
-  'Pan-India Industrial Distribution',
-  'API, ISO & OEM Standards',
-];
 
 export function HomeAboutStripSection({
   initialData,
@@ -42,22 +36,18 @@ export function HomeAboutStripSection({
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
-  const [badgeText, setBadgeText] = useState('About Lubricon Specialities India');
-  const [headline, setHeadline] = useState('Redefining Lubrication for Indian Industry');
-  const [primaryParagraph, setPrimaryParagraph] = useState(
-    'At Lubricon Specialities India, we are redefining performance, reliability, and innovation in lubrication solutions. Backed by advanced Australian technology, Lubricon brings to the Indian market a comprehensive range of speciality and conventional lubricants engineered for modern industrial and automotive demands.'
-  );
-  const [secondaryParagraph, setSecondaryParagraph] = useState(
-    'With exclusive rights to represent the Lubricon brand in India, Lubricon Specialities India operates independently, delivering international-quality products tailored for Indian operating conditions. Our formulations are driven by deep technical know-how, field-tested performance, and a commitment to operational efficiency.'
-  );
-  const [keyBullets, setKeyBullets] = useState<string[]>(DEFAULT_BULLETS);
-  const [primaryBtnText, setPrimaryBtnText] = useState('Read Full Company Story');
-  const [primaryBtnLink, setPrimaryBtnLink] = useState('/about');
-  const [secondaryBtnText, setSecondaryBtnText] = useState('Speak With an Engineer');
-  const [secondaryBtnLink, setSecondaryBtnLink] = useState('tel:18005696363');
-  const [photoImage, setPhotoImage] = useState('https://res.cloudinary.com/dpa93copz/image/upload/v1791888280/lubricon/images/aboutlubricon.jpg');
-  const [badgeTitle, setBadgeTitle] = useState('Australian Technology');
-  const [badgeSubtitle, setBadgeSubtitle] = useState('Engineered for Indian Conditions');
+  const [badgeText, setBadgeText] = useState('');
+  const [headline, setHeadline] = useState('');
+  const [primaryParagraph, setPrimaryParagraph] = useState('');
+  const [secondaryParagraph, setSecondaryParagraph] = useState('');
+  const [keyBullets, setKeyBullets] = useState<string[]>([]);
+  const [primaryBtnText, setPrimaryBtnText] = useState('');
+  const [primaryBtnLink, setPrimaryBtnLink] = useState('');
+  const [secondaryBtnText, setSecondaryBtnText] = useState('');
+  const [secondaryBtnLink, setSecondaryBtnLink] = useState('');
+  const [photoImage, setPhotoImage] = useState('');
+  const [badgeTitle, setBadgeTitle] = useState('');
+  const [badgeSubtitle, setBadgeSubtitle] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

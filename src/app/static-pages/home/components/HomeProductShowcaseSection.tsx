@@ -9,11 +9,12 @@ import toast from 'react-hot-toast';
 
 interface HomeProductShowcaseSectionProps {
   initialData?: {
-    tagline?: string;
-    heading?: string;
+    badgeText?: string;
+    title?: string;
     subtitle?: string;
     ctaText?: string;
-    ctaLink?: string;  };
+    ctaLink?: string;
+  };
   isOpen?: boolean;
   onToggle?: () => void;
 }
@@ -26,19 +27,17 @@ export function HomeProductShowcaseSection({
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
-  const [tagline, setTagline] = useState('ENGINEERED EXCELLENCE');
-  const [heading, setHeading] = useState('Comprehensive Industrial & Automotive Lubrication');
-  const [subtitle, setSubtitle] = useState(
-    'Formulated to API, ISO and OEM specifications with high-viscosity synthetic bases and shear-stable polymers.'
-  );
-  const [ctaText, setCtaText] = useState('Browse Full Catalog');
-  const [ctaLink, setCtaLink] = useState('/products');
+  const [badgeText, setBadgeText] = useState('');
+  const [title, setTitle] = useState('');
+  const [subtitle, setSubtitle] = useState('');
+  const [ctaText, setCtaText] = useState('');
+  const [ctaLink, setCtaLink] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (initialData) {
-      if (initialData.tagline) setTagline(initialData.tagline);
-      if (initialData.heading) setHeading(initialData.heading);
+      if (initialData.badgeText) setBadgeText(initialData.badgeText);
+      if (initialData.title) setTitle(initialData.title);
       if (initialData.subtitle) setSubtitle(initialData.subtitle);
       if (initialData.ctaText) setCtaText(initialData.ctaText);
       if (initialData.ctaLink) setCtaLink(initialData.ctaLink);
@@ -54,7 +53,13 @@ export function HomeProductShowcaseSection({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           section: 'HomeProductShowcase',
-          content: { tagline, heading, subtitle, ctaText, ctaLink },
+          content: {
+            badgeText,
+            title,
+            subtitle,
+            ctaText,
+            ctaLink,
+          },
         }),
       });
       const json = await res.json();
@@ -94,14 +99,14 @@ export function HomeProductShowcaseSection({
           <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <InputField
-            label="Tagline Badge"
-            value={tagline}
-            onChange={(e) => setTagline(e.target.value)}
+            label="Badge Text"
+            value={badgeText}
+            onChange={(e) => setBadgeText(e.target.value)}
           />
           <InputField
-            label="Section Heading *"
-            value={heading}
-            onChange={(e) => setHeading(e.target.value)}
+            label="Section Title *"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             required
           />
         </div>

@@ -25,14 +25,9 @@ export function AboutStatsSection({
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
-  const [heading, setHeading] = useState('Our Stats');
-  const [subtitle, setSubtitle] = useState('We help you to unleash the power within your machinery and industrial operations.');
-  const [stats, setStats] = useState<StatItem[]>([
-    { label: 'Advanced Products', value: 40, suffix: '+' },
-    { label: 'Active Clients', value: 800, suffix: '+' },
-    { label: 'Years of Excellence', value: 15, suffix: '+' },
-    { label: 'Quality Assurance', value: 100, suffix: '%' },
-  ]);
+  const [heading, setHeading] = useState('');
+  const [subtitle, setSubtitle] = useState('');
+  const [stats, setStats] = useState<StatItem[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -52,7 +47,7 @@ export function AboutStatsSection({
   };
 
   const addStat = () => {
-    setStats((prev) => [...prev, { label: 'New Metric', value: 10, suffix: '+' }]);
+    setStats((prev) => [...prev, { label: '', value: 0, suffix: '' }]);
   };
 
   const removeStat = (index: number) => {

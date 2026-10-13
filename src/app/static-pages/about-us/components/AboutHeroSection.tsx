@@ -27,42 +27,22 @@ export function AboutHeroSection({
   const [internalOpen, setInternalOpen] = useState(true);
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
-  const [badge, setBadge] = useState('Australian Formulation Heritage • Indian Leadership');
-  const [heading, setHeading] = useState('Redefining Lubrication for Indian Industry');
-  const [narrative, setNarrative] = useState(
-    'At Lubricon Specialities India, we engineer high-performance lubrication solutions that withstand extreme heat, high pressures, and punishing duty cycles. Powered by cutting-edge Australian formulations, we empower Indian manufacturers, fleet operators, and heavy industries to achieve peak uptime.'
-  );
-  const [secondaryText, setSecondaryText] = useState(
-    'With dedicated technical engineers and a pan-India logistics network, we deliver customized audits, high-viscosity formulations, and responsive delivery directly to industrial plant gates.'
-  );
-  const [images, setImages] = useState<(File | string | null)[]>(['https://res.cloudinary.com/dpa93copz/image/upload/v1791888280/lubricon/images/aboutlubricon.jpg']);
-  const [officeBadge, setOfficeBadge] = useState('Lubricon India HQ');
-  const [cardTag, setCardTag] = useState('Australian Technology');
-  const [cardSubtag, setCardSubtag] = useState('Tailored for Indian Operations');
-  const [isoBadgeTitle, setIsoBadgeTitle] = useState('ISO & API');
-  const [isoBadgeSub, setIsoBadgeSub] = useState('Certified');
-  const [tollFree, setTollFree] = useState('1800 569 6363');
-  const [primaryBtnText, setPrimaryBtnText] = useState('Explore Products');
-  const [primaryBtnLink, setPrimaryBtnLink] = useState('/products');
-  const [secondaryBtnText, setSecondaryBtnText] = useState('Request TDS & Quote');
-  const [secondaryBtnLink, setSecondaryBtnLink] = useState('/contact');
-  const [valuePillars, setValuePillars] = useState<ValuePillar[]>([
-    {
-      title: 'Australian R&D',
-      icon: 'cpu',
-      desc: 'International additive science tailored for local conditions.',
-    },
-    {
-      title: 'Zero-Wear Film',
-      icon: 'shield',
-      desc: 'Anti-wear barrier extending severe-duty machine life.',
-    },
-    {
-      title: '40+ Formulations',
-      icon: 'factory',
-      desc: 'Speciality oils, greases, coolants, and neat fluids.',
-    },
-  ]);
+  const [badge, setBadge] = useState('');
+  const [heading, setHeading] = useState('');
+  const [narrative, setNarrative] = useState('');
+  const [secondaryText, setSecondaryText] = useState('');
+  const [images, setImages] = useState<(File | string | null)[]>([]);
+  const [officeBadge, setOfficeBadge] = useState('');
+  const [cardTag, setCardTag] = useState('');
+  const [cardSubtag, setCardSubtag] = useState('');
+  const [isoBadgeTitle, setIsoBadgeTitle] = useState('');
+  const [isoBadgeSub, setIsoBadgeSub] = useState('');
+  const [tollFree, setTollFree] = useState('');
+  const [primaryBtnText, setPrimaryBtnText] = useState('');
+  const [primaryBtnLink, setPrimaryBtnLink] = useState('');
+  const [secondaryBtnText, setSecondaryBtnText] = useState('');
+  const [secondaryBtnLink, setSecondaryBtnLink] = useState('');
+  const [valuePillars, setValuePillars] = useState<ValuePillar[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -95,7 +75,7 @@ export function AboutHeroSection({
   };
 
   const addPillar = () => {
-    setValuePillars((prev) => [...prev, { title: 'New Pillar', icon: 'shield', desc: 'Description' }]);
+    setValuePillars((prev) => [...prev, { title: '', icon: '', desc: '' }]);
   };
 
   const removePillar = (index: number) => {
@@ -189,15 +169,14 @@ export function AboutHeroSection({
               <InputField label="Card Tag" value={cardTag} onChange={(e) => setCardTag(e.target.value)} />
               <InputField label="Card Subtag" value={cardSubtag} onChange={(e) => setCardSubtag(e.target.value)} />
               <InputField label="Office Badge" value={officeBadge} onChange={(e) => setOfficeBadge(e.target.value)} />
+              <InputField label="Toll-Free Helpline" value={tollFree} onChange={(e) => setTollFree(e.target.value)} />
+              <InputField label="ISO Badge Title" value={isoBadgeTitle} onChange={(e) => setIsoBadgeTitle(e.target.value)} />
+              <InputField label="ISO Badge Subtitle" value={isoBadgeSub} onChange={(e) => setIsoBadgeSub(e.target.value)} />
+              <InputField label="Primary Button Text" value={primaryBtnText} onChange={(e) => setPrimaryBtnText(e.target.value)} />
+              <InputField label="Primary Button Link" value={primaryBtnLink} onChange={(e) => setPrimaryBtnLink(e.target.value)} />
+              <InputField label="Secondary Button Text" value={secondaryBtnText} onChange={(e) => setSecondaryBtnText(e.target.value)} />
+              <InputField label="Secondary Button Link" value={secondaryBtnLink} onChange={(e) => setSecondaryBtnLink(e.target.value)} />
             </div>
-
-            <InputField label="ISO Badge Title" value={isoBadgeTitle} onChange={(e) => setIsoBadgeTitle(e.target.value)} />
-            <InputField label="ISO Badge Subtitle" value={isoBadgeSub} onChange={(e) => setIsoBadgeSub(e.target.value)} />
-            <InputField label="Toll-Free Helpline" value={tollFree} onChange={(e) => setTollFree(e.target.value)} />
-            <InputField label="Primary Button Text" value={primaryBtnText} onChange={(e) => setPrimaryBtnText(e.target.value)} />
-            <InputField label="Primary Button Link" value={primaryBtnLink} onChange={(e) => setPrimaryBtnLink(e.target.value)} />
-            <InputField label="Secondary Button Text" value={secondaryBtnText} onChange={(e) => setSecondaryBtnText(e.target.value)} />
-            <InputField label="Secondary Button Link" value={secondaryBtnLink} onChange={(e) => setSecondaryBtnLink(e.target.value)} />
 
             {/* Value Pillars List */}
             <div className="mt-8 pt-6 border-t border-gray-100">

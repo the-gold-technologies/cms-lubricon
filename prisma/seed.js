@@ -966,7 +966,225 @@ async function main() {
       content: {
         badgeText: "Interactive Recommendation Engine",
         title: "Find the Exact Lubricon Lubricant",
-        subtitle: "Select your machinery type or vehicle fleet to receive tailored, field-tested Australian oil formulations in seconds."
+        subtitle: "Select your machinery type or vehicle fleet to receive tailored, field-tested Australian oil formulations in seconds.",
+        step1Title: "Select Application Category",
+        step1Subtitle: "Choose your operating domain — we will automatically advance to specific equipment types.",
+        step2Title: "Select Equipment / Machinery Type",
+        step2Subtitle: "Click your mechanical component to immediately generate recommended formulations.",
+        step3Badge: "Formulations Match Found",
+        step3Title: "Recommended Lubricon Formulations",
+        resetBtnText: "Change Criteria",
+        helplinePrompt: "Need Custom OEM Formulations or Laboratory Oil Analysis?",
+        helplineText: "Speak directly with our Indian field application engineers.",
+        tollFree: "1800 569 6363",
+        categories: [
+          {
+            id: "automotive",
+            title: "Automotive & Fleet",
+            subtitle: "Commercial diesel trucks, light transport fleets, and transmissions",
+            icon: "Truck",
+            equipment: [
+              {
+                id: "diesel-heavy",
+                title: "Heavy Duty Diesel Engine",
+                subtitle: "Euro 6 / BS6 haulage trucks, excavators, and passenger buses",
+                icon: "Truck",
+                recommendations: [
+                  {
+                    name: "Lubricon XtremeX CK-4 15W40",
+                    grade: "API CK-4 / ACEA E9",
+                    badge: "Euro 6 & BS6 Ready",
+                    benefits: [
+                      "Advanced soot dispersancy",
+                      "DPF & SCR catalytic protection",
+                      "Extended 60,000+ km drain intervals"
+                    ],
+                    link: "/products/lubricon-xtremex-ck4-15w40"
+                  },
+                  {
+                    name: "Lubricon UltraX CI-4 Plus 15W40",
+                    grade: "API CI-4 Plus / SL",
+                    badge: "High-Torque Turbo",
+                    benefits: [
+                      "Unmatched piston deposit control",
+                      "Thermal stability under severe loads",
+                      "Proven fleet operating savings"
+                    ],
+                    link: "/products/lubricon-ultrax-ci4-plus-15w40"
+                  }
+                ]
+              },
+              {
+                id: "transmission",
+                title: "Automatic Transmission & Steering",
+                subtitle: "Smooth gear shift ATFs and hydraulic power steering units",
+                icon: "Settings",
+                recommendations: [
+                  {
+                    name: "Lubricon DEX III ATF",
+                    grade: "General Motors Dexron IIIH",
+                    badge: "Smooth Shifting",
+                    benefits: [
+                      "Superior anti-shudder performance",
+                      "Extreme low-temperature fluidity",
+                      "Complete seal compatibility"
+                    ],
+                    link: "/products?cat=atf"
+                  }
+                ]
+              },
+              {
+                id: "axle",
+                title: "Differentials & Hypoid Axles",
+                subtitle: "High extreme-pressure rear differentials and axle boxes",
+                icon: "Settings",
+                recommendations: [
+                  {
+                    name: "Lubricon HeavyGear Pro 85W140 GL-5",
+                    grade: "API GL-5 / MT-1",
+                    badge: "Extreme Pressure EP",
+                    benefits: [
+                      "Prevents hypoid gear spalling",
+                      "Thermal resilience under 120°C+",
+                      "Resists shock-load tooth shearing"
+                    ],
+                    link: "/products?cat=gear-oil"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            id: "industrial",
+            title: "Industrial Manufacturing",
+            subtitle: "Injection molding presses, paper mills, CNC machining & gearboxes",
+            icon: "Factory",
+            equipment: [
+              {
+                id: "molding",
+                title: "Plastic Injection Molding",
+                subtitle: "Anti-wear hydraulic systems and high-temp tie-bar grease",
+                icon: "Factory",
+                recommendations: [
+                  {
+                    name: "Lubricon HydroShield AW-68",
+                    grade: "DIN 51524 Part 2 (HLP)",
+                    badge: "Zero Varnish Formula",
+                    benefits: [
+                      "Zero-varnish valve operation",
+                      "Superior hydrolytic stability",
+                      "Protects high-cycle toggle pins"
+                    ],
+                    link: "/products?cat=industrial"
+                  }
+                ]
+              },
+              {
+                id: "gearbox-heavy",
+                title: "Heavy Industrial Gearboxes",
+                subtitle: "Slow-speed, ultra-heavy shock loads in paper and steel mills",
+                icon: "Gauge",
+                recommendations: [
+                  {
+                    name: "Lubricon GearTuff 460 / 680",
+                    grade: "ISO VG 460 / 680 CLP",
+                    badge: "Heavy Metallurgy Spec",
+                    benefits: [
+                      "High micro-pitting resistance",
+                      "Exceptional water separation",
+                      "Engineered for 24/7 furnace proximity"
+                    ],
+                    link: "/products?cat=gear-oil"
+                  }
+                ]
+              },
+              {
+                id: "compressor",
+                title: "Rotary Screw & Air Compressors",
+                subtitle: "Continuous-run industrial air and refrigeration compressors",
+                icon: "Wind",
+                recommendations: [
+                  {
+                    name: "Lubricon SynAir Compressor Fluid",
+                    grade: "ISO VG 46 / 68",
+                    badge: "8000 hr Service Life",
+                    benefits: [
+                      "Ultra-low carbon deposit tendency",
+                      "Fast air release & foam resistance",
+                      "Reduces separator maintenance"
+                    ],
+                    link: "/products?cat=industrial"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            id: "special",
+            title: "Specialty Formulations",
+            subtitle: "High dielectric EDM fluids, rust guard protectants & AdBlue DEF",
+            icon: "FlaskConical",
+            equipment: [
+              {
+                id: "edm",
+                title: "CNC EDM & Spark Erosion",
+                subtitle: "High dielectric purity fluids for precision wire EDM tooling",
+                icon: "Sparkles",
+                recommendations: [
+                  {
+                    name: "Lubricon SparkPure EDM Fluid",
+                    grade: "Dielectric Grade",
+                    badge: "Micro-Finishing Quality",
+                    benefits: [
+                      "Rapid particle settling rate",
+                      "High flash point & low odor",
+                      "Mirror-like workpiece surface finish"
+                    ],
+                    link: "/products?cat=industrial"
+                  }
+                ]
+              },
+              {
+                id: "rust-prevent",
+                title: "Anti-Rust Preservation",
+                subtitle: "Long-term de-watering corrosion preventive films for metal parts",
+                icon: "ShieldCheck",
+                recommendations: [
+                  {
+                    name: "Lubricon RustGuard Pro",
+                    grade: "Dewatering Barrier Film",
+                    badge: "Up to 24 Months Storage",
+                    benefits: [
+                      "Ultra-thin non-sticky film",
+                      "Fingerprint neutralization",
+                      "Easy removal with alkaline cleaner"
+                    ],
+                    link: "/products?cat=industrial"
+                  }
+                ]
+              },
+              {
+                id: "def",
+                title: "AdBlue DEF Emission Control",
+                subtitle: "ISO 22241 compliant 32.5% aqueous urea solution (AUS32)",
+                icon: "FlaskConical",
+                recommendations: [
+                  {
+                    name: "Lubricon AdBlue AUS32",
+                    grade: "ISO 22241 / DIN 70070",
+                    badge: "Pure Automotive DEF",
+                    benefits: [
+                      "99.9% catalytic SCR efficiency",
+                      "Prevents injector crystallization",
+                      "Certified urea concentration"
+                    ],
+                    link: "/products?cat=coolants"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   });
@@ -1026,24 +1244,37 @@ async function main() {
       type: 'AboutHero',
       order: 1,
       content: {
-        badge: "Pioneering Australian Formulation Technology",
-        heading: "Engineered for Peak Performance Under Demanding Indian Conditions",
-        narrative: "Lubricon Specialities India combines cutting-edge Australian lubrication science with deep engineering experience in Indian industrial and commercial operating realities. From high-ambient temperatures to heavy particulate loads, our formulations protect critical machinery and drive maximum operational efficiency."
-      }
-    }
-  });
-
-  await prisma.section.create({
-    data: {
-      pageId: aboutPage.id,
-      type: "AboutValues",
-      order: 2,
-      content: {
-        values: [
-          { title: "Australian Technology", desc: "Formulated using global best-practice additives and base stocks adapted for local conditions." },
-          { title: "Advanced R&D", desc: "Continuous research and development ensuring compatibility with latest OEM engine and gearbox specs." },
-          { title: "Proven Protection", desc: "Tested across severe plant environments — injection molding, paper mills, steel plants, and heavy fleet." },
-          { title: "Eco-Conscious Formulations", desc: "Low-emission diesel lubricants and AUS 32 AdBlue solutions supporting cleaner air standards." }
+        badge: "Australian Formulation Heritage • Indian Leadership",
+        heading: "Redefining Lubrication for Indian Industry",
+        narrative: "At Lubricon Specialities India, we engineer high-performance lubrication solutions that withstand extreme heat, high pressures, and punishing duty cycles. Powered by cutting-edge Australian formulations, we empower Indian manufacturers, fleet operators, and heavy industries to achieve peak uptime.",
+        secondaryText: "With dedicated technical engineers and a pan-India logistics network, we deliver customized audits, high-viscosity formulations, and responsive delivery directly to industrial plant gates.",
+        image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888280/lubricon/images/aboutlubricon.jpg",
+        officeBadge: "Lubricon India HQ",
+        cardTag: "Australian Technology",
+        cardSubtag: "Tailored for Indian Operations",
+        isoBadgeTitle: "ISO & API",
+        isoBadgeSub: "Certified",
+        tollFree: "1800 569 6363",
+        primaryBtnText: "Explore Products",
+        primaryBtnLink: "/products",
+        secondaryBtnText: "Request TDS & Quote",
+        secondaryBtnLink: "/contact",
+        valuePillars: [
+          {
+            title: "Australian R&D",
+            icon: "cpu",
+            desc: "International additive science tailored for local conditions."
+          },
+          {
+            title: "Zero-Wear Film",
+            icon: "shield",
+            desc: "Anti-wear barrier extending severe-duty machine life."
+          },
+          {
+            title: "40+ Formulations",
+            icon: "factory",
+            desc: "Speciality oils, greases, coolants, and neat fluids."
+          }
         ]
       }
     }
@@ -1053,13 +1284,15 @@ async function main() {
     data: {
       pageId: aboutPage.id,
       type: "AboutStats",
-      order: 3,
+      order: 2,
       content: {
+        heading: "Our Stats",
+        subtitle: "We help you to unleash the power within your machinery and industrial operations.",
         stats: [
-          { label: "Formulations Engineered", value: 45, suffix: "+" },
-          { label: "Plant Partners in India", value: 120, suffix: "+" },
-          { label: "Australian Additive Tech", value: 100, suffix: "%" },
-          { label: "Zero Equipment Downtime", value: 99.8, suffix: "%" }
+          { label: "Advanced Products", value: 40, suffix: "+" },
+          { label: "Active Clients", value: 800, suffix: "+" },
+          { label: "Years of Excellence", value: 15, suffix: "+" },
+          { label: "Quality Assurance", value: 100, suffix: "%" }
         ]
       }
     }
@@ -1068,14 +1301,29 @@ async function main() {
   await prisma.section.create({
     data: {
       pageId: aboutPage.id,
-      type: "AboutTimeline",
-      order: 4,
+      type: "AboutValues",
+      order: 3,
       content: {
-        milestones: [
-          { year: "2018", title: "Australian Tech Licensing", desc: "Signed collaborative technical agreement to bring heavy-duty Australian formulations to the subcontinent." },
-          { year: "2020", title: "Industrial Plant Validation", desc: "Successfully deployed neat cutting fluids and high-temp greases in premier plastic and automotive component plants." },
-          { year: "2023", title: "Euro 6 Diesel & AdBlue Expansion", desc: "Launched full CK-4 heavy diesel oil line and automated AUS 32 DEF blending lines." },
-          { year: "2026", title: "Pan-India Distribution Hub", desc: "Expanded direct technical audit service and nationwide regional hubs for guaranteed 48-hour delivery." }
+        badge: "Our Principles",
+        title: "What We Stand For",
+        subtitle: "Core commitments driving every barrel of lubricant formulated under the Lubricon standard.",
+        values: [
+          {
+            title: "Australian Technology",
+            desc: "Formulations rooted in Australian R&D, tailored and field-tested specifically for harsh Indian industrial environments."
+          },
+          {
+            title: "Uncompromising Quality",
+            desc: "Every batch undergoes rigorous quality testing adhering to international API, ISO 9001:2015, and OEM standards."
+          },
+          {
+            title: "Equipment Protection",
+            desc: "Designed to reduce friction, minimize heat, resist oxidation, and deliver extended drain intervals for peak machine uptime."
+          },
+          {
+            title: "Application Excellence",
+            desc: "We do not just sell lubricants — our technical engineering team provides custom lubrication audits and expert consultation."
+          }
         ]
       }
     }
@@ -1085,15 +1333,93 @@ async function main() {
     data: {
       pageId: aboutPage.id,
       type: "AboutPortfolio",
+      order: 4,
+      content: {
+        badge: "Comprehensive Range",
+        title: "Complete Lubrication Portfolio Summary",
+        subtitle: "High-performance formulations engineered for extreme industrial and automotive operating conditions.",
+        portfolios: [
+          {
+            title: "Engine Oils",
+            icon: "🛢️",
+            items: ["CK-4, CI-4 Plus, CI-4, CH-4, CF-4", "SAE 15W40 heavy duty multigrade range", "API-certified performance & soot control"],
+            link: "/products?cat=engine-oil"
+          },
+          {
+            title: "Gear Oils",
+            icon: "⚙️",
+            items: ["Automotive GL-5: 80W90, 85W140", "Industrial EP: ISO VG 100 to 680", "Hypoid, worm, and spur gear formulations"],
+            link: "/products?cat=gear-oil"
+          },
+          {
+            title: "ATF & Steering Fluids",
+            icon: "🔄",
+            items: ["Dexron III ATF automatic transmission", "ATF Type A for power steering systems", "Smooth gear engagement & seal protection"],
+            link: "/products?cat=atf"
+          },
+          {
+            title: "Industrial Specialties",
+            icon: "🏭",
+            items: ["Neat & Soluble CNC Cutting Oils", "High-Pressure Anti-Wear Hydraulic Oils", "VaccuSyn Vacuum Pump & Compressor Fluids"],
+            link: "/products?cat=industrial"
+          },
+          {
+            title: "DEF & Coolants",
+            icon: "💧",
+            items: ["ISO 22241 AdBlue 32.5% (AUS32)", "Heavy duty radiator coolants", "Euro 4/5/6 SCR emission compliance"],
+            link: "/products?cat=fluids"
+          },
+          {
+            title: "Greases & Maintenance",
+            icon: "🔧",
+            items: ["High-temperature lithium complex greases", "Moly extreme pressure chassis grease", "Wheel bearing & industrial ball bearing protection"],
+            link: "/products"
+          }
+        ]
+      }
+    }
+  });
+
+  await prisma.section.create({
+    data: {
+      pageId: aboutPage.id,
+      type: "AboutTimeline",
       order: 5,
       content: {
-        badge: "Modern Infrastructure",
-        heading: "World-Class Blending, Testing & Logistics Infrastructure",
-        description: "Our state-of-the-art facilities ensure that every drop of lubricant meets stringent international and Indian operational standards.",
-        facilities: [
-          { title: "Precision Laboratory", desc: "Spectrographic analysis, kinematic viscosity measurement, and 4-ball weld testing ensuring strict batch consistency.", tag: "Lab & Testing", image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888280/lubricon/images/aboutlubricon.jpg" },
-          { title: "Automated Blending Plant", desc: "High-capacity automated blending tanks utilizing Australian additive packages and premium base oils.", tag: "Manufacturing", image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888289/lubricon/images/industries-hero-banner.jpg" },
-          { title: "Centralized Logistics Hub", desc: "Climate-controlled warehousing and bulk 1,000L IBC dispatch fleet delivering reliably nationwide.", tag: "Distribution", image: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888287/lubricon/images/ind-steel.png" }
+        badge: "Our Journey",
+        title: "Over a Decade of Industrial Excellence",
+        subtitle: "The key milestones that built Lubricon into one of India’s most trusted specialty lubrication brands.",
+        milestones: [
+          {
+            year: "2014",
+            title: "Company Foundation",
+            description: "Lubricon Specialities India established with exclusive Australian formulation technology and licensing."
+          },
+          {
+            year: "2016",
+            title: "First Industrial Supply",
+            description: "Commenced commercial supply of heavy duty neat and soluble metalworking fluids to industrial manufacturers."
+          },
+          {
+            year: "2019",
+            title: "Pan-India Distribution",
+            description: "Expanded direct warehouse distribution network across 15+ states with dedicated technical field support."
+          },
+          {
+            year: "2022",
+            title: "AdBlue DEF Compliance",
+            description: "Introduced ISO 22241-standard AdBlue AUS32 for India Euro 6 emission standards and clean transport."
+          },
+          {
+            year: "2024",
+            title: "500+ Clients Milestone",
+            description: "Surpassed 500+ active enterprise clients across paper, steel, plastic injection, and fleet operations."
+          },
+          {
+            year: "2025",
+            title: "Next-Gen CK-4 Range",
+            description: "Rolled out latest API CK-4 and ACEA E9 low-SAPS high performance heavy diesel engine oils."
+          }
         ]
       }
     }
@@ -1105,10 +1431,15 @@ async function main() {
       type: "AboutCtaBanner",
       order: 6,
       content: {
-        title: "Ready to Upgrade Your Machinery Lubrication?",
-        subtitle: "Connect with our lubrication engineers for technical consultation, product recommendations, or on-site plant survey.",
-        btnText: "Request Technical Audit",
-        btnLink: "/industries",
+        heading: "Ready to Upgrade Your Industrial Lubrication?",
+        title: "Ready to Upgrade Your Industrial Lubrication?",
+        subtext: "Get customized quotation lists, bulk drum price rates, and engineering estimates for your machinery specifications. Request a quote or get product technical sheets directly from our lubrication specialists.",
+        subtitle: "Get customized quotation lists, bulk drum price rates, and engineering estimates for your machinery specifications. Request a quote or get product technical sheets directly from our lubrication specialists.",
+        buttonText: "Get Custom Quote",
+        btnText: "Get Custom Quote",
+        buttonLink: "/contact",
+        btnLink: "/contact",
+        phone: "1800 569 6363",
         helpline: "1800 569 6363"
       }
     }
@@ -1281,6 +1612,28 @@ async function main() {
           }
         ]
       }
+    }
+  });
+
+  // 8b. Products Page
+  await prisma.page.upsert({
+    where: { slug: "products" },
+    update: {
+      title: "All Products",
+      metaTitle: "All Lubricant Formulations & Products | Lubricon Specialities India",
+      metaDescription: "Explore our comprehensive range of industrial and automotive lubricants — powered by advanced Australian additive technology.",
+      targetKeywords: "lubricants india, diesel engine oil, gear oils, hydraulic oil, def adblue, australian lubricants",
+      visibility: "published",
+      isStatic: true
+    },
+    create: {
+      slug: "products",
+      title: "All Products",
+      metaTitle: "All Lubricant Formulations & Products | Lubricon Specialities India",
+      metaDescription: "Explore our comprehensive range of industrial and automotive lubricants — powered by advanced Australian additive technology.",
+      targetKeywords: "lubricants india, diesel engine oil, gear oils, hydraulic oil, def adblue, australian lubricants",
+      visibility: "published",
+      isStatic: true
     }
   });
 

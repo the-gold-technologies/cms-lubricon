@@ -27,28 +27,6 @@ interface HomeHeroSliderSectionProps {
   onToggle?: () => void;
 }
 
-const DEFAULT_SLIDES: HeroSlide[] = [
-  {
-    tagline: 'AUSTRALIAN TECHNOLOGY',
-    heading: 'High Performance Industrial Lubricants',
-    description: 'Engineered for extreme operating environments across Indian manufacturing and transport sectors.',
-    ctaText: 'Explore Products',
-    ctaLink: '/products',
-    secondaryCtaText: 'Request Technical Audit',
-    secondaryCtaLink: '/contact',
-    image: '/images/hero-factory.jpg',
-  },
-  {
-    tagline: 'NEXT-GEN FLEET SOLUTIONS',
-    heading: 'API CK-4 & CI-4 Plus Heavy Duty Engine Oils',
-    description: 'Maximizing uptime, protecting SCR & EGR emissions, and slashing total operating costs for modern fleets.',
-    ctaText: 'View Diesel Oils',
-    ctaLink: '/products?cat=engine-oil',
-    secondaryCtaText: 'Toll Free: 1800 569 6363',
-    secondaryCtaLink: 'tel:18005696363',
-    image: '/images/hero-fleet.jpg',
-  },
-];
 
 export function HomeHeroSliderSection({
   initialData,
@@ -58,9 +36,9 @@ export function HomeHeroSliderSection({
   const [internalOpen, setInternalOpen] = useState(true);
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
-  const [slides, setSlides] = useState<HeroSlide[]>(DEFAULT_SLIDES);
+  const [slides, setSlides] = useState<HeroSlide[]>([]);
   const [loading, setLoading] = useState(false);
-  const [openSlideIndex, setOpenSlideIndex] = useState<number | null>(0);
+  const [openSlideIndex, setOpenSlideIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (initialData?.slides && Array.isArray(initialData.slides) && initialData.slides.length > 0) {
@@ -80,14 +58,14 @@ export function HomeHeroSliderSection({
     setSlides((prev) => [
       ...prev,
       {
-        tagline: 'LUBRICON SPECIALITIES',
-        heading: 'Australian Precision Lubrication',
-        description: 'Advanced lubricants engineered for maximum machine uptime.',
-        ctaText: 'Explore Catalog',
-        ctaLink: '/products',
-        secondaryCtaText: 'Contact Helpline',
-        secondaryCtaLink: '/contact',
-        image: '/images/hero-factory.jpg',
+        tagline: '',
+        heading: '',
+        description: '',
+        ctaText: '',
+        ctaLink: '',
+        secondaryCtaText: '',
+        secondaryCtaLink: '',
+        image: '',
       },
     ]);
     setOpenSlideIndex(slides.length);

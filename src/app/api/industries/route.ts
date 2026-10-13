@@ -67,6 +67,46 @@ export async function PUT(request: Request) {
 
     let sectionsToSave: Record<string, any> = {};
 
+    if (Array.isArray(body.industries)) {
+      const incomingIds = body.industries.map((ind: any) => ind.id).filter(Boolean);
+      await prisma.industry.deleteMany({
+        where: { id: { notIn: incomingIds } },
+      });
+      for (let i = 0; i < body.industries.length; i++) {
+        const ind = body.industries[i];
+        const slug =
+          ind.slug ||
+          ind.name
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '') ||
+          `industry-${Date.now()}-${i}`;
+        const data = {
+          name: ind.name,
+          slug,
+          icon: ind.icon || null,
+          image: ind.image || null,
+          description: ind.description || '',
+          challenges: Array.isArray(ind.challenges) ? ind.challenges : [],
+          solutions: Array.isArray(ind.solutions) ? ind.solutions : [],
+          recommendedProducts: Array.isArray(ind.recommendedProducts) ? ind.recommendedProducts : [],
+          order: ind.order !== undefined ? Number(ind.order) : i,
+          isFeatured: ind.isFeatured !== undefined ? Boolean(ind.isFeatured) : true,
+        };
+        if (ind.id) {
+          await prisma.industry.upsert({
+            where: { id: ind.id },
+            update: data,
+            create: { id: ind.id, ...data },
+          });
+        } else {
+          await prisma.industry.create({
+            data,
+          });
+        }
+      }
+    }
+
     if (body.section && body.content !== undefined) {
       sectionsToSave[body.section] = body.content;
     } else if (body.sections && typeof body.sections === 'object') {

@@ -4,11 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/PageHeader';
 import {
   IndustriesHeroSection,
-  IndustryStageSection,
-  LessYouBurnImpactSection,
-  MachineryFeatureSection,
-  PlantProcessSection,
-  IndustriesConsultationCTA,
+  IndustriesListSection,
   IndustriesPlantSupportSection,
 } from './components';
 
@@ -39,7 +35,7 @@ export default function IndustriesPageEditor() {
     <section className="flex flex-col gap-8 pb-12">
       <PageHeader
         title="Industries Page Content"
-        description="Manage all live sections of the Industries page: Hero, Interactive Sector Lubrication Stages, Less You Burn Impact, Critical Machinery, 01-04 Workflow, and Technical Consultation CTA."
+        description="Manage the 3 live sections of the Industries page: Hero, Industries Breakdown List, and Plant Engineering Services & Support."
       />
 
       {/* 1. Hero */}
@@ -49,42 +45,14 @@ export default function IndustriesPageEditor() {
         onToggle={() => toggleSection('hero')}
       />
 
-      {/* 2. Sector Lubrication Stages */}
-      <IndustryStageSection
-        initialData={industriesData?.IndustryStageSection}
-        isOpen={openSection === 'stage'}
-        onToggle={() => toggleSection('stage')}
+      {/* 2. Industries Breakdown List */}
+      <IndustriesListSection
+        initialIndustries={industriesData?.industries}
+        isOpen={openSection === 'list'}
+        onToggle={() => toggleSection('list')}
       />
 
-      {/* 3. Less You Burn Impact */}
-      <LessYouBurnImpactSection
-        initialData={industriesData?.LessYouBurnImpactSection}
-        isOpen={openSection === 'impact'}
-        onToggle={() => toggleSection('impact')}
-      />
-
-      {/* 4. Critical Plant Machinery Deep-Dive */}
-      <MachineryFeatureSection
-        initialData={industriesData?.MachineryFeatureSection}
-        isOpen={openSection === 'machinery'}
-        onToggle={() => toggleSection('machinery')}
-      />
-
-      {/* 5. 01-04 Workflow */}
-      <PlantProcessSection
-        initialData={industriesData?.PlantProcessSection}
-        isOpen={openSection === 'process'}
-        onToggle={() => toggleSection('process')}
-      />
-
-      {/* 6. Technical Consultation CTA */}
-      <IndustriesConsultationCTA
-        initialData={industriesData?.IndustriesConsultationCTA}
-        isOpen={openSection === 'cta'}
-        onToggle={() => toggleSection('cta')}
-      />
-
-      {/* 7. Plant Engineering Services & Support Banner */}
+      {/* 3. Plant Engineering Services & Support Banner */}
       <IndustriesPlantSupportSection
         initialData={industriesData?.IndustriesPlantSupport}
         isOpen={openSection === 'support'}

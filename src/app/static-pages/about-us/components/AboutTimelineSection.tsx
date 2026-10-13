@@ -26,41 +26,10 @@ export function AboutTimelineSection({
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
-  const [badge, setBadge] = useState('Our Journey');
-  const [title, setTitle] = useState('Over a Decade of Industrial Excellence');
-  const [subtitle, setSubtitle] = useState('The key milestones that built Lubricon into one of India’s most trusted specialty lubrication brands.');
-  const [milestones, setMilestones] = useState<MilestoneItem[]>([
-    {
-      year: '2014',
-      title: 'Company Foundation',
-      description: 'Lubricon Specialities India established with exclusive Australian formulation technology and licensing.',
-    },
-    {
-      year: '2016',
-      title: 'First Industrial Supply',
-      description: 'Commenced commercial supply of heavy duty neat and soluble metalworking fluids to industrial manufacturers.',
-    },
-    {
-      year: '2019',
-      title: 'Pan-India Distribution',
-      description: 'Expanded direct warehouse distribution network across 15+ states with dedicated technical field support.',
-    },
-    {
-      year: '2022',
-      title: 'AdBlue DEF Compliance',
-      description: 'Introduced ISO 22241-standard AdBlue AUS32 for India Euro 6 emission standards and clean transport.',
-    },
-    {
-      year: '2024',
-      title: '500+ Clients Milestone',
-      description: 'Surpassed 500+ active enterprise clients across paper, steel, plastic injection, and fleet operations.',
-    },
-    {
-      year: '2025',
-      title: 'Next-Gen CK-4 Range',
-      description: 'Rolled out latest API CK-4 and ACEA E9 low-SAPS high performance heavy diesel engine oils.',
-    },
-  ]);
+  const [badge, setBadge] = useState('');
+  const [title, setTitle] = useState('');
+  const [subtitle, setSubtitle] = useState('');
+  const [milestones, setMilestones] = useState<MilestoneItem[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -83,7 +52,7 @@ export function AboutTimelineSection({
   const addMilestone = () => {
     setMilestones((prev) => [
       ...prev,
-      { year: '2026', title: 'New Milestone', description: 'Milestone description.' },
+      { year: '', title: '', description: '' },
     ]);
   };
 
