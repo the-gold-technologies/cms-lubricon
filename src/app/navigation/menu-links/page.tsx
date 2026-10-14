@@ -1,12 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import {
-  ChevronRight,
-  ChevronDown,
-  ExternalLink,
-  Loader2,
-} from 'lucide-react';
+import { ChevronRight, ChevronDown, ExternalLink, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
 
@@ -103,8 +98,8 @@ export default function MenuLinksPage() {
           Navigation Links
         </h1>
         <p className="text-sm text-slate-500 mt-1.5 font-normal">
-          View the active navigation structure, mega-menu links, and dropdown hierarchies displayed on
-          the Lubricon website.
+          View the active navigation structure, mega-menu links, and dropdown hierarchies displayed
+          on the Lubricon website.
         </p>
       </div>
 

@@ -10,10 +10,7 @@ cloudinary.config({
 export { cloudinary };
 
 // Default system assets that must never be deleted automatically
-const PROTECTED_PUBLIC_IDS = new Set([
-  'lubricon/images/logo',
-  'lubricon/favicon',
-]);
+const PROTECTED_PUBLIC_IDS = new Set(['lubricon/images/logo', 'lubricon/favicon']);
 
 export interface CloudinaryUrlInfo {
   resourceType: 'image' | 'raw' | 'video';

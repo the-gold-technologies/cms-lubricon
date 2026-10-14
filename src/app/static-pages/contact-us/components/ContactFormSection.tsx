@@ -47,12 +47,14 @@ export function ContactFormSection({
   useEffect(() => {
     if (initialData) {
       if (initialData.infoHeading !== undefined) setInfoHeading(initialData.infoHeading);
-      if (initialData.infoDescription !== undefined) setInfoDescription(initialData.infoDescription);
+      if (initialData.infoDescription !== undefined)
+        setInfoDescription(initialData.infoDescription);
       if (initialData.phone !== undefined) setPhone(initialData.phone);
       if (initialData.email !== undefined) setEmail(initialData.email);
       if (initialData.formTitle !== undefined) setFormTitle(initialData.formTitle);
       if (initialData.formSubtitle !== undefined) setFormSubtitle(initialData.formSubtitle);
-      if (initialData.submitButtonText !== undefined) setSubmitButtonText(initialData.submitButtonText);
+      if (initialData.submitButtonText !== undefined)
+        setSubmitButtonText(initialData.submitButtonText);
     }
   }, [initialData]);
 

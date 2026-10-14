@@ -1,1 +1,1 @@
-export { GET, PUT } from "../contact-us/route";
+export { GET, PUT } from '../contact-us/route';

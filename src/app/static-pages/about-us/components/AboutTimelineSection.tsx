@@ -50,10 +50,7 @@ export function AboutTimelineSection({
   };
 
   const addMilestone = () => {
-    setMilestones((prev) => [
-      ...prev,
-      { year: '', title: '', description: '' },
-    ]);
+    setMilestones((prev) => [...prev, { year: '', title: '', description: '' }]);
   };
 
   const removeMilestone = (index: number) => {
@@ -103,21 +100,39 @@ export function AboutTimelineSection({
       />
 
       <div
-        className={"grid transition-all duration-300 ease-in-out " + (isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
+        className={
+          'grid transition-all duration-300 ease-in-out ' +
+          (isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')
+        }
       >
         <div className="overflow-hidden">
           <div className="flex flex-col gap-6 pt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <InputField label="Badge Text" value={badge} onChange={(e) => setBadge(e.target.value)} />
-              <InputField label="Section Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+              <InputField
+                label="Badge Text"
+                value={badge}
+                onChange={(e) => setBadge(e.target.value)}
+              />
+              <InputField
+                label="Section Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
               <div className="md:col-span-2">
-                <TextAreaField label="Section Subtitle" value={subtitle} onChange={(e) => setSubtitle(e.target.value)} rows={2} />
+                <TextAreaField
+                  label="Section Subtitle"
+                  value={subtitle}
+                  onChange={(e) => setSubtitle(e.target.value)}
+                  rows={2}
+                />
               </div>
             </div>
 
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Milestones ({milestones.length})</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-gray-500">
+                  Milestones ({milestones.length})
+                </span>
                 <button
                   type="button"
                   onClick={addMilestone}
@@ -129,7 +144,10 @@ export function AboutTimelineSection({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {milestones.map((m, idx) => (
-                  <div key={idx} className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3 relative">
+                  <div
+                    key={idx}
+                    className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3 relative"
+                  >
                     <button
                       type="button"
                       onClick={() => removeMilestone(idx)}

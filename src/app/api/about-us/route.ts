@@ -7,7 +7,7 @@ const ABOUT_SLUG = 'about-us';
 export async function GET() {
   try {
     const page = await prisma.page.findFirst({
-      where: { slug: { in: ["about", "about-us"] } },
+      where: { slug: { in: ['about', 'about-us'] } },
       include: { sections: true },
     });
 
@@ -43,7 +43,7 @@ export async function PUT(request: Request) {
     const body = await request.json();
 
     const page = await prisma.page.upsert({
-      where: { slug: "about" },
+      where: { slug: 'about' },
       create: {
         title: 'About Us',
         slug: ABOUT_SLUG,

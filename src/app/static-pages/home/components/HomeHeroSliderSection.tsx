@@ -27,7 +27,6 @@ interface HomeHeroSliderSectionProps {
   onToggle?: () => void;
 }
 
-
 export function HomeHeroSliderSection({
   initialData,
   isOpen: controlledIsOpen,
@@ -107,15 +106,21 @@ export function HomeHeroSliderSection({
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xs border border-zinc-200">
-      <div onClick={handleToggle} className="flex items-center justify-between pb-6 border-b border-zinc-100 cursor-pointer select-none group">
+      <div
+        onClick={handleToggle}
+        className="flex items-center justify-between pb-6 border-b border-zinc-100 cursor-pointer select-none group"
+      >
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[#ffe000] text-black">
             <Layers className="w-5 h-5 stroke-[2.5]" />
           </div>
           <div>
-            <h2 className="text-lg font-black text-zinc-900 tracking-tight">1. Homepage Hero Slider</h2>
+            <h2 className="text-lg font-black text-zinc-900 tracking-tight">
+              1. Homepage Hero Slider
+            </h2>
             <p className="text-xs text-zinc-500 font-medium">
-              Manage carousel slides, Australian tech headlines, CTA buttons, and background banner photos.
+              Manage carousel slides, Australian tech headlines, CTA buttons, and background banner
+              photos.
             </p>
           </div>
         </div>
@@ -132,123 +137,144 @@ export function HomeHeroSliderSection({
             <Plus className="w-3.5 h-3.5" />
             Add Slide
           </button>
-          <div className={`w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 transition-transform duration-300 ${isOpen ? "rotate-180 bg-[#ffe000] text-black" : ""}`}>
+          <div
+            className={`w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 transition-transform duration-300 ${isOpen ? 'rotate-180 bg-[#ffe000] text-black' : ''}`}
+          >
             <ChevronDown className="w-4 h-4 stroke-[2.5]" />
           </div>
         </div>
       </div>
 
-      <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+      <div
+        className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+      >
         <div className="overflow-hidden">
           <form onSubmit={handleSubmit} className="mt-6 space-y-6">
-        <div className="space-y-4">
-          {slides.map((slide, idx) => {
-            const isOpen = openSlideIndex === idx;
-            return (
-              <div key={idx} className="border border-zinc-200 rounded-2xl overflow-hidden transition-all bg-zinc-50/60">
-                <div
-                  className="flex items-center justify-between px-5 py-3.5 cursor-pointer bg-zinc-100/70 hover:bg-zinc-100 select-none"
-                  onClick={() => setOpenSlideIndex(isOpen ? null : idx)}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="w-6 h-6 rounded-full bg-black text-[#ffe000] font-black text-xs flex items-center justify-center">
-                      {idx + 1}
-                    </span>
-                    <span className="text-sm font-extrabold text-zinc-900 truncate max-w-md">
-                      {slide.heading || `Slide ${idx + 1}`}
-                    </span>
-                    <span className="text-[10px] uppercase font-bold text-zinc-500 bg-white border border-zinc-200 px-2 py-0.5 rounded-full">
-                      {slide.tagline || 'SLIDE'}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleRemoveSlide(idx);
-                      }}
-                      className="p-1.5 text-zinc-400 hover:text-red-600 rounded-lg transition"
-                      title="Delete Slide"
+            <div className="space-y-4">
+              {slides.map((slide, idx) => {
+                const isOpen = openSlideIndex === idx;
+                return (
+                  <div
+                    key={idx}
+                    className="border border-zinc-200 rounded-2xl overflow-hidden transition-all bg-zinc-50/60"
+                  >
+                    <div
+                      className="flex items-center justify-between px-5 py-3.5 cursor-pointer bg-zinc-100/70 hover:bg-zinc-100 select-none"
+                      onClick={() => setOpenSlideIndex(isOpen ? null : idx)}
                     >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                    {isOpen ? <ChevronUp className="w-4 h-4 text-zinc-500" /> : <ChevronDown className="w-4 h-4 text-zinc-500" />}
-                  </div>
-                </div>
+                      <div className="flex items-center gap-3">
+                        <span className="w-6 h-6 rounded-full bg-black text-[#ffe000] font-black text-xs flex items-center justify-center">
+                          {idx + 1}
+                        </span>
+                        <span className="text-sm font-extrabold text-zinc-900 truncate max-w-md">
+                          {slide.heading || `Slide ${idx + 1}`}
+                        </span>
+                        <span className="text-[10px] uppercase font-bold text-zinc-500 bg-white border border-zinc-200 px-2 py-0.5 rounded-full">
+                          {slide.tagline || 'SLIDE'}
+                        </span>
+                      </div>
 
-                {isOpen && (
-                  <div className="p-5 space-y-4 bg-white border-t border-zinc-200">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <InputField
-                        label="Tagline / Badge Text"
-                        value={slide.tagline}
-                        onChange={(e) => handleSlideChange(idx, 'tagline', e.target.value)}
-                        placeholder="e.g. AUSTRALIAN TECHNOLOGY"
-                      />
-                      <InputField
-                        label="Main Slide Heading *"
-                        value={slide.heading}
-                        onChange={(e) => handleSlideChange(idx, 'heading', e.target.value)}
-                        placeholder="e.g. High Performance Industrial Lubricants"
-                        required
-                      />
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveSlide(idx);
+                          }}
+                          className="p-1.5 text-zinc-400 hover:text-red-600 rounded-lg transition"
+                          title="Delete Slide"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                        {isOpen ? (
+                          <ChevronUp className="w-4 h-4 text-zinc-500" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4 text-zinc-500" />
+                        )}
+                      </div>
                     </div>
 
-                    <TextAreaField
-                      label="Slide Subtitle Narrative"
-                      value={slide.description}
-                      onChange={(e) => handleSlideChange(idx, 'description', e.target.value)}
-                      rows={2}
-                      placeholder="e.g. Engineered for extreme operating environments across Indian manufacturing..."
-                    />
+                    {isOpen && (
+                      <div className="p-5 space-y-4 bg-white border-t border-zinc-200">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <InputField
+                            label="Tagline / Badge Text"
+                            value={slide.tagline}
+                            onChange={(e) => handleSlideChange(idx, 'tagline', e.target.value)}
+                            placeholder="e.g. AUSTRALIAN TECHNOLOGY"
+                          />
+                          <InputField
+                            label="Main Slide Heading *"
+                            value={slide.heading}
+                            onChange={(e) => handleSlideChange(idx, 'heading', e.target.value)}
+                            placeholder="e.g. High Performance Industrial Lubricants"
+                            required
+                          />
+                        </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                      <InputField
-                        label="Primary CTA Text"
-                        value={slide.ctaText}
-                        onChange={(e) => handleSlideChange(idx, 'ctaText', e.target.value)}
-                        placeholder="Explore Products"
-                      />
-                      <InputField
-                        label="Primary CTA Link"
-                        value={slide.ctaLink}
-                        onChange={(e) => handleSlideChange(idx, 'ctaLink', e.target.value)}
-                        placeholder="/products"
-                      />
-                      <InputField
-                        label="Secondary CTA Text"
-                        value={slide.secondaryCtaText}
-                        onChange={(e) => handleSlideChange(idx, 'secondaryCtaText', e.target.value)}
-                        placeholder="Request Technical Audit"
-                      />
-                      <InputField
-                        label="Secondary CTA Link"
-                        value={slide.secondaryCtaLink}
-                        onChange={(e) => handleSlideChange(idx, 'secondaryCtaLink', e.target.value)}
-                        placeholder="/contact"
-                      />
-                    </div>
+                        <TextAreaField
+                          label="Slide Subtitle Narrative"
+                          value={slide.description}
+                          onChange={(e) => handleSlideChange(idx, 'description', e.target.value)}
+                          rows={2}
+                          placeholder="e.g. Engineered for extreme operating environments across Indian manufacturing..."
+                        />
 
-                    <ImageUploadField
-                      label="Background Banner Image"
-                      images={slide.image ? [slide.image] : []}
-                      onImagesChange={(imgs) => handleSlideChange(idx, 'image', typeof imgs[0] === 'string' ? imgs[0] : '')}
-                      maxImages={1}
-                      tooltip="Upload high-res factory, plant, or fleet machinery photo."
-                    />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                          <InputField
+                            label="Primary CTA Text"
+                            value={slide.ctaText}
+                            onChange={(e) => handleSlideChange(idx, 'ctaText', e.target.value)}
+                            placeholder="Explore Products"
+                          />
+                          <InputField
+                            label="Primary CTA Link"
+                            value={slide.ctaLink}
+                            onChange={(e) => handleSlideChange(idx, 'ctaLink', e.target.value)}
+                            placeholder="/products"
+                          />
+                          <InputField
+                            label="Secondary CTA Text"
+                            value={slide.secondaryCtaText}
+                            onChange={(e) =>
+                              handleSlideChange(idx, 'secondaryCtaText', e.target.value)
+                            }
+                            placeholder="Request Technical Audit"
+                          />
+                          <InputField
+                            label="Secondary CTA Link"
+                            value={slide.secondaryCtaLink}
+                            onChange={(e) =>
+                              handleSlideChange(idx, 'secondaryCtaLink', e.target.value)
+                            }
+                            placeholder="/contact"
+                          />
+                        </div>
+
+                        <ImageUploadField
+                          label="Background Banner Image"
+                          images={slide.image ? [slide.image] : []}
+                          onImagesChange={(imgs) =>
+                            handleSlideChange(
+                              idx,
+                              'image',
+                              typeof imgs[0] === 'string' ? imgs[0] : ''
+                            )
+                          }
+                          maxImages={1}
+                          tooltip="Upload high-res factory, plant, or fleet machinery photo."
+                        />
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+                );
+              })}
+            </div>
 
-        <div className="flex justify-end pt-2">
-          <SaveButton loading={loading} label="Save Hero Slider" />
-        </div>
-      </form>
+            <div className="flex justify-end pt-2">
+              <SaveButton loading={loading} label="Save Hero Slider" />
+            </div>
+          </form>
         </div>
       </div>
     </div>

@@ -80,20 +80,44 @@ export function AboutCtaBannerSection({
       />
 
       <div
-        className={"grid transition-all duration-300 ease-in-out " + (isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
+        className={
+          'grid transition-all duration-300 ease-in-out ' +
+          (isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')
+        }
       >
         <div className="overflow-hidden">
           <div className="flex flex-col gap-6 pt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
-                <InputField label="Banner Headline" value={heading} onChange={(e) => setHeading(e.target.value)} />
+                <InputField
+                  label="Banner Headline"
+                  value={heading}
+                  onChange={(e) => setHeading(e.target.value)}
+                />
               </div>
               <div className="md:col-span-2">
-                <TextAreaField label="Supporting Paragraph" value={subtext} onChange={(e) => setSubtext(e.target.value)} rows={3} />
+                <TextAreaField
+                  label="Supporting Paragraph"
+                  value={subtext}
+                  onChange={(e) => setSubtext(e.target.value)}
+                  rows={3}
+                />
               </div>
-              <InputField label="Primary Button Text" value={buttonText} onChange={(e) => setButtonText(e.target.value)} />
-              <InputField label="Primary Button Link" value={buttonLink} onChange={(e) => setButtonLink(e.target.value)} />
-              <InputField label="Toll-Free Helpline Phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
+              <InputField
+                label="Primary Button Text"
+                value={buttonText}
+                onChange={(e) => setButtonText(e.target.value)}
+              />
+              <InputField
+                label="Primary Button Link"
+                value={buttonLink}
+                onChange={(e) => setButtonLink(e.target.value)}
+              />
+              <InputField
+                label="Toll-Free Helpline Phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
             </div>
 
             <div className="flex justify-end pt-4 border-t border-gray-100">

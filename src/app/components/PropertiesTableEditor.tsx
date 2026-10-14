@@ -48,7 +48,11 @@ export function PropertiesTableEditor({
     onChange(activeRows.filter((_, idx) => idx !== index));
   };
 
-  const handleUpdateCell = (index: number, field: 'property' | 'testMethod' | 'value', val: string) => {
+  const handleUpdateCell = (
+    index: number,
+    field: 'property' | 'testMethod' | 'value',
+    val: string
+  ) => {
     const updated = [...activeRows];
     updated[index] = { ...updated[index], [field]: val };
     onChange(updated);
@@ -72,7 +76,8 @@ export function PropertiesTableEditor({
 
       {activeRows.length === 0 ? (
         <div className="p-5 bg-gray-50 border border-dashed border-gray-300 rounded-2xl text-center text-xs text-gray-500">
-          No laboratory test specifications added yet. Click &quot;Add Spec Row&quot; to add parameter rows.
+          No laboratory test specifications added yet. Click &quot;Add Spec Row&quot; to add
+          parameter rows.
         </div>
       ) : (
         <div className="border border-gray-200 rounded-2xl overflow-hidden bg-white shadow-xs">

@@ -7,11 +7,11 @@ const CONTACT_SLUG = 'contact-us';
 export async function GET() {
   try {
     const page = await prisma.page.findFirst({
-      where: { slug: { in: ["contact-us", "contact"] } },
+      where: { slug: { in: ['contact-us', 'contact'] } },
       include: { sections: true },
     });
     const offices = await prisma.officeLocation.findMany({
-      orderBy: { order: "asc" },
+      orderBy: { order: 'asc' },
     });
 
     const sectionsMap: Record<string, any> = {};

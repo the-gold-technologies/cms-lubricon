@@ -82,8 +82,6 @@ export async function GET(
       }
     }
 
-
-
     if (!page) {
       return NextResponse.json({ success: false, error: 'Page not found' }, { status: 404 });
     }

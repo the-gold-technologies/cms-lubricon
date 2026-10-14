@@ -97,7 +97,8 @@ let mockPages: any[] = [
     visibility: 'published',
     isStatic: true,
     description: 'Multi-Brand Industrial & Automotive Lubricant Distributor.',
-    metaTitle: 'Lubricon Specialities India | Multi-Brand Industrial & Automotive Lubricant Distributor',
+    metaTitle:
+      'Lubricon Specialities India | Multi-Brand Industrial & Automotive Lubricant Distributor',
     metaDescription:
       'Established in 2008, trusted multi-brand lubricant distributor supplying industrial oils, automotive lubricants, and greases.',
     targetKeywords:

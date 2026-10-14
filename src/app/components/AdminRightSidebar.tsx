@@ -55,7 +55,8 @@ export function AdminRightSidebar({ stats, loading }: AdminRightSidebarProps) {
           Formulation Tech
         </h2>
         <p className="text-xs font-medium text-zinc-300 leading-relaxed max-w-[220px] mb-6">
-          Manage product specs, ISO grades, GeM/IREPS credentials, and client audit submissions in real time.
+          Manage product specs, ISO grades, GeM/IREPS credentials, and client audit submissions in
+          real time.
         </p>
         <Link
           href="/seo/global"

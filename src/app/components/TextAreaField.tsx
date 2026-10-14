@@ -18,7 +18,7 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
   value,
   ...props
 }) => {
-  const safeValue = value !== undefined && value !== null ? value : "";
+  const safeValue = value !== undefined && value !== null ? value : '';
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
@@ -104,7 +104,13 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
         </button>
       </div>
 
-      <textarea ref={textareaRef} rows={rows} className={textareaClass} value={safeValue} {...props} />
+      <textarea
+        ref={textareaRef}
+        rows={rows}
+        className={textareaClass}
+        value={safeValue}
+        {...props}
+      />
 
       {/* Styled Inline Link Dialog/Modal */}
       {showLinkModal && (

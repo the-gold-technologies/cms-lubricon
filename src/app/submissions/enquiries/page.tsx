@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { PageHeader } from "@/components/PageHeader";
+import { useState, useEffect } from 'react';
+import { PageHeader } from '@/components/PageHeader';
 import {
   Search,
   Loader2,
@@ -20,10 +20,10 @@ import {
   X,
   Trash2,
   CheckCircle,
-} from "lucide-react";
-import { InputField } from "@/components/InputField";
-import { LoadingIndicator } from "@/components/LoadingIndicator";
-import toast from "react-hot-toast";
+} from 'lucide-react';
+import { InputField } from '@/components/InputField';
+import { LoadingIndicator } from '@/components/LoadingIndicator';
+import toast from 'react-hot-toast';
 
 interface Enquiry {
   id: string;
@@ -48,8 +48,8 @@ interface Enquiry {
 export default function EnquiriesCMSPage() {
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [typeFilter, setTypeFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [typeFilter, setTypeFilter] = useState('all');
   const [activeMessage, setActiveMessage] = useState<Enquiry | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
@@ -57,15 +57,15 @@ export default function EnquiriesCMSPage() {
   const fetchEnquiries = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api/enquiries");
+      const res = await fetch('/api/enquiries');
       const json = await res.json();
       if (json.success) {
         setEnquiries(json.data || []);
       } else {
-        toast.error(json.error || "Failed to fetch enquiries");
+        toast.error(json.error || 'Failed to fetch enquiries');
       }
     } catch {
-      toast.error("Network error while loading enquiries");
+      toast.error('Network error while loading enquiries');
     } finally {
       setIsLoading(false);
     }
@@ -77,27 +77,25 @@ export default function EnquiriesCMSPage() {
 
   const handleDeleteEnquiry = async (id: string) => {
     if (
-      !window.confirm(
-        "Are you sure you want to delete this enquiry? This action cannot be undone."
-      )
+      !window.confirm('Are you sure you want to delete this enquiry? This action cannot be undone.')
     ) {
       return;
     }
     setIsDeleting(true);
     try {
       const res = await fetch(`/api/enquiries?id=${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
       });
       const json = await res.json();
       if (json.success) {
-        toast.success("Enquiry deleted successfully");
+        toast.success('Enquiry deleted successfully');
         setEnquiries((prev) => prev.filter((e) => e.id !== id));
         setActiveMessage(null);
       } else {
-        toast.error(json.error || "Failed to delete enquiry");
+        toast.error(json.error || 'Failed to delete enquiry');
       }
     } catch {
-      toast.error("Network error while deleting enquiry");
+      toast.error('Network error while deleting enquiry');
     } finally {
       setIsDeleting(false);
     }
@@ -106,45 +104,43 @@ export default function EnquiriesCMSPage() {
   const handleUpdateStatus = async (id: string, newStatus: string) => {
     setIsUpdatingStatus(true);
     try {
-      const res = await fetch("/api/enquiries", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/enquiries', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, status: newStatus }),
       });
       const json = await res.json();
       if (json.success) {
         toast.success(`Status updated to ${newStatus}`);
-        setEnquiries((prev) =>
-          prev.map((e) => (e.id === id ? { ...e, status: newStatus } : e))
-        );
+        setEnquiries((prev) => prev.map((e) => (e.id === id ? { ...e, status: newStatus } : e)));
         if (activeMessage && activeMessage.id === id) {
           setActiveMessage({ ...activeMessage, status: newStatus });
         }
       } else {
-        toast.error(json.error || "Failed to update status");
+        toast.error(json.error || 'Failed to update status');
       }
     } catch {
-      toast.error("Network error while updating status");
+      toast.error('Network error while updating status');
     } finally {
       setIsUpdatingStatus(false);
     }
   };
 
   const getTypeBadgeClass = (type?: string) => {
-    const t = (type || "").toLowerCase();
-    if (t.includes("audit")) {
-      return "bg-purple-50 text-purple-700 border-purple-200";
+    const t = (type || '').toLowerCase();
+    if (t.includes('audit')) {
+      return 'bg-purple-50 text-purple-700 border-purple-200';
     }
-    if (t.includes("quote")) {
-      return "bg-amber-50 text-amber-700 border-amber-200";
+    if (t.includes('quote')) {
+      return 'bg-amber-50 text-amber-700 border-amber-200';
     }
-    if (t.includes("callback")) {
-      return "bg-emerald-50 text-emerald-700 border-emerald-200";
+    if (t.includes('callback')) {
+      return 'bg-emerald-50 text-emerald-700 border-emerald-200';
     }
-    if (t.includes("price list")) {
-      return "bg-sky-50 text-sky-700 border-sky-200";
+    if (t.includes('price list')) {
+      return 'bg-sky-50 text-sky-700 border-sky-200';
     }
-    return "bg-blue-50 text-blue-700 border-blue-200";
+    return 'bg-blue-50 text-blue-700 border-blue-200';
   };
 
   const filtered = enquiries.filter((e) => {
@@ -157,8 +153,7 @@ export default function EnquiriesCMSPage() {
       (e.type && e.type.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const matchesType =
-      typeFilter === "all" ||
-      (e.type && e.type.toLowerCase().includes(typeFilter.toLowerCase()));
+      typeFilter === 'all' || (e.type && e.type.toLowerCase().includes(typeFilter.toLowerCase()));
 
     return matchesSearch && matchesType;
   });
@@ -182,18 +177,18 @@ export default function EnquiriesCMSPage() {
         />
 
         <div className="flex items-center gap-2">
-          {["all", "audit", "quote", "callback", "contact"].map((filter) => (
+          {['all', 'audit', 'quote', 'callback', 'contact'].map((filter) => (
             <button
               key={filter}
               type="button"
               onClick={() => setTypeFilter(filter)}
               className={`px-3 py-1.5 rounded-full text-xs font-bold capitalize transition-all ${
                 typeFilter === filter
-                  ? "bg-[#0b1329] text-white shadow-sm"
-                  : "bg-white text-zinc-600 border border-zinc-200 hover:bg-zinc-50"
+                  ? 'bg-[#0b1329] text-white shadow-sm'
+                  : 'bg-white text-zinc-600 border border-zinc-200 hover:bg-zinc-50'
               }`}
             >
-              {filter === "all" ? "All Submissions" : filter}
+              {filter === 'all' ? 'All Submissions' : filter}
             </button>
           ))}
         </div>
@@ -247,7 +242,7 @@ export default function EnquiriesCMSPage() {
                             enquiry.type
                           )}`}
                         >
-                          {enquiry.type || "General Enquiry"}
+                          {enquiry.type || 'General Enquiry'}
                         </span>
                         <span className="font-bold text-gray-900 flex items-center gap-2 mt-1">
                           <User className="w-3.5 h-3.5 text-gray-400" />
@@ -296,25 +291,25 @@ export default function EnquiriesCMSPage() {
                     <td className="px-6 py-5">
                       <span
                         className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold ${
-                          enquiry.status === "Resolved"
-                            ? "bg-green-100 text-green-700"
-                            : enquiry.status === "Contacted"
-                            ? "bg-blue-100 text-blue-700"
-                            : enquiry.status === "In Review"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : "bg-zinc-100 text-zinc-700"
+                          enquiry.status === 'Resolved'
+                            ? 'bg-green-100 text-green-700'
+                            : enquiry.status === 'Contacted'
+                              ? 'bg-blue-100 text-blue-700'
+                              : enquiry.status === 'In Review'
+                                ? 'bg-yellow-100 text-yellow-800'
+                                : 'bg-zinc-100 text-zinc-700'
                         }`}
                       >
-                        {enquiry.status || "Pending"}
+                        {enquiry.status || 'Pending'}
                       </span>
                     </td>
                     <td className="px-6 py-5 text-[13px] text-gray-500 font-medium">
                       <div className="flex items-center gap-2">
                         <Calendar className="w-3.5 h-3.5 text-gray-400" />
-                        {new Date(enquiry.createdAt).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
+                        {new Date(enquiry.createdAt).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
                         })}
                       </div>
                     </td>
@@ -349,15 +344,13 @@ export default function EnquiriesCMSPage() {
                       activeMessage.type
                     )}`}
                   >
-                    {activeMessage.type || "General Enquiry"}
+                    {activeMessage.type || 'General Enquiry'}
                   </span>
-                  <span className="text-xs text-gray-400">
-                    ID: {activeMessage.id.slice(-6)}
-                  </span>
+                  <span className="text-xs text-gray-400">ID: {activeMessage.id.slice(-6)}</span>
                 </div>
                 <h3 className="font-bold text-xl text-[#0B0F29]">{activeMessage.name}</h3>
                 <p className="text-xs text-gray-500 mt-0.5">
-                  {activeMessage.email} &bull; {activeMessage.phone || "No phone provided"}
+                  {activeMessage.email} &bull; {activeMessage.phone || 'No phone provided'}
                 </p>
               </div>
               <button
@@ -453,7 +446,7 @@ export default function EnquiriesCMSPage() {
                 </span>
                 <span className="font-semibold text-gray-800 flex items-center gap-1.5 mt-0.5">
                   <Calendar className="w-3.5 h-3.5 text-zinc-400" />
-                  {new Date(activeMessage.createdAt).toLocaleString("en-US")}
+                  {new Date(activeMessage.createdAt).toLocaleString('en-US')}
                 </span>
               </div>
             </div>
@@ -463,7 +456,7 @@ export default function EnquiriesCMSPage() {
                 Submission Message / Details
               </span>
               <p className="p-4 rounded-2xl bg-gray-50 border border-gray-100 text-gray-800 leading-relaxed text-sm whitespace-pre-wrap">
-                {activeMessage.message || "No additional message text was submitted."}
+                {activeMessage.message || 'No additional message text was submitted.'}
               </p>
             </div>
 
@@ -474,7 +467,7 @@ export default function EnquiriesCMSPage() {
                 Update Status:
               </span>
               <div className="flex items-center gap-2">
-                {["Pending", "In Review", "Contacted", "Resolved"].map((status) => (
+                {['Pending', 'In Review', 'Contacted', 'Resolved'].map((status) => (
                   <button
                     key={status}
                     type="button"
@@ -482,8 +475,8 @@ export default function EnquiriesCMSPage() {
                     onClick={() => handleUpdateStatus(activeMessage.id, status)}
                     className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       activeMessage.status === status
-                        ? "bg-[#0b1329] text-white shadow-xs"
-                        : "bg-white text-zinc-600 border border-zinc-200 hover:bg-zinc-100"
+                        ? 'bg-[#0b1329] text-white shadow-xs'
+                        : 'bg-white text-zinc-600 border border-zinc-200 hover:bg-zinc-100'
                     }`}
                   >
                     {status}
@@ -500,7 +493,7 @@ export default function EnquiriesCMSPage() {
                 className="px-4 py-2.5 rounded-full font-bold text-xs text-red-600 hover:bg-red-50 transition-colors cursor-pointer inline-flex items-center gap-1.5 border border-red-200 hover:border-red-300 disabled:opacity-50"
               >
                 <Trash2 className="w-4 h-4" />
-                {isDeleting ? "Deleting..." : "Delete Enquiry"}
+                {isDeleting ? 'Deleting...' : 'Delete Enquiry'}
               </button>
 
               <button

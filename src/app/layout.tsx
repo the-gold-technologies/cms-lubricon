@@ -55,10 +55,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${inter.variable} antialiased bg-[#f4f5f7]`}
-        suppressHydrationWarning
-      >
+      <body className={`${inter.variable} antialiased bg-[#f4f5f7]`} suppressHydrationWarning>
         <SessionProvider session={session}>
           {session ? (
             <div className="flex h-screen overflow-hidden font-sans p-[6px]">

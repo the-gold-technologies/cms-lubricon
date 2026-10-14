@@ -71,16 +71,16 @@ export function AboutPortfolioSection({
   const removeBullet = (cardIdx: number, bulletIdx: number) => {
     setPortfolios((prev) => {
       const copy = [...prev];
-      copy[cardIdx] = { ...copy[cardIdx], items: copy[cardIdx].items.filter((_, i) => i !== bulletIdx) };
+      copy[cardIdx] = {
+        ...copy[cardIdx],
+        items: copy[cardIdx].items.filter((_, i) => i !== bulletIdx),
+      };
       return copy;
     });
   };
 
   const addCard = () => {
-    setPortfolios((prev) => [
-      ...prev,
-      { title: '', icon: '', items: [], link: '' },
-    ]);
+    setPortfolios((prev) => [...prev, { title: '', icon: '', items: [], link: '' }]);
   };
 
   const removeCard = (index: number) => {
@@ -130,24 +130,45 @@ export function AboutPortfolioSection({
       />
 
       <div
-        className={"grid transition-all duration-300 ease-in-out " + (isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
+        className={
+          'grid transition-all duration-300 ease-in-out ' +
+          (isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')
+        }
       >
         <div className="overflow-hidden">
           <div className="flex flex-col gap-6 pt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <InputField label="Badge Text" value={badge} onChange={(e) => setBadge(e.target.value)} />
-              <InputField label="Section Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+              <InputField
+                label="Badge Text"
+                value={badge}
+                onChange={(e) => setBadge(e.target.value)}
+              />
+              <InputField
+                label="Section Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
               <div className="md:col-span-2">
-                <TextAreaField label="Section Subtitle" value={subtitle} onChange={(e) => setSubtitle(e.target.value)} rows={2} />
+                <TextAreaField
+                  label="Section Subtitle"
+                  value={subtitle}
+                  onChange={(e) => setSubtitle(e.target.value)}
+                  rows={2}
+                />
               </div>
             </div>
 
             <div className="space-y-6">
-              <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Portfolio Cards ({portfolios.length})</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-gray-500">
+                Portfolio Cards ({portfolios.length})
+              </span>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {portfolios.map((item, cIdx) => (
-                  <div key={cIdx} className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3">
+                  <div
+                    key={cIdx}
+                    className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3"
+                  >
                     <InputField
                       label="Category Title"
                       value={item.title}
@@ -166,7 +187,9 @@ export function AboutPortfolioSection({
 
                     <div className="space-y-2 pt-2 border-t border-gray-200">
                       <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-bold text-gray-500">Bullet Highlights</span>
+                        <span className="text-[11px] font-bold text-gray-500">
+                          Bullet Highlights
+                        </span>
                         <button
                           type="button"
                           onClick={() => addBullet(cIdx)}

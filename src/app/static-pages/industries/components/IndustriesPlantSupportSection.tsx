@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { Wrench, Plus, Trash2, ChevronDown } from "lucide-react";
-import { SectionHeader } from "@/components/SectionHeader";
-import { InputField } from "@/components/InputField";
-import { TextAreaField } from "@/components/TextAreaField";
-import { SaveButton } from "@/components/SaveButton";
+import React, { useState, useEffect } from 'react';
+import { Wrench, Plus, Trash2, ChevronDown } from 'lucide-react';
+import { SectionHeader } from '@/components/SectionHeader';
+import { InputField } from '@/components/InputField';
+import { TextAreaField } from '@/components/TextAreaField';
+import { SaveButton } from '@/components/SaveButton';
 
 export interface PlantServiceItem {
   title: string;
@@ -29,15 +29,15 @@ export function IndustriesPlantSupportSection({
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
 
-  const [badge, setBadge] = useState("");
-  const [heading, setHeading] = useState("");
-  const [description, setDescription] = useState("");
+  const [badge, setBadge] = useState('');
+  const [heading, setHeading] = useState('');
+  const [description, setDescription] = useState('');
   const [services, setServices] = useState<PlantServiceItem[]>([]);
-  const [consultationBadge, setConsultationBadge] = useState("");
-  const [consultationTitle, setConsultationTitle] = useState("");
-  const [consultationDesc, setConsultationDesc] = useState("");
-  const [callbackBtnText, setCallbackBtnText] = useState("");
-  const [callNumber, setCallNumber] = useState("");
+  const [consultationBadge, setConsultationBadge] = useState('');
+  const [consultationTitle, setConsultationTitle] = useState('');
+  const [consultationDesc, setConsultationDesc] = useState('');
+  const [callbackBtnText, setCallbackBtnText] = useState('');
+  const [callNumber, setCallNumber] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -48,10 +48,14 @@ export function IndustriesPlantSupportSection({
       if (initialData.heading !== undefined) setHeading(initialData.heading);
       if (initialData.description !== undefined) setDescription(initialData.description);
       if (Array.isArray(initialData.services)) setServices(initialData.services);
-      if (initialData.consultationBadge !== undefined) setConsultationBadge(initialData.consultationBadge);
-      if (initialData.consultationTitle !== undefined) setConsultationTitle(initialData.consultationTitle);
-      if (initialData.consultationDesc !== undefined) setConsultationDesc(initialData.consultationDesc);
-      if (initialData.callbackBtnText !== undefined) setCallbackBtnText(initialData.callbackBtnText);
+      if (initialData.consultationBadge !== undefined)
+        setConsultationBadge(initialData.consultationBadge);
+      if (initialData.consultationTitle !== undefined)
+        setConsultationTitle(initialData.consultationTitle);
+      if (initialData.consultationDesc !== undefined)
+        setConsultationDesc(initialData.consultationDesc);
+      if (initialData.callbackBtnText !== undefined)
+        setCallbackBtnText(initialData.callbackBtnText);
       if (initialData.callNumber !== undefined) setCallNumber(initialData.callNumber);
     }
   }, [initialData]);
@@ -68,10 +72,10 @@ export function IndustriesPlantSupportSection({
     setServices((prev) => [
       ...prev,
       {
-        title: "",
-        desc: "",
-        tag: "",
-        deliverable: "",
+        title: '',
+        desc: '',
+        tag: '',
+        deliverable: '',
       },
     ]);
   };
@@ -98,16 +102,16 @@ export function IndustriesPlantSupportSection({
       if (onSave) {
         await onSave(payload);
       } else {
-        const res = await fetch("/api/industries", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
+        const res = await fetch('/api/industries', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            section: "IndustriesPlantSupport",
+            section: 'IndustriesPlantSupport',
             content: payload,
           }),
         });
         const json = await res.json();
-        if (!json.success) throw new Error(json.error || "Failed to save");
+        if (!json.success) throw new Error(json.error || 'Failed to save');
       }
 
       setSaved(true);
@@ -139,7 +143,7 @@ export function IndustriesPlantSupportSection({
 
         <div
           className={`w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 transition-transform duration-300 ${
-            isOpen ? "rotate-180 bg-[#ffe000] text-black" : ""
+            isOpen ? 'rotate-180 bg-[#ffe000] text-black' : ''
           }`}
         >
           <ChevronDown className="w-4 h-4 stroke-[2.5]" />
@@ -148,7 +152,7 @@ export function IndustriesPlantSupportSection({
 
       <div
         className={`grid transition-all duration-300 ease-in-out ${
-          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
         }`}
       >
         <div className="overflow-hidden">
@@ -214,13 +218,13 @@ export function IndustriesPlantSupportSection({
                       <InputField
                         label="Service Title"
                         value={srv.title}
-                        onChange={(e) => handleUpdateService(idx, "title", e.target.value)}
+                        onChange={(e) => handleUpdateService(idx, 'title', e.target.value)}
                         placeholder="Service name..."
                       />
                       <InputField
                         label="Category Tag"
                         value={srv.tag}
-                        onChange={(e) => handleUpdateService(idx, "tag", e.target.value)}
+                        onChange={(e) => handleUpdateService(idx, 'tag', e.target.value)}
                         placeholder="Site Survey, Lab, etc."
                       />
                     </div>
@@ -228,14 +232,14 @@ export function IndustriesPlantSupportSection({
                     <InputField
                       label="Deliverable Badge"
                       value={srv.deliverable}
-                      onChange={(e) => handleUpdateService(idx, "deliverable", e.target.value)}
+                      onChange={(e) => handleUpdateService(idx, 'deliverable', e.target.value)}
                       placeholder="Machine Audit & Friction Map Report"
                     />
 
                     <TextAreaField
                       label="Description"
                       value={srv.desc}
-                      onChange={(e) => handleUpdateService(idx, "desc", e.target.value)}
+                      onChange={(e) => handleUpdateService(idx, 'desc', e.target.value)}
                       rows={2}
                     />
                   </div>

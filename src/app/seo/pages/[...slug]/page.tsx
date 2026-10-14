@@ -184,11 +184,7 @@ export default function PageSpecificSEODetail() {
               <span>View Live Page</span>
               <ExternalLink className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#002B5C] transition-colors" />
             </a>
-            <SaveButton
-              onClick={handleSave}
-              disabled={isSaving}
-              className="w-auto px-8 shrink-0"
-            />
+            <SaveButton onClick={handleSave} disabled={isSaving} className="w-auto px-8 shrink-0" />
           </div>
         </div>
       </div>

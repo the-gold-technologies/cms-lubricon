@@ -4,15 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { SaveButton } from '@/components/SaveButton';
 import { InputField } from '@/components/InputField';
 import { TextAreaField } from '@/components/TextAreaField';
-import {
-  Compass,
-  ChevronDown,
-  Layers,
-  Plus,
-  Trash2,
-  Wrench,
-  Sparkles,
-} from 'lucide-react';
+import { Compass, ChevronDown, Layers, Plus, Trash2, Wrench, Sparkles } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export interface RecommendationItem {
@@ -179,7 +171,10 @@ export function HomeLubricantFinderSection({
       updated[catIdx] = { ...updated[catIdx], equipment: eqList };
       return updated;
     });
-    setExpandedEq((prev) => ({ ...prev, [`${catIdx}-${(categories[catIdx]?.equipment?.length || 0)}`]: true }));
+    setExpandedEq((prev) => ({
+      ...prev,
+      [`${catIdx}-${categories[catIdx]?.equipment?.length || 0}`]: true,
+    }));
   };
 
   const handleRemoveEquipment = (catIdx: number, eqIdx: number) => {
@@ -294,7 +289,8 @@ export function HomeLubricantFinderSection({
               7. Lubricant Finder Advisor
             </h2>
             <p className="text-xs text-zinc-500 font-medium">
-              Manage all 3 steps: Step 1 Categories, Step 2 Equipment, and Step 3 Formulation Recommendations.
+              Manage all 3 steps: Step 1 Categories, Step 2 Equipment, and Step 3 Formulation
+              Recommendations.
             </p>
           </div>
         </div>
@@ -392,9 +388,7 @@ export function HomeLubricantFinderSection({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-zinc-700">
                   <Layers className="w-4 h-4 text-zinc-500" />
-                  <span>
-                    Step 1: Application Category Domains ({categories.length})
-                  </span>
+                  <span>Step 1: Application Category Domains ({categories.length})</span>
                 </div>
                 <button
                   type="button"
@@ -461,34 +455,26 @@ export function HomeLubricantFinderSection({
                           <InputField
                             label="Category ID (e.g. automotive)"
                             value={cat.id || ''}
-                            onChange={(e) =>
-                              handleCategoryChange(catIdx, 'id', e.target.value)
-                            }
+                            onChange={(e) => handleCategoryChange(catIdx, 'id', e.target.value)}
                             required
                           />
                           <InputField
                             label="Category Title *"
                             value={cat.title || ''}
-                            onChange={(e) =>
-                              handleCategoryChange(catIdx, 'title', e.target.value)
-                            }
+                            onChange={(e) => handleCategoryChange(catIdx, 'title', e.target.value)}
                             required
                           />
                           <InputField
                             label="Icon Name (Truck, Factory, FlaskConical, Settings)"
                             value={cat.icon || ''}
-                            onChange={(e) =>
-                              handleCategoryChange(catIdx, 'icon', e.target.value)
-                            }
+                            onChange={(e) => handleCategoryChange(catIdx, 'icon', e.target.value)}
                           />
                         </div>
 
                         <TextAreaField
                           label="Category Subtitle"
                           value={cat.subtitle || ''}
-                          onChange={(e) =>
-                            handleCategoryChange(catIdx, 'subtitle', e.target.value)
-                          }
+                          onChange={(e) => handleCategoryChange(catIdx, 'subtitle', e.target.value)}
                           rows={2}
                         />
 
@@ -499,7 +485,8 @@ export function HomeLubricantFinderSection({
                               <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-zinc-800">
                                 <Wrench className="w-3.5 h-3.5 text-zinc-600" />
                                 <span>
-                                  Step 2: Equipment / Machinery for &ldquo;{cat.title || 'Category'}&rdquo; ({(cat.equipment || []).length})
+                                  Step 2: Equipment / Machinery for &ldquo;{cat.title || 'Category'}
+                                  &rdquo; ({(cat.equipment || []).length})
                                 </span>
                               </div>
                               <button
@@ -514,7 +501,8 @@ export function HomeLubricantFinderSection({
 
                             {(cat.equipment || []).length === 0 ? (
                               <div className="p-4 rounded-xl bg-white border border-dashed border-zinc-300 text-center text-xs text-zinc-500">
-                                No equipment types defined. Click &ldquo;Add Equipment&rdquo; to add Step 2 machinery cards.
+                                No equipment types defined. Click &ldquo;Add Equipment&rdquo; to add
+                                Step 2 machinery cards.
                               </div>
                             ) : (
                               <div className="space-y-3">
@@ -571,7 +559,12 @@ export function HomeLubricantFinderSection({
                                           label="Equipment ID (e.g. diesel-heavy)"
                                           value={eq.id || ''}
                                           onChange={(e) =>
-                                            handleEquipmentChange(catIdx, eqIdx, 'id', e.target.value)
+                                            handleEquipmentChange(
+                                              catIdx,
+                                              eqIdx,
+                                              'id',
+                                              e.target.value
+                                            )
                                           }
                                           required
                                         />
@@ -579,7 +572,12 @@ export function HomeLubricantFinderSection({
                                           label="Equipment Title *"
                                           value={eq.title || ''}
                                           onChange={(e) =>
-                                            handleEquipmentChange(catIdx, eqIdx, 'title', e.target.value)
+                                            handleEquipmentChange(
+                                              catIdx,
+                                              eqIdx,
+                                              'title',
+                                              e.target.value
+                                            )
                                           }
                                           required
                                         />
@@ -587,7 +585,12 @@ export function HomeLubricantFinderSection({
                                           label="Equipment Subtitle"
                                           value={eq.subtitle || ''}
                                           onChange={(e) =>
-                                            handleEquipmentChange(catIdx, eqIdx, 'subtitle', e.target.value)
+                                            handleEquipmentChange(
+                                              catIdx,
+                                              eqIdx,
+                                              'subtitle',
+                                              e.target.value
+                                            )
                                           }
                                         />
                                       </div>
@@ -599,7 +602,8 @@ export function HomeLubricantFinderSection({
                                             <div className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-zinc-700">
                                               <Sparkles className="w-3 h-3 text-[#ffe000]" />
                                               <span>
-                                                Step 3: Recommended Formulations ({(eq.recommendations || []).length})
+                                                Step 3: Recommended Formulations (
+                                                {(eq.recommendations || []).length})
                                               </span>
                                             </div>
                                             <button
@@ -625,12 +629,17 @@ export function HomeLubricantFinderSection({
                                                 >
                                                   <div className="flex items-center justify-between">
                                                     <span className="text-[11px] font-black text-zinc-800">
-                                                      Formulation #{recIdx + 1}: {rec.name || 'New Product'}
+                                                      Formulation #{recIdx + 1}:{' '}
+                                                      {rec.name || 'New Product'}
                                                     </span>
                                                     <button
                                                       type="button"
                                                       onClick={() =>
-                                                        handleRemoveRecommendation(catIdx, eqIdx, recIdx)
+                                                        handleRemoveRecommendation(
+                                                          catIdx,
+                                                          eqIdx,
+                                                          recIdx
+                                                        )
                                                       }
                                                       className="text-zinc-400 hover:text-red-600 transition"
                                                       title="Remove Formulation"

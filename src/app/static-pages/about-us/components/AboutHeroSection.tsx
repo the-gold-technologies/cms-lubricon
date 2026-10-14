@@ -60,8 +60,10 @@ export function AboutHeroSection({
       if (initialData.tollFree !== undefined) setTollFree(initialData.tollFree);
       if (initialData.primaryBtnText !== undefined) setPrimaryBtnText(initialData.primaryBtnText);
       if (initialData.primaryBtnLink !== undefined) setPrimaryBtnLink(initialData.primaryBtnLink);
-      if (initialData.secondaryBtnText !== undefined) setSecondaryBtnText(initialData.secondaryBtnText);
-      if (initialData.secondaryBtnLink !== undefined) setSecondaryBtnLink(initialData.secondaryBtnLink);
+      if (initialData.secondaryBtnText !== undefined)
+        setSecondaryBtnText(initialData.secondaryBtnText);
+      if (initialData.secondaryBtnLink !== undefined)
+        setSecondaryBtnLink(initialData.secondaryBtnLink);
       if (Array.isArray(initialData.valuePillars)) setValuePillars(initialData.valuePillars);
     }
   }, [initialData]);
@@ -86,7 +88,10 @@ export function AboutHeroSection({
     setLoading(true);
     try {
       const firstImg = images[0];
-      const imageStr = typeof firstImg === 'string' ? firstImg : 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888280/lubricon/images/aboutlubricon.jpg';
+      const imageStr =
+        typeof firstImg === 'string'
+          ? firstImg
+          : 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888280/lubricon/images/aboutlubricon.jpg';
 
       const payload = {
         badge,
@@ -140,20 +145,41 @@ export function AboutHeroSection({
       />
 
       <div
-        className={"grid transition-all duration-300 ease-in-out " + (isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
+        className={
+          'grid transition-all duration-300 ease-in-out ' +
+          (isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')
+        }
       >
         <div className="overflow-hidden">
           <div className="flex flex-col gap-6 pt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <InputField label="Badge Text" value={badge} onChange={(e) => setBadge(e.target.value)} />
-              <InputField label="Hero Heading" value={heading} onChange={(e) => setHeading(e.target.value)} />
+              <InputField
+                label="Badge Text"
+                value={badge}
+                onChange={(e) => setBadge(e.target.value)}
+              />
+              <InputField
+                label="Hero Heading"
+                value={heading}
+                onChange={(e) => setHeading(e.target.value)}
+              />
 
               <div className="md:col-span-2">
-                <TextAreaField label="Main Company Narrative" value={narrative} onChange={(e) => setNarrative(e.target.value)} rows={3} />
+                <TextAreaField
+                  label="Main Company Narrative"
+                  value={narrative}
+                  onChange={(e) => setNarrative(e.target.value)}
+                  rows={3}
+                />
               </div>
 
               <div className="md:col-span-2">
-                <TextAreaField label="Secondary Supporting Text" value={secondaryText} onChange={(e) => setSecondaryText(e.target.value)} rows={2} />
+                <TextAreaField
+                  label="Secondary Supporting Text"
+                  value={secondaryText}
+                  onChange={(e) => setSecondaryText(e.target.value)}
+                  rows={2}
+                />
               </div>
 
               <div className="md:col-span-2">
@@ -166,16 +192,56 @@ export function AboutHeroSection({
                 />
               </div>
 
-              <InputField label="Card Tag" value={cardTag} onChange={(e) => setCardTag(e.target.value)} />
-              <InputField label="Card Subtag" value={cardSubtag} onChange={(e) => setCardSubtag(e.target.value)} />
-              <InputField label="Office Badge" value={officeBadge} onChange={(e) => setOfficeBadge(e.target.value)} />
-              <InputField label="Toll-Free Helpline" value={tollFree} onChange={(e) => setTollFree(e.target.value)} />
-              <InputField label="ISO Badge Title" value={isoBadgeTitle} onChange={(e) => setIsoBadgeTitle(e.target.value)} />
-              <InputField label="ISO Badge Subtitle" value={isoBadgeSub} onChange={(e) => setIsoBadgeSub(e.target.value)} />
-              <InputField label="Primary Button Text" value={primaryBtnText} onChange={(e) => setPrimaryBtnText(e.target.value)} />
-              <InputField label="Primary Button Link" value={primaryBtnLink} onChange={(e) => setPrimaryBtnLink(e.target.value)} />
-              <InputField label="Secondary Button Text" value={secondaryBtnText} onChange={(e) => setSecondaryBtnText(e.target.value)} />
-              <InputField label="Secondary Button Link" value={secondaryBtnLink} onChange={(e) => setSecondaryBtnLink(e.target.value)} />
+              <InputField
+                label="Card Tag"
+                value={cardTag}
+                onChange={(e) => setCardTag(e.target.value)}
+              />
+              <InputField
+                label="Card Subtag"
+                value={cardSubtag}
+                onChange={(e) => setCardSubtag(e.target.value)}
+              />
+              <InputField
+                label="Office Badge"
+                value={officeBadge}
+                onChange={(e) => setOfficeBadge(e.target.value)}
+              />
+              <InputField
+                label="Toll-Free Helpline"
+                value={tollFree}
+                onChange={(e) => setTollFree(e.target.value)}
+              />
+              <InputField
+                label="ISO Badge Title"
+                value={isoBadgeTitle}
+                onChange={(e) => setIsoBadgeTitle(e.target.value)}
+              />
+              <InputField
+                label="ISO Badge Subtitle"
+                value={isoBadgeSub}
+                onChange={(e) => setIsoBadgeSub(e.target.value)}
+              />
+              <InputField
+                label="Primary Button Text"
+                value={primaryBtnText}
+                onChange={(e) => setPrimaryBtnText(e.target.value)}
+              />
+              <InputField
+                label="Primary Button Link"
+                value={primaryBtnLink}
+                onChange={(e) => setPrimaryBtnLink(e.target.value)}
+              />
+              <InputField
+                label="Secondary Button Text"
+                value={secondaryBtnText}
+                onChange={(e) => setSecondaryBtnText(e.target.value)}
+              />
+              <InputField
+                label="Secondary Button Link"
+                value={secondaryBtnLink}
+                onChange={(e) => setSecondaryBtnLink(e.target.value)}
+              />
             </div>
 
             {/* Value Pillars List */}
@@ -193,7 +259,10 @@ export function AboutHeroSection({
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {valuePillars.map((pillar, idx) => (
-                  <div key={idx} className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3 relative group">
+                  <div
+                    key={idx}
+                    className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3 relative group"
+                  >
                     <button
                       type="button"
                       onClick={() => removePillar(idx)}

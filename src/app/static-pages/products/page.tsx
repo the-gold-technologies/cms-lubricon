@@ -151,7 +151,9 @@ export default function ProductsCatalogCMSPage() {
 
       const json = await res.json();
       if (json.success) {
-        toast.success(editingCategory ? 'Category updated successfully' : 'Category created successfully');
+        toast.success(
+          editingCategory ? 'Category updated successfully' : 'Category created successfully'
+        );
         setIsCategoryModalOpen(false);
         fetchCatalog();
       } else {
@@ -284,7 +286,9 @@ export default function ProductsCatalogCMSPage() {
                 <option value="all">All Categories ({products.length})</option>
                 {categories.map((cat) => {
                   const count = products.filter(
-                    (p) => p.categorySlug === cat.slug || p.categoryName?.toLowerCase() === cat.name.toLowerCase()
+                    (p) =>
+                      p.categorySlug === cat.slug ||
+                      p.categoryName?.toLowerCase() === cat.name.toLowerCase()
                   ).length;
                   return (
                     <option key={cat.id} value={cat.slug}>
@@ -329,7 +333,8 @@ export default function ProductsCatalogCMSPage() {
           {/* Result count & Clear Filters */}
           <div className="flex items-center gap-3 self-end pb-0.5 ml-auto flex-wrap">
             <span className="text-[11px] font-semibold text-gray-400 whitespace-nowrap">
-              <span className="font-black text-gray-700">{filteredProducts.length}</span> / {products.length} products
+              <span className="font-black text-gray-700">{filteredProducts.length}</span> /{' '}
+              {products.length} products
             </span>
             {hasActiveFilters && (
               <button
@@ -395,11 +400,11 @@ export default function ProductsCatalogCMSPage() {
             });
 
             const packagingValue = packagingRow
-              ? (typeof (packagingRow as any).value === 'string'
-                  ? (packagingRow as any).value
-                  : Array.isArray(packagingRow)
+              ? typeof (packagingRow as any).value === 'string'
+                ? (packagingRow as any).value
+                : Array.isArray(packagingRow)
                   ? packagingRow[packagingRow.length - 1]
-                  : null)
+                  : null
               : null;
 
             return (
@@ -462,8 +467,11 @@ export default function ProductsCatalogCMSPage() {
                   {(() => {
                     let packText = '';
                     if (p.specifications?.packaging) {
-                      if (Array.isArray(p.specifications.packaging) && p.specifications.packaging.length > 0) {
-                        packText = p.specifications.packaging.join(", ");
+                      if (
+                        Array.isArray(p.specifications.packaging) &&
+                        p.specifications.packaging.length > 0
+                      ) {
+                        packText = p.specifications.packaging.join(', ');
                       } else if (typeof p.specifications.packaging === 'string') {
                         packText = p.specifications.packaging;
                       }
@@ -531,7 +539,9 @@ export default function ProductsCatalogCMSPage() {
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-gray-900">
-                    {editingCategory ? `Edit Category: ${editingCategory.name}` : 'Add New Category'}
+                    {editingCategory
+                      ? `Edit Category: ${editingCategory.name}`
+                      : 'Add New Category'}
                   </h3>
                   <p className="text-xs text-gray-400 font-medium">
                     Configure category name, URL slug, and ordering.
@@ -547,10 +557,7 @@ export default function ProductsCatalogCMSPage() {
               </button>
             </div>
 
-            <form
-              onSubmit={handleSaveCategory}
-              className="p-7 flex flex-col gap-4"
-            >
+            <form onSubmit={handleSaveCategory} className="p-7 flex flex-col gap-4">
               <InputField
                 label="Category Name *"
                 value={catName}

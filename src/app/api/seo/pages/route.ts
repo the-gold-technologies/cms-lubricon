@@ -42,9 +42,7 @@ export async function GET() {
 
     // Filter out 'home' (Home SEO is managed under Global SEO / Static Pages -> Home)
     // and exclude any category/product sub-paths so each website section is a single flat page entry
-    const standalonePages = pages.filter(
-      (p: any) => p.slug !== 'home' && !p.slug.includes('/')
-    );
+    const standalonePages = pages.filter((p: any) => p.slug !== 'home' && !p.slug.includes('/'));
 
     // Ensure default core pages exist in the list
     const coreSlugs = ['about', 'products', 'industries', 'contact'];
@@ -66,7 +64,8 @@ export async function GET() {
         visibility: p.visibility || 'published',
         parent: '-',
         order: pageOrderMap[normalizedSlug] ?? (p.order || 50),
-        description: p.description || `SEO configuration for ${titleMap[normalizedSlug] || p.title}`,
+        description:
+          p.description || `SEO configuration for ${titleMap[normalizedSlug] || p.title}`,
         navTitle: titleMap[normalizedSlug] || p.title,
         isStatic: true,
         headingOptions: p.headingOptions,

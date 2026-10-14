@@ -96,18 +96,31 @@ export function AboutStatsSection({
       />
 
       <div
-        className={"grid transition-all duration-300 ease-in-out " + (isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
+        className={
+          'grid transition-all duration-300 ease-in-out ' +
+          (isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')
+        }
       >
         <div className="overflow-hidden">
           <div className="flex flex-col gap-6 pt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <InputField label="Section Title" value={heading} onChange={(e) => setHeading(e.target.value)} />
-              <InputField label="Section Subtitle" value={subtitle} onChange={(e) => setSubtitle(e.target.value)} />
+              <InputField
+                label="Section Title"
+                value={heading}
+                onChange={(e) => setHeading(e.target.value)}
+              />
+              <InputField
+                label="Section Subtitle"
+                value={subtitle}
+                onChange={(e) => setSubtitle(e.target.value)}
+              />
             </div>
 
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Stat Numbers ({stats.length})</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-gray-500">
+                  Stat Numbers ({stats.length})
+                </span>
                 <button
                   type="button"
                   onClick={addStat}
@@ -119,7 +132,10 @@ export function AboutStatsSection({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {stats.map((item, idx) => (
-                  <div key={idx} className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3 relative">
+                  <div
+                    key={idx}
+                    className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3 relative"
+                  >
                     <button
                       type="button"
                       onClick={() => removeStat(idx)}
@@ -136,7 +152,9 @@ export function AboutStatsSection({
                       <InputField
                         label="Value (number)"
                         value={String(item.value)}
-                        onChange={(e) => handleStatChange(idx, 'value', Number(e.target.value) || 0)}
+                        onChange={(e) =>
+                          handleStatChange(idx, 'value', Number(e.target.value) || 0)
+                        }
                       />
                       <InputField
                         label="Suffix (+ / %)"

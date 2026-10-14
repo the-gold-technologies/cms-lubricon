@@ -26,7 +26,13 @@ export async function GET() {
     ]);
 
     if (!page) {
-      return NextResponse.json({ success: true, data: {}, products: [], categories: [], seo: null });
+      return NextResponse.json({
+        success: true,
+        data: {},
+        products: [],
+        categories: [],
+        seo: null,
+      });
     }
 
     const sectionsMap: Record<string, any> = {};

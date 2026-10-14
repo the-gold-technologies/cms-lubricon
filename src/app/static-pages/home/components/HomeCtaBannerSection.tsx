@@ -52,9 +52,11 @@ export function HomeCtaBannerSection({
 
   useEffect(() => {
     if (initialData) {
-      if (initialData.subTag || initialData.categoryTag) setSubTag(initialData.subTag || initialData.categoryTag || '');
+      if (initialData.subTag || initialData.categoryTag)
+        setSubTag(initialData.subTag || initialData.categoryTag || '');
       if (initialData.headline) setHeadline(initialData.headline);
-      if (initialData.description || initialData.subtext) setDescription(initialData.description || initialData.subtext || '');
+      if (initialData.description || initialData.subtext)
+        setDescription(initialData.description || initialData.subtext || '');
       if (initialData.primaryBtnText) setPrimaryBtnText(initialData.primaryBtnText);
       if (initialData.primaryBtnLink) setPrimaryBtnLink(initialData.primaryBtnLink);
       if (initialData.secondaryBtnText) setSecondaryBtnText(initialData.secondaryBtnText);

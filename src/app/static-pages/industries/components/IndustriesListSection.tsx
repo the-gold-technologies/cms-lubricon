@@ -37,7 +37,9 @@ export function IndustriesListSection({
   const handleToggle = onToggle || (() => setInternalOpen(!internalOpen));
 
   const [industries, setIndustries] = useState<IndustryItem[]>([]);
-  const [industryImages, setIndustryImages] = useState<Record<number, (File | string | null)[]>>({});
+  const [industryImages, setIndustryImages] = useState<Record<number, (File | string | null)[]>>(
+    {}
+  );
   const [openSectors, setOpenSectors] = useState<Record<number, boolean>>({ 0: true });
   const [loading, setLoading] = useState(false);
 
@@ -198,7 +200,8 @@ export function IndustriesListSection({
               2. Industries Breakdown List ({industries.length} Sectors)
             </h2>
             <p className="text-xs text-zinc-500 font-medium">
-              Manage the sector cards displayed on the website: challenges, solutions, icon, and images.
+              Manage the sector cards displayed on the website: challenges, solutions, icon, and
+              images.
             </p>
           </div>
         </div>
@@ -255,7 +258,8 @@ export function IndustriesListSection({
                             Sector #{idx + 1}: {ind.name || 'New Sector'}
                           </span>
                           <div className="text-[11px] font-medium text-zinc-500 mt-0.5">
-                            {(ind.challenges || []).length} Challenges • {(ind.solutions || []).length} Solutions
+                            {(ind.challenges || []).length} Challenges •{' '}
+                            {(ind.solutions || []).length} Solutions
                           </div>
                         </div>
                       </div>

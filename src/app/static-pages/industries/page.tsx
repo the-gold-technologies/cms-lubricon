@@ -46,26 +46,26 @@ export default function IndustriesPageEditor() {
         <LoadingIndicator message="Loading Industries page content from database..." />
       ) : (
         <>
-      {/* 1. Hero */}
-      <IndustriesHeroSection
-        initialData={industriesData?.IndustriesHero}
-        isOpen={openSection === 'hero'}
-        onToggle={() => toggleSection('hero')}
-      />
+          {/* 1. Hero */}
+          <IndustriesHeroSection
+            initialData={industriesData?.IndustriesHero}
+            isOpen={openSection === 'hero'}
+            onToggle={() => toggleSection('hero')}
+          />
 
-      {/* 2. Industries Breakdown List */}
-      <IndustriesListSection
-        initialIndustries={industriesData?.industries}
-        isOpen={openSection === 'list'}
-        onToggle={() => toggleSection('list')}
-      />
+          {/* 2. Industries Breakdown List */}
+          <IndustriesListSection
+            initialIndustries={industriesData?.industries}
+            isOpen={openSection === 'list'}
+            onToggle={() => toggleSection('list')}
+          />
 
-      {/* 3. Plant Engineering Services & Support Banner */}
-      <IndustriesPlantSupportSection
-        initialData={industriesData?.IndustriesPlantSupport}
-        isOpen={openSection === 'support'}
-        onToggle={() => toggleSection('support')}
-      />
+          {/* 3. Plant Engineering Services & Support Banner */}
+          <IndustriesPlantSupportSection
+            initialData={industriesData?.IndustriesPlantSupport}
+            isOpen={openSection === 'support'}
+            onToggle={() => toggleSection('support')}
+          />
         </>
       )}
     </section>

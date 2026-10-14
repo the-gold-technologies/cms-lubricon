@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { PageHeader } from "@/components/PageHeader";
-import { LoadingIndicator } from "@/components/LoadingIndicator";
+import React, { useState, useEffect } from 'react';
+import { PageHeader } from '@/components/PageHeader';
+import { LoadingIndicator } from '@/components/LoadingIndicator';
 import {
   AboutHeroSection,
   AboutStatsSection,
@@ -10,7 +10,7 @@ import {
   AboutPortfolioSection,
   AboutTimelineSection,
   AboutCtaBannerSection,
-} from "./components";
+} from './components';
 
 export default function AboutUsPageEditor() {
   const [aboutData, setAboutData] = useState<any>(null);
@@ -27,13 +27,13 @@ export default function AboutUsPageEditor() {
     async function loadAboutData() {
       try {
         setLoading(true);
-        const res = await fetch("/api/about-us");
+        const res = await fetch('/api/about-us');
         const json = await res.json();
         if (json.success && json.data) {
           setAboutData(json.data);
         }
       } catch (err) {
-        console.error("Failed to load about us data:", err);
+        console.error('Failed to load about us data:', err);
       } finally {
         setLoading(false);
       }

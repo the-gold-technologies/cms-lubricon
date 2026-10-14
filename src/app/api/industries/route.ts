@@ -31,7 +31,7 @@ export async function GET() {
     };
 
     const industries = await prisma.industry.findMany({
-      orderBy: { order: "asc" },
+      orderBy: { order: 'asc' },
     });
 
     return NextResponse.json({
@@ -89,7 +89,9 @@ export async function PUT(request: Request) {
           description: ind.description || '',
           challenges: Array.isArray(ind.challenges) ? ind.challenges : [],
           solutions: Array.isArray(ind.solutions) ? ind.solutions : [],
-          recommendedProducts: Array.isArray(ind.recommendedProducts) ? ind.recommendedProducts : [],
+          recommendedProducts: Array.isArray(ind.recommendedProducts)
+            ? ind.recommendedProducts
+            : [],
           order: ind.order !== undefined ? Number(ind.order) : i,
           isFeatured: ind.isFeatured !== undefined ? Boolean(ind.isFeatured) : true,
         };

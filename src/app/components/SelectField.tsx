@@ -19,7 +19,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
   value,
   ...props
 }) => {
-  const safeValue = value !== undefined && value !== null ? value : "";
+  const safeValue = value !== undefined && value !== null ? value : '';
   return (
     <div className={`flex flex-col gap-1.5 ${containerClassName}`}>
       {label && (

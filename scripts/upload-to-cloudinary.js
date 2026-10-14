@@ -35,10 +35,12 @@ async function uploadAll() {
     const relFromPublic = path.relative(publicDir, filePath);
     // Relative web path (e.g. /images/logo.png, /favicon.png)
     const webPath = '/' + relFromPublic.replace(/\\/g, '/');
-    const fileNameWithoutExt = path.basename(filePath, path.extname(filePath))
+    const fileNameWithoutExt = path
+      .basename(filePath, path.extname(filePath))
       .replace(/[^a-zA-Z0-9_-]/g, '_');
 
-    const subfolder = path.dirname(relFromPublic) === '.' ? '' : path.dirname(relFromPublic).replace(/\\/g, '/');
+    const subfolder =
+      path.dirname(relFromPublic) === '.' ? '' : path.dirname(relFromPublic).replace(/\\/g, '/');
     const cloudinaryFolder = subfolder ? `lubricon/${subfolder}` : 'lubricon';
 
     console.log(`Uploading: ${webPath}...`);

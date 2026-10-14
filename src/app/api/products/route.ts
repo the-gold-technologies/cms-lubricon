@@ -91,10 +91,10 @@ export async function GET(request: Request) {
     }
 
     const productsPage = await prisma.page.findUnique({
-      where: { slug: "products" },
+      where: { slug: 'products' },
       include: { sections: true },
     });
-    const heroSection = productsPage?.sections.find((s: any) => s.type === "ProductsHero");
+    const heroSection = productsPage?.sections.find((s: any) => s.type === 'ProductsHero');
 
     return NextResponse.json({
       success: true,
@@ -149,20 +149,20 @@ export async function PUT(request: Request) {
   try {
     const body = await request.json();
 
-    if (body.section === "ProductsHero" || body.sectionType === "ProductsHero") {
+    if (body.section === 'ProductsHero' || body.sectionType === 'ProductsHero') {
       const page = await prisma.page.upsert({
-        where: { slug: "products" },
+        where: { slug: 'products' },
         update: {},
         create: {
-          slug: "products",
-          title: "All Products",
-          visibility: "published",
+          slug: 'products',
+          title: 'All Products',
+          visibility: 'published',
           isStatic: true,
         },
       });
 
       const existingSection = await prisma.section.findFirst({
-        where: { pageId: page.id, type: "ProductsHero" },
+        where: { pageId: page.id, type: 'ProductsHero' },
       });
 
       if (existingSection) {
@@ -175,7 +175,7 @@ export async function PUT(request: Request) {
         await prisma.section.create({
           data: {
             pageId: page.id,
-            type: "ProductsHero",
+            type: 'ProductsHero',
             content: body.content,
             order: 1,
           },

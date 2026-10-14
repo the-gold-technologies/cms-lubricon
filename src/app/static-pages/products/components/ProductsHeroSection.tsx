@@ -145,7 +145,8 @@ export function ProductsHeroSection({
               Product Page Hero Banner
             </h2>
             <p className="text-xs text-zinc-500 font-medium">
-              Manage the top headline, narrative description, 3D packshot visual, and trust badges for the /products catalog page.
+              Manage the top headline, narrative description, 3D packshot visual, and trust badges
+              for the /products catalog page.
             </p>
           </div>
         </div>

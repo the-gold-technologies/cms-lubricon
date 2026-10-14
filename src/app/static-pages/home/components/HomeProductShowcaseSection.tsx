@@ -77,64 +77,73 @@ export function HomeProductShowcaseSection({
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xs border border-zinc-200">
-      <div onClick={handleToggle} className="flex items-center justify-between pb-6 border-b border-zinc-100 cursor-pointer select-none group">
+      <div
+        onClick={handleToggle}
+        className="flex items-center justify-between pb-6 border-b border-zinc-100 cursor-pointer select-none group"
+      >
         <div className="flex items-center gap-3">
-        <div className="p-2.5 rounded-xl bg-[#ffe000] text-black">
-          <Package className="w-5 h-5 stroke-[2.5]" />
+          <div className="p-2.5 rounded-xl bg-[#ffe000] text-black">
+            <Package className="w-5 h-5 stroke-[2.5]" />
+          </div>
+          <div>
+            <h2 className="text-lg font-black text-zinc-900 tracking-tight">
+              6. Product Portfolio Showcase
+            </h2>
+            <p className="text-xs text-zinc-500 font-medium">
+              Manage heading, intro copy, and catalog link for the homepage product cards showcase.
+            </p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-lg font-black text-zinc-900 tracking-tight">6. Product Portfolio Showcase</h2>
-          <p className="text-xs text-zinc-500 font-medium">
-            Manage heading, intro copy, and catalog link for the homepage product cards showcase.
-          </p>
-        </div>
-        </div>
-        <div className={`w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 transition-transform duration-300 ${isOpen ? "rotate-180 bg-[#ffe000] text-black" : ""}`}>
+        <div
+          className={`w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 transition-transform duration-300 ${isOpen ? 'rotate-180 bg-[#ffe000] text-black' : ''}`}
+        >
           <ChevronDown className="w-4 h-4 stroke-[2.5]" />
         </div>
       </div>
 
-      <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+      <div
+        className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+      >
         <div className="overflow-hidden">
           <form onSubmit={handleSubmit} className="mt-6 space-y-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <InputField
-            label="Badge Text"
-            value={badgeText}
-            onChange={(e) => setBadgeText(e.target.value)}
-          />
-          <InputField
-            label="Section Title *"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <InputField
+                label="Badge Text"
+                value={badgeText}
+                onChange={(e) => setBadgeText(e.target.value)}
+              />
+              <InputField
+                label="Section Title *"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+            </div>
 
-        <TextAreaField
-          label="Subtitle Copy"
-          value={subtitle}
-          onChange={(e) => setSubtitle(e.target.value)}
-          rows={2}
-        />
+            <TextAreaField
+              label="Subtitle Copy"
+              value={subtitle}
+              onChange={(e) => setSubtitle(e.target.value)}
+              rows={2}
+            />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <InputField
-            label="Catalog Button Text"
-            value={ctaText}
-            onChange={(e) => setCtaText(e.target.value)}
-          />
-          <InputField
-            label="Catalog Button Link"
-            value={ctaLink}
-            onChange={(e) => setCtaLink(e.target.value)}
-          />
-        </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <InputField
+                label="Catalog Button Text"
+                value={ctaText}
+                onChange={(e) => setCtaText(e.target.value)}
+              />
+              <InputField
+                label="Catalog Button Link"
+                value={ctaLink}
+                onChange={(e) => setCtaLink(e.target.value)}
+              />
+            </div>
 
-        <div className="flex justify-end pt-2">
-          <SaveButton loading={loading} label="Save Product Showcase" />
-        </div>
-      </form>
+            <div className="flex justify-end pt-2">
+              <SaveButton loading={loading} label="Save Product Showcase" />
+            </div>
+          </form>
         </div>
       </div>
     </div>

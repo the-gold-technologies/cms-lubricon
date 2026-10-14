@@ -24,7 +24,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   value,
   ...props
 }) => {
-  const safeValue = value !== undefined && value !== null ? value : "";
+  const safeValue = value !== undefined && value !== null ? value : '';
   const [showPassword, setShowPassword] = useState(false);
   const inputClass = `w-full ${
     icon ? 'pl-12' : 'px-5'

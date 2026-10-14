@@ -92,7 +92,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, data: newLink });
   } catch (error) {
     console.error('Error creating nav link:', error);
-    return NextResponse.json({ success: false, error: 'Failed to create navigation link' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: 'Failed to create navigation link' },
+      { status: 500 }
+    );
   }
 }
 
@@ -149,10 +152,7 @@ export async function DELETE(request: Request) {
     const id = searchParams.get('id');
 
     if (!id) {
-      return NextResponse.json(
-        { success: false, error: 'Link ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Link ID is required' }, { status: 400 });
     }
 
     // Cascade delete any child links
@@ -168,7 +168,9 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting nav link:', error);
-    return NextResponse.json({ success: false, error: 'Failed to delete navigation link' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: 'Failed to delete navigation link' },
+      { status: 500 }
+    );
   }
 }
-

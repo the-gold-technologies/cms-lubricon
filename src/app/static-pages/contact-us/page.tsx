@@ -3,11 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/PageHeader';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
-import {
-  ContactHeroSection,
-  ContactFormSection,
-  ContactFaqSection,
-} from './components';
+import { ContactHeroSection, ContactFormSection, ContactFaqSection } from './components';
 import toast from 'react-hot-toast';
 
 export default function ContactUsCMSPage() {

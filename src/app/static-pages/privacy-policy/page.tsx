@@ -115,7 +115,9 @@ export default function PrivacyPolicyAdminPage() {
                 <ImageIcon className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-[#0B0F29]">1. Hero Section &amp; Background Banner</h2>
+                <h2 className="text-lg font-bold text-[#0B0F29]">
+                  1. Hero Section &amp; Background Banner
+                </h2>
                 <p className="text-xs text-slate-400">
                   Configure the hero headline, subtitle, badge, and full-width background photo.
                 </p>
@@ -181,7 +183,8 @@ export default function PrivacyPolicyAdminPage() {
               <div>
                 <h2 className="text-lg font-bold text-[#0B0F29]">2. Policy Document Body</h2>
                 <p className="text-xs text-slate-400">
-                  Full policy clauses, data collection breakdown, user rights, and compliance procedures.
+                  Full policy clauses, data collection breakdown, user rights, and compliance
+                  procedures.
                 </p>
               </div>
             </div>

@@ -1,7 +1,18 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Search, FileText, Compass, Settings, Shield, Inbox, X, Package, Factory, Globe } from 'lucide-react';
+import {
+  Search,
+  FileText,
+  Compass,
+  Settings,
+  Shield,
+  Inbox,
+  X,
+  Package,
+  Factory,
+  Globe,
+} from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
@@ -15,16 +26,56 @@ interface SearchItem {
 const STATIC_SEARCH_ITEMS: SearchItem[] = [
   { title: 'Home Page Editor', category: 'Pages', url: '/static-pages/home', icon: FileText },
   { title: 'About Us Editor', category: 'Pages', url: '/static-pages/about-us', icon: FileText },
-  { title: 'Products Catalog (18+ Products)', category: 'Products', url: '/static-pages/products', icon: Package },
-  { title: 'Industries We Serve (Molding, Mills, Steel...)', category: 'Pages', url: '/static-pages/industries', icon: Factory },
-  { title: 'Contact Us & Toll-Free Helpline', category: 'Pages', url: '/static-pages/contact-us', icon: FileText },
-  { title: 'Privacy Policy', category: 'Pages', url: '/static-pages/privacy-policy', icon: FileText },
-  { title: 'Menu Links Navigation', category: 'Navigation', url: '/navigation/menu-links', icon: Compass },
-  { title: 'Social Media & Footer', category: 'Navigation', url: '/navigation/social-media', icon: Compass },
+  {
+    title: 'Products Catalog (18+ Products)',
+    category: 'Products',
+    url: '/static-pages/products',
+    icon: Package,
+  },
+  {
+    title: 'Industries We Serve (Molding, Mills, Steel...)',
+    category: 'Pages',
+    url: '/static-pages/industries',
+    icon: Factory,
+  },
+  {
+    title: 'Contact Us & Toll-Free Helpline',
+    category: 'Pages',
+    url: '/static-pages/contact-us',
+    icon: FileText,
+  },
+  {
+    title: 'Privacy Policy',
+    category: 'Pages',
+    url: '/static-pages/privacy-policy',
+    icon: FileText,
+  },
+  {
+    title: 'Menu Links Navigation',
+    category: 'Navigation',
+    url: '/navigation/menu-links',
+    icon: Compass,
+  },
+  {
+    title: 'Social Media & Footer',
+    category: 'Navigation',
+    url: '/navigation/social-media',
+    icon: Compass,
+  },
   { title: 'Global SEO & Analytics', category: 'SEO', url: '/seo/global', icon: Globe },
   { title: 'Page-by-Page SEO & Meta Tags', category: 'SEO', url: '/seo/pages', icon: Shield },
-  { title: 'Enquiries, Quotes & Technical Audits', category: 'Submissions', url: '/submissions/enquiries', icon: Inbox },
-  { title: 'Profile & Admin Security', category: 'Settings', url: '/settings/profile', icon: Settings },
+  {
+    title: 'Enquiries, Quotes & Technical Audits',
+    category: 'Submissions',
+    url: '/submissions/enquiries',
+    icon: Inbox,
+  },
+  {
+    title: 'Profile & Admin Security',
+    category: 'Settings',
+    url: '/settings/profile',
+    icon: Settings,
+  },
 ];
 
 export function AdminHeader() {
@@ -66,7 +117,10 @@ export function AdminHeader() {
       <header className="flex justify-between items-center w-full">
         <div>
           <h1 className="text-[26px] font-black tracking-tight text-zinc-900 flex items-center gap-2">
-            Welcome to Lubricon CMS, <span className="text-zinc-800 underline decoration-[#ffe000] decoration-4">{userName}</span>
+            Welcome to Lubricon CMS,{' '}
+            <span className="text-zinc-800 underline decoration-[#ffe000] decoration-4">
+              {userName}
+            </span>
             <span className="text-2xl animate-pulse">⚡</span>
           </h1>
           <p className="text-xs font-semibold text-zinc-500 mt-1">

@@ -67,8 +67,6 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
   // 5. Physico-Chemical Lab Properties
   const [propertiesTable, setPropertiesTable] = useState<PropertyRow[]>([]);
 
-
-
   // 7. Promotion
   const [isFeatured, setIsFeatured] = useState(false);
 
@@ -291,7 +289,8 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
             {isNew ? 'Add New Product' : `Edit Product: ${name || 'Untitled'}`}
           </h1>
           <p className="text-xs text-gray-400 font-medium">
-            Manage product classification, parameters, laboratory properties table, and technical datasheets.
+            Manage product classification, parameters, laboratory properties table, and technical
+            datasheets.
           </p>
         </div>
 
@@ -332,7 +331,11 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
                 </label>
                 <div className="flex items-center gap-2 px-4 py-3 rounded-2xl border border-gray-200 bg-gray-50/80 text-sm font-mono text-gray-700 select-all min-h-[44px]">
                   <span className="truncate">
-                    {slug || <span className="text-gray-400 font-sans italic">auto-generated from name</span>}
+                    {slug || (
+                      <span className="text-gray-400 font-sans italic">
+                        auto-generated from name
+                      </span>
+                    )}
                   </span>
                   <span className="ml-auto shrink-0 text-[10px] font-bold text-gray-400 bg-gray-100 border border-gray-200 px-2 py-0.5 rounded-full uppercase tracking-wide">
                     Auto
@@ -361,7 +364,9 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
                     : [
                         {
                           value: categorySlug || '',
-                          label: categoriesLoading ? 'Loading categories...' : 'No categories available',
+                          label: categoriesLoading
+                            ? 'Loading categories...'
+                            : 'No categories available',
                         },
                       ]
                 }
@@ -472,7 +477,8 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
               5. Physico-Chemical Properties Table
             </h3>
             <p className="text-xs text-gray-500">
-              Laboratory test results table (Parameter, Test Method, Typical Value) rendered on the product detail page.
+              Laboratory test results table (Parameter, Test Method, Typical Value) rendered on the
+              product detail page.
             </p>
 
             <PropertiesTableEditor properties={propertiesTable} onChange={setPropertiesTable} />
@@ -496,8 +502,6 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
               tooltip="Upload container pack visual (PNG or JPG)."
             />
           </div>
-
-
 
           {/* Promotion */}
           <div className="bg-white rounded-3xl p-7 border border-gray-100 shadow-sm flex flex-col gap-4">
