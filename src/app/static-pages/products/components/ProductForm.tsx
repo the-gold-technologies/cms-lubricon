@@ -22,6 +22,7 @@ import { ImageUploadField } from '@/components/ImageUploadField';
 import { StringListEditor } from '@/components/StringListEditor';
 import { PropertiesTableEditor, PropertyRow } from '@/components/PropertiesTableEditor';
 import { SaveButton } from '@/components/SaveButton';
+import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { uploadFiles } from '@/lib/uploadHelpers';
 
 interface Category {
@@ -266,10 +267,11 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
 
   if (fetching) {
     return (
-      <div className="py-24 text-center text-gray-400 text-sm animate-pulse flex flex-col items-center justify-center gap-3">
-        <Package className="w-8 h-8 text-[#ffe000] animate-spin" />
-        <span>Loading product details...</span>
-      </div>
+      <LoadingIndicator
+        fullScreen
+        message="Loading product details..."
+        subMessage="Fetching specifications & technical properties"
+      />
     );
   }
 

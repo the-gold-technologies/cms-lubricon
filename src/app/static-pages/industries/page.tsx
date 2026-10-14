@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/PageHeader';
+import { LoadingIndicator } from '@/components/LoadingIndicator';
 import {
   IndustriesHeroSection,
   IndustriesListSection,
@@ -10,6 +11,7 @@ import {
 
 export default function IndustriesPageEditor() {
   const [industriesData, setIndustriesData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const [openSection, setOpenSection] = useState<string | null>('hero');
 
   const toggleSection = (sectionKey: string) => {
@@ -26,6 +28,8 @@ export default function IndustriesPageEditor() {
         }
       } catch (err) {
         console.error('Failed to load industries page data:', err);
+      } finally {
+        setLoading(false);
       }
     }
     loadIndustriesData();
@@ -38,6 +42,10 @@ export default function IndustriesPageEditor() {
         description="Manage the 3 live sections of the Industries page: Hero, Industries Breakdown List, and Plant Engineering Services & Support."
       />
 
+      {loading ? (
+        <LoadingIndicator message="Loading Industries page content from database..." />
+      ) : (
+        <>
       {/* 1. Hero */}
       <IndustriesHeroSection
         initialData={industriesData?.IndustriesHero}
@@ -58,6 +66,8 @@ export default function IndustriesPageEditor() {
         isOpen={openSection === 'support'}
         onToggle={() => toggleSection('support')}
       />
+        </>
+      )}
     </section>
   );
 }

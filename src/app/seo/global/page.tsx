@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { PageHeader } from '@/components/PageHeader';
+import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { SaveButton } from '@/components/SaveButton';
 import { InputField } from '@/components/InputField';
 import { TextAreaField } from '@/components/TextAreaField';
@@ -150,9 +151,11 @@ export default function GlobalSEOPage() {
 
   if (isLoading) {
     return (
-      <div className="flex h-[60vh] items-center justify-center">
-        <div className="animate-pulse text-gray-400 font-medium">Loading SEO settings...</div>
-      </div>
+      <LoadingIndicator
+        fullScreen
+        message="Loading Global SEO & Tracking..."
+        subMessage="Fetching global metadata, analytics, and schema"
+      />
     );
   }
 

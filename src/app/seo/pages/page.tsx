@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/PageHeader';
+import { LoadingIndicator } from '@/components/LoadingIndicator';
 import Link from 'next/link';
 import { Edit2, Search, CheckCircle2, AlertCircle, ExternalLink } from 'lucide-react';
 
@@ -124,8 +125,11 @@ export default function PageSEODashboard() {
             <tbody className="divide-y divide-gray-50">
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="py-20 text-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#002B5C] mx-auto"></div>
+                  <td colSpan={6} className="py-12 text-center">
+                    <LoadingIndicator
+                      message="Loading pages SEO status..."
+                      subMessage="Analyzing meta titles, descriptions & indexing tags"
+                    />
                   </td>
                 </tr>
               ) : filteredPages.length === 0 ? (

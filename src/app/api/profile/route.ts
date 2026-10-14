@@ -43,6 +43,7 @@ export async function GET() {
 export async function PUT(request: Request) {
   try {
     const session = await auth();
+    const sessionUserId = (session?.user as any)?.id;
     const sessionEmail = session?.user?.email;
 
     const body = await request.json();
@@ -50,7 +51,10 @@ export async function PUT(request: Request) {
 
     // Find the user to update
     let user = null;
-    if (sessionEmail) {
+    if (sessionUserId) {
+      user = await prisma.user.findUnique({ where: { id: sessionUserId } });
+    }
+    if (!user && sessionEmail) {
       user = await prisma.user.findUnique({ where: { email: sessionEmail } });
     }
     if (!user && email) {

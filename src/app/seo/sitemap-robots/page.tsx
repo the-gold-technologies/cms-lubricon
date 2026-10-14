@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { PageHeader } from '@/components/PageHeader';
+import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { SaveButton } from '@/components/SaveButton';
 import { Globe, FileText, CheckCircle2, ExternalLink, Upload, X, FileCode } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -124,11 +125,11 @@ export default function SitemapRobotsPage() {
 
   if (isLoading) {
     return (
-      <div className="flex h-[60vh] items-center justify-center">
-        <div className="animate-pulse text-gray-400 font-medium">
-          Loading Sitemap & Robots directives...
-        </div>
-      </div>
+      <LoadingIndicator
+        fullScreen
+        message="Loading Sitemap & Robots.txt directives..."
+        subMessage="Fetching search crawler permissions & indexing policies"
+      />
     );
   }
 

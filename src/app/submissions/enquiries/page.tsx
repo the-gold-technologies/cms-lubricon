@@ -22,6 +22,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { InputField } from "@/components/InputField";
+import { LoadingIndicator } from "@/components/LoadingIndicator";
 import toast from "react-hot-toast";
 
 interface Enquiry {
@@ -223,8 +224,11 @@ export default function EnquiriesCMSPage() {
             <tbody className="divide-y divide-gray-50">
               {isLoading ? (
                 <tr>
-                  <td colSpan={5} className="py-20 text-center">
-                    <Loader2 className="w-8 h-8 animate-spin mx-auto text-[#C86218]" />
+                  <td colSpan={5} className="py-12 text-center">
+                    <LoadingIndicator
+                      message="Loading submissions & enquiries..."
+                      subMessage="Fetching customer enquiries and quote requests"
+                    />
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (

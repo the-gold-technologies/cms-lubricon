@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/PageHeader';
+import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { HomeHeroSliderSection } from './components/HomeHeroSliderSection';
 import { HomeStatsSection } from './components/HomeStatsSection';
 import { HomeGovernmentProcurementSection } from './components/HomeGovernmentProcurementSection';
@@ -13,6 +14,7 @@ import { HomeCtaBannerSection } from './components/HomeCtaBannerSection';
 
 export default function HomePageEditor() {
   const [homeData, setHomeData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     hero: true, // Only hero section is open by default
   });
@@ -31,6 +33,8 @@ export default function HomePageEditor() {
         }
       } catch (err) {
         console.error('Failed to load home sections:', err);
+      } finally {
+        setLoading(false);
       }
     }
     loadHomeData();
@@ -43,6 +47,10 @@ export default function HomePageEditor() {
         description="Manage the live layout sections of your homepage. Edit fields below to update the website immediately."
       />
 
+      {loading ? (
+        <LoadingIndicator message="Loading Home page sections from database..." />
+      ) : (
+        <>
       {/* 1. Hero Carousel / Slider */}
       <HomeHeroSliderSection
         initialData={homeData?.HeroSlider}
@@ -98,6 +106,8 @@ export default function HomePageEditor() {
         isOpen={openSections.cta ?? false}
         onToggle={() => toggleSection('cta')}
       />
+        </>
+      )}
     </section>
   );
 }

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/PageHeader';
+import { LoadingIndicator } from '@/components/LoadingIndicator';
 import {
   ContactHeroSection,
   ContactFormSection,
@@ -67,9 +68,7 @@ export default function ContactUsCMSPage() {
       />
 
       {loading ? (
-        <div className="py-20 text-center text-zinc-400 text-sm animate-pulse">
-          Loading contact page content...
-        </div>
+        <LoadingIndicator message="Loading Contact page content from database..." />
       ) : (
         <div className="flex flex-col gap-8">
           {/* Section 1: Hero Banner & Titles */}

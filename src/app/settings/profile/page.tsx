@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { PageHeader } from '@/components/PageHeader';
+import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { SaveButton } from '@/components/SaveButton';
 import { User, Lock, Eye, EyeOff } from 'lucide-react';
 
@@ -104,9 +105,11 @@ export default function ProfileSettingsPage() {
 
   if (isFetching) {
     return (
-      <div className="flex h-[60vh] items-center justify-center">
-        <div className="animate-pulse text-gray-400 font-medium">Loading profile details...</div>
-      </div>
+      <LoadingIndicator
+        fullScreen
+        message="Loading profile details..."
+        subMessage="Fetching administrator security credentials"
+      />
     );
   }
 

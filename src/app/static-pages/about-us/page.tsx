@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { PageHeader } from "@/components/PageHeader";
+import { LoadingIndicator } from "@/components/LoadingIndicator";
 import {
   AboutHeroSection,
   AboutStatsSection,
@@ -48,9 +49,7 @@ export default function AboutUsPageEditor() {
       />
 
       {loading ? (
-        <div className="py-20 text-center text-gray-400 text-sm animate-pulse">
-          Loading About Us sections from database...
-        </div>
+        <LoadingIndicator message="Loading About Us sections from database..." />
       ) : (
         <div className="flex flex-col gap-8">
           {/* 1. Hero & Narrative */}

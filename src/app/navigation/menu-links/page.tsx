@@ -8,6 +8,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { LoadingIndicator } from '@/components/LoadingIndicator';
 
 interface NavLinkItem {
   id: string;
@@ -110,10 +111,10 @@ export default function MenuLinksPage() {
       {/* Main Table Card */}
       <div className="bg-white rounded-3xl border border-slate-100 shadow-xs p-2 sm:p-6 lg:p-8">
         {loading ? (
-          <div className="py-16 text-center text-xs font-medium text-slate-400 flex flex-col items-center gap-2">
-            <Loader2 className="w-6 h-6 animate-spin text-[#002B5C]" />
-            <span>Loading navigation structure...</span>
-          </div>
+          <LoadingIndicator
+            message="Loading navigation menu structure..."
+            subMessage="Fetching live header links & order"
+          />
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[700px]">
