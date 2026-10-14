@@ -57,12 +57,9 @@ const sidebarLinks: SidebarLink[] = [
     ],
   },
   {
-    title: 'Submissions & Leads',
+    title: 'Enquiries & Audits',
+    href: '/submissions/enquiries',
     icon: Layers,
-    sublinks: [
-      { title: 'Enquiries & Audits', href: '/submissions/enquiries' },
-      { title: 'Quotes & Callbacks', href: '/submissions/distributor-leads' },
-    ],
   },
   {
     title: 'SEO Management',

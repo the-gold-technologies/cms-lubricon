@@ -7,6 +7,10 @@ export async function GET() {
   try {
     const config = await prisma.globalConfig.findFirst();
 
+    if (config && config.sitemapEnabled === false) {
+      return new NextResponse('Sitemap is disabled in CMS', { status: 404 });
+    }
+
     // If custom sitemap XML was uploaded and sitemap is enabled
     if (config?.sitemapCustomContent && config.sitemapEnabled !== false) {
       return new NextResponse(config.sitemapCustomContent, {

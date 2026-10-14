@@ -108,6 +108,9 @@ async function main() {
   const contactLink = await prisma.navLink.create({
     data: { label: 'Contact Us', url: '/contact', type: 'Main Link', parent: '-', order: 4, isStatic: true },
   });
+  const privacyLink = await prisma.navLink.create({
+    data: { label: 'Privacy Policy', url: '/privacy-policy', type: 'Main Link', parent: '-', order: 5, isStatic: true },
+  });
 
   const productSubLinks = [
     { label: 'Engine Oils', url: '/products?cat=engine-oil', type: 'Dropdown', parent: productsLink.id, order: 0 },

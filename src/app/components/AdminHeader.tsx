@@ -23,9 +23,7 @@ const STATIC_SEARCH_ITEMS: SearchItem[] = [
   { title: 'Social Media & Footer', category: 'Navigation', url: '/navigation/social-media', icon: Compass },
   { title: 'Global SEO & Analytics', category: 'SEO', url: '/seo/global', icon: Globe },
   { title: 'Page-by-Page SEO & Meta Tags', category: 'SEO', url: '/seo/pages', icon: Shield },
-  { title: 'Sitemap.xml & Robots.txt', category: 'SEO', url: '/seo/sitemap-robots', icon: Shield },
-  { title: 'Enquiries & Technical Audits', category: 'Submissions', url: '/submissions/enquiries', icon: Inbox },
-  { title: 'Quotes & Callback Requests', category: 'Submissions', url: '/submissions/distributor-leads', icon: Inbox },
+  { title: 'Enquiries, Quotes & Technical Audits', category: 'Submissions', url: '/submissions/enquiries', icon: Inbox },
   { title: 'Profile & Admin Security', category: 'Settings', url: '/settings/profile', icon: Settings },
 ];
 
