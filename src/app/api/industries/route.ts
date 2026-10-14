@@ -96,6 +96,12 @@ export async function PUT(request: Request) {
           isFeatured: ind.isFeatured !== undefined ? Boolean(ind.isFeatured) : true,
         };
         if (ind.id) {
+          const existingInd = await prisma.industry.findUnique({
+            where: { id: ind.id },
+          });
+          if (existingInd) {
+            await cleanupReplacedCloudinaryFiles(existingInd, data);
+          }
           await prisma.industry.upsert({
             where: { id: ind.id },
             update: data,
@@ -155,6 +161,37 @@ export async function PUT(request: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error saving industries page sections:', error);
+    return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'Industry ID is required' },
+        { status: 400 }
+      );
+    }
+
+    const existingInd = await prisma.industry.findUnique({
+      where: { id },
+    });
+
+    if (existingInd) {
+      await cleanupReplacedCloudinaryFiles(existingInd, null);
+    }
+
+    await prisma.industry.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting industry:', error);
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
   }
 }

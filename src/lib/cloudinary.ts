@@ -133,39 +133,45 @@ export async function deleteCloudinaryFileByUrl(url: string): Promise<boolean> {
   const info = parseCloudinaryUrl(url);
   if (!info) return false;
 
-  // Protect critical seed assets
-  if (
-    PROTECTED_PUBLIC_IDS.has(info.publicId) ||
-    PROTECTED_PUBLIC_IDS.has(info.fullPublicId) ||
-    info.publicId.endsWith('logo')
-  ) {
+  // Protect critical seed assets only
+  if (PROTECTED_PUBLIC_IDS.has(info.publicId) || PROTECTED_PUBLIC_IDS.has(info.fullPublicId)) {
     console.log(`[Cloudinary] Skipping protected asset: ${info.publicId}`);
     return false;
   }
 
   try {
-    // 1. Try deleting with primary detected resource_type
+    // 1. Try deleting with primary detected resource_type and publicId
     let result = await cloudinary.uploader.destroy(info.publicId, {
       resource_type: info.resourceType,
       invalidate: true,
     });
 
-    // 2. If not found or if it's a PDF / raw document, attempt alternate resource_type
-    if (result?.result !== 'ok' && (info.extension === 'pdf' || info.resourceType === 'image')) {
-      const rawResult = await cloudinary.uploader.destroy(info.fullPublicId, {
+    // 2. If not found, try with fullPublicId (including extension)
+    if (result?.result !== 'ok' && info.fullPublicId !== info.publicId) {
+      const resFull = await cloudinary.uploader.destroy(info.fullPublicId, {
+        resource_type: info.resourceType,
+        invalidate: true,
+      });
+      if (resFull?.result === 'ok') {
+        result = resFull;
+      }
+    }
+
+    // 3. If still not found, try raw resource_type (for PDFs, docs, or files uploaded as raw)
+    if (result?.result !== 'ok') {
+      const rawFull = await cloudinary.uploader.destroy(info.fullPublicId, {
         resource_type: 'raw',
         invalidate: true,
       });
-
-      if (rawResult?.result === 'ok') {
-        result = rawResult;
-      } else if (info.extension === 'pdf') {
-        const rawNoExtResult = await cloudinary.uploader.destroy(info.publicIdWithoutExt, {
+      if (rawFull?.result === 'ok') {
+        result = rawFull;
+      } else {
+        const rawNoExt = await cloudinary.uploader.destroy(info.publicIdWithoutExt, {
           resource_type: 'raw',
           invalidate: true,
         });
-        if (rawNoExtResult?.result === 'ok') {
-          result = rawNoExtResult;
+        if (rawNoExt?.result === 'ok') {
+          result = rawNoExt;
         }
       }
     }
