@@ -9,7 +9,7 @@ interface StringListEditorProps {
   onChange: (items: string[]) => void;
   placeholder?: string;
   tooltip?: string;
-  accentColor?: 'red' | 'dark';
+  accentColor?: 'red' | 'dark' | 'yellow';
 }
 
 export function StringListEditor({

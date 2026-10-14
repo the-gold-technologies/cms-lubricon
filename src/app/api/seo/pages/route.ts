@@ -23,174 +23,80 @@ export async function GET() {
       orderBy: { order: 'asc' },
     });
 
-    const links = await prisma.navLink.findMany({
-      orderBy: { order: 'asc' },
-    });
+    // Fixed display order for website pages in Per-Page SEO
+    const pageOrderMap: Record<string, number> = {
+      about: 1,
+      products: 2,
+      industries: 3,
+      contact: 4,
+      'privacy-policy': 5,
+    };
 
-    const mergedData: any[] = [];
+    const titleMap: Record<string, string> = {
+      about: 'About Us',
+      products: 'Products',
+      industries: 'Industries We Serve',
+      contact: 'Contact Us',
+      'privacy-policy': 'Privacy Policy',
+    };
+
+    // Filter out 'home' (Home SEO is managed under Global SEO / Static Pages -> Home)
+    // and exclude any category/product sub-paths so each website section is a single flat page entry
+    const standalonePages = pages.filter(
+      (p: any) => p.slug !== 'home' && !p.slug.includes('/')
+    );
+
+    // Ensure default core pages exist in the list
+    const coreSlugs = ['about', 'products', 'industries', 'contact'];
+    const mergedList: any[] = [];
     const seenSlugs = new Set<string>();
 
-    // 1. Process Navigation Links first (Main Website Order: About Us, Products, Events, Blogs, Contact)
-    let navIndex = 1;
-    for (const link of links) {
-      const urlMatchesSlug = (url: string, slug: string) => {
-        if (url === '/' && slug === 'home') return true;
-        if ((url === '/products/industrial-oils' || url === '/products') && slug === 'products')
-          return true;
-        return url === `/${slug}`;
-      };
-
-      const matchedPage = pages.find((p: any) => urlMatchesSlug(link.url, p.slug));
-      const targetSlug = matchedPage
-        ? matchedPage.slug
-        : link.url === '/'
-          ? 'home'
-          : link.url.replace(/^\//, '');
-
-      const normalizedSlug = targetSlug.toLowerCase().trim();
-      if (seenSlugs.has(normalizedSlug)) {
-        continue;
-      }
+    for (const p of standalonePages) {
+      const normalizedSlug = p.slug.toLowerCase().trim();
       seenSlugs.add(normalizedSlug);
 
-      const assignedOrder = typeof link.order === 'number' ? link.order : navIndex++;
+      mergedList.push({
+        id: p.id,
+        pageId: p.id,
+        title: titleMap[normalizedSlug] || p.title,
+        slug: p.slug,
+        metaTitle: p.metaTitle,
+        metaDescription: p.metaDescription,
+        type: 'Standard Page',
+        visibility: p.visibility || 'published',
+        parent: '-',
+        order: pageOrderMap[normalizedSlug] ?? (p.order || 50),
+        description: p.description || `SEO configuration for ${titleMap[normalizedSlug] || p.title}`,
+        navTitle: titleMap[normalizedSlug] || p.title,
+        isStatic: true,
+        headingOptions: p.headingOptions,
+      });
+    }
 
-      if (matchedPage) {
-        mergedData.push({
-          id: link.id,
-          pageId: matchedPage.id,
-          title: link.label || matchedPage.title,
-          slug: matchedPage.slug,
-          metaTitle: matchedPage.metaTitle,
-          metaDescription: matchedPage.metaDescription,
-          type: link.type || matchedPage.type,
-          visibility: matchedPage.visibility,
-          parent: link.parent,
-          order: assignedOrder,
-          description: link.description,
-          navTitle: link.title,
-          isStatic: link.isStatic,
-          headingOptions: matchedPage.headingOptions,
-        });
-      } else {
-        mergedData.push({
-          id: link.id,
-          pageId: null as string | null,
-          title: link.label,
-          slug: targetSlug,
-          metaTitle: null as string | null,
-          metaDescription: null as string | null,
-          type: link.type || 'static',
+    // If any core page isn't in DB yet, add it as a placeholder
+    for (const coreSlug of coreSlugs) {
+      if (!seenSlugs.has(coreSlug)) {
+        mergedList.push({
+          id: `page-${coreSlug}`,
+          pageId: null,
+          title: titleMap[coreSlug] || coreSlug,
+          slug: coreSlug,
+          metaTitle: null,
+          metaDescription: null,
+          type: 'Standard Page',
           visibility: 'published',
-          parent: link.parent,
-          order: assignedOrder,
-          description: link.description,
-          navTitle: link.title,
-          isStatic: link.isStatic,
+          parent: '-',
+          order: pageOrderMap[coreSlug] ?? 10,
+          description: `SEO configuration for ${titleMap[coreSlug]}`,
+          navTitle: titleMap[coreSlug],
+          isStatic: true,
         });
       }
     }
 
-    // 2. Include Non-Navigation / Legal Pages (e.g. Privacy Policy, Terms of Service) after main nav links
-    let secondaryIndex = 50;
-    for (const page of pages) {
-      const normalizedSlug = page.slug.toLowerCase().trim();
-      if (!seenSlugs.has(normalizedSlug)) {
-        seenSlugs.add(normalizedSlug);
-        mergedData.push({
-          id: `page-${page.id}`,
-          pageId: page.id,
-          title:
-            page.title ||
-            page.slug.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
-          slug: page.slug,
-          metaTitle: page.metaTitle,
-          metaDescription: page.metaDescription,
-          type: page.type === 'standard' ? 'Main Link' : page.type,
-          visibility: page.visibility,
-          parent: page.parent || '-',
-          order: secondaryIndex++,
-          description: page.description || `Configure SEO for ${page.title || page.slug}`,
-          navTitle: page.title,
-          isStatic: page.isStatic,
-          headingOptions: page.headingOptions,
-        });
-      }
-    }
+    mergedList.sort((a, b) => a.order - b.order);
 
-    // 3. Find Products parent ID and nest categories under Products
-    let prodParentIdx = mergedData.findIndex((m: any) => m.slug === 'products');
-    let prodParentId = prodParentIdx !== -1 ? mergedData[prodParentIdx].id : 'products';
-
-    const categoriesList = await prisma.productCategory.findMany({
-      orderBy: { order: 'asc' },
-    });
-
-    for (const cat of categoriesList) {
-      const catSlug = `products/${cat.slug}`;
-      const existing = mergedData.find((m: any) => m.slug === catSlug);
-      if (existing) {
-        existing.parent = prodParentId;
-        existing.type = 'Category';
-        existing.title = cat.name;
-        existing.order = cat.order;
-      } else {
-        const matchedPage = pages.find((p: any) => p.slug === catSlug);
-        mergedData.push({
-          id: matchedPage ? `page-${matchedPage.id}` : `cat-${cat.id}`,
-          pageId: matchedPage?.id || cat.id,
-          title: cat.name,
-          slug: catSlug,
-          metaTitle: matchedPage?.metaTitle || null,
-          metaDescription: matchedPage?.metaDescription || null,
-          type: 'Category',
-          visibility: matchedPage?.visibility || 'published',
-          parent: prodParentId,
-          order: cat.order,
-          description: matchedPage?.description || null,
-          navTitle: cat.name,
-          isStatic: false,
-          headingOptions: matchedPage?.headingOptions || null,
-        });
-      }
-    }
-
-    // 4. Automatically inject Dynamic Products from DB under their respective categories
-    const productsList = await prisma.product.findMany({
-      orderBy: { order: 'asc' },
-    });
-
-    for (const prod of productsList) {
-      const prodPageSlug = `products/${prod.categorySlug}/${prod.slug}`;
-      const normalizedProdSlug = prodPageSlug.toLowerCase().trim();
-
-      if (!seenSlugs.has(normalizedProdSlug)) {
-        seenSlugs.add(normalizedProdSlug);
-
-        // Find the category item in mergedData to be its parent
-        const catItem = mergedData.find((m: any) => m.slug === `products/${prod.categorySlug}`);
-        const parentId = catItem ? catItem.id : prodParentId;
-
-        mergedData.push({
-          id: `product-${prod.id}`,
-          pageId: prod.id,
-          title: prod.name,
-          slug: prodPageSlug,
-          metaTitle: prod.metaTitle,
-          metaDescription: prod.metaDescription,
-          type: 'Product',
-          visibility: 'published',
-          parent: parentId,
-          order: prod.order || 0,
-          description: null,
-          navTitle: prod.name,
-          isStatic: false,
-          headingOptions: prod.headingOptions,
-        });
-      }
-    }
-
-    return NextResponse.json({ success: true, data: mergedData });
+    return NextResponse.json({ success: true, data: mergedList });
   } catch (error) {
     console.error('Error fetching pages for SEO:', error);
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });

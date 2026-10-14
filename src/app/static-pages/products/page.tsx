@@ -3,56 +3,52 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import {
+  Package,
   Plus,
   Search,
   Edit2,
   Trash2,
-  Package,
   FileText,
-  FolderTree,
-  X,
-  Award,
   Sparkles,
-  Droplets,
   ChevronDown,
+  Droplets,
   RotateCcw,
+  X,
+  Layers,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { PageHeader } from '@/components/PageHeader';
+import { ProductsHeroSection } from './components/ProductsHeroSection';
 import { InputField } from '@/components/InputField';
-import { TextAreaField } from '@/components/TextAreaField';
-import { ImageUploadField } from '@/components/ImageUploadField';
 import { SaveButton } from '@/components/SaveButton';
-import { uploadFiles } from '@/lib/uploadHelpers';
 
 interface Product {
   id: string;
   name: string;
   slug: string;
-  subtitle?: string;
+  badge?: string;
   categorySlug: string;
   categoryName: string;
   subCategoryTitle?: string;
   containerImage?: string;
   description?: string;
   applicationAreas?: string;
-  specsText?: string;
-  propertiesTable?: { property: string; value: string }[];
+  specifications?: {
+    viscosity?: string;
+    grade?: string;
+    standard?: string;
+    packaging?: string[] | string;
+  };
+  propertiesTable?: any[];
   pdfUrl?: string;
   msdsUrl?: string;
   isFeatured?: boolean;
 }
 
-interface BrandCategory {
+interface ProductCategory {
   id: string;
   name: string;
   slug: string;
-  shortDesc?: string;
-  fullDesc?: string;
-  coverImage?: string;
-  primaryCtaText?: string;
-  secondaryCtaText?: string;
-  featuredBadgeText?: string;
   order?: number;
   isFeatured?: boolean;
   _count?: { products: number };
@@ -60,32 +56,26 @@ interface BrandCategory {
 
 export default function ProductsCatalogCMSPage() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [brands, setBrands] = useState<BrandCategory[]>([]);
+  const [categories, setCategories] = useState<ProductCategory[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Two-Tier Filter State:
-  // 1. Selected Brand
-  const [selectedBrandSlug, setSelectedBrandSlug] = useState<string>('all');
-  // 2. Selected Category within that Brand
-  const [selectedCategoryTitle, setSelectedCategoryTitle] = useState<string>('all');
-
+  // Category Filter & Search
+  const [selectedCategorySlug, setSelectedCategorySlug] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Brand Edit Modal state
-  const [isBrandModalOpen, setIsBrandModalOpen] = useState(false);
-  const [brandModalLoading, setBrandModalLoading] = useState(false);
-  const [editingBrand, setEditingBrand] = useState<BrandCategory | null>(null);
+  // Hero Section State
+  const [heroData, setHeroData] = useState<any>(null);
+  const [isHeroOpen, setIsHeroOpen] = useState(false);
 
-  // Brand Form Fields
-  const [brandName, setBrandName] = useState('');
-  const [brandSlug, setBrandSlug] = useState('');
-  const [brandTagline, setBrandTagline] = useState('');
-  const [brandAbout, setBrandAbout] = useState('');
-  const [brandImages, setBrandImages] = useState<(File | string | null)[]>([]);
-  const [brandPrimaryCta, setBrandPrimaryCta] = useState('');
-  const [brandSecondaryCta, setBrandSecondaryCta] = useState('');
-  const [brandFeaturedBadge, setBrandFeaturedBadge] = useState('');
-  const [brandOrder, setBrandOrder] = useState<number>(0);
+  // Category Modal State (Add / Edit Category)
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [categoryModalLoading, setCategoryModalLoading] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<ProductCategory | null>(null);
+
+  // Category Form Fields
+  const [catName, setCatName] = useState('');
+  const [catSlug, setCatSlug] = useState('');
+  const [catOrder, setCatOrder] = useState<number>(0);
 
   const fetchCatalog = async () => {
     try {
@@ -94,7 +84,8 @@ export default function ProductsCatalogCMSPage() {
       const json = await res.json();
       if (json.success) {
         setProducts(json.data.products || []);
-        setBrands(json.data.categories || []);
+        setCategories(json.data.categories || []);
+        setHeroData(json.data.hero || null);
       }
     } catch (err) {
       console.error('Error loading products:', err);
@@ -108,100 +99,73 @@ export default function ProductsCatalogCMSPage() {
     fetchCatalog();
   }, []);
 
-  const openNewBrandModal = () => {
-    setEditingBrand(null);
-    setBrandName('');
-    setBrandSlug('');
-    setBrandTagline('');
-    setBrandAbout('');
-    setBrandImages([]);
-    setBrandPrimaryCta('');
-    setBrandSecondaryCta('');
-    setBrandFeaturedBadge('');
-    setBrandOrder(brands.length);
-    setIsBrandModalOpen(true);
+  const openNewCategoryModal = () => {
+    setEditingCategory(null);
+    setCatName('');
+    setCatSlug('');
+    setCatOrder(categories.length);
+    setIsCategoryModalOpen(true);
   };
 
-  const openEditBrandModal = (brand: BrandCategory) => {
-    setEditingBrand(brand);
-    setBrandName(brand.name);
-    setBrandSlug(brand.slug);
-    setBrandTagline(brand.shortDesc || '');
-    setBrandAbout(brand.fullDesc || '');
-    setBrandImages(brand.coverImage ? [brand.coverImage] : []);
-    setBrandPrimaryCta(brand.primaryCtaText || 'Request a Quote');
-    setBrandSecondaryCta(brand.secondaryCtaText || 'Browse range');
-    setBrandFeaturedBadge(brand.featuredBadgeText || 'Featured product');
-    setBrandOrder(brand.order ?? 0);
-    setIsBrandModalOpen(true);
+  const openEditCategoryModal = (cat: ProductCategory) => {
+    setEditingCategory(cat);
+    setCatName(cat.name);
+    setCatSlug(cat.slug);
+    setCatOrder(cat.order ?? 0);
+    setIsCategoryModalOpen(true);
   };
 
-  const handleBrandNameChange = (val: string) => {
-    setBrandName(val);
-    setBrandSlug(
-      val
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '')
-    );
+  const handleCatNameChange = (val: string) => {
+    setCatName(val);
+    if (!editingCategory) {
+      setCatSlug(
+        val
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '')
+      );
+    }
   };
 
-  const handleSaveBrand = async (e: React.FormEvent) => {
+  const handleSaveCategory = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!brandName || !brandSlug) {
-      toast.error('Brand name and URL slug are required');
+    if (!catName || !catSlug) {
+      toast.error('Category name and URL slug are required');
       return;
     }
 
-    setBrandModalLoading(true);
-
+    setCategoryModalLoading(true);
     try {
-      let finalCoverUrl = '';
-      const validImages = brandImages.filter((img): img is File | string => !!img);
-      if (validImages.length > 0) {
-        const [uploaded] = await uploadFiles(validImages);
-        finalCoverUrl = uploaded || '';
-      }
-
       const payload = {
-        name: brandName.trim(),
-        slug: brandSlug.trim().toLowerCase(),
-        shortDesc: brandTagline.trim(),
-        fullDesc: brandAbout.trim(),
-        coverImage: finalCoverUrl,
-        primaryCtaText: brandPrimaryCta.trim() || 'Request a Quote',
-        secondaryCtaText: brandSecondaryCta.trim() || 'Browse range',
-        featuredBadgeText: brandFeaturedBadge.trim() || 'Featured product',
-        order: Number(brandOrder) || 0,
-        isFeatured: true,
+        name: catName.trim(),
+        slug: catSlug.trim().toLowerCase(),
+        order: catOrder,
       };
 
-      const url = '/api/products/categories';
-      const method = editingBrand ? 'PUT' : 'POST';
-      const res = await fetch(url, {
+      const method = editingCategory ? 'PUT' : 'POST';
+      const res = await fetch('/api/products/categories', {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editingBrand ? { ...payload, id: editingBrand.id } : payload),
+        body: JSON.stringify(editingCategory ? { ...payload, id: editingCategory.id } : payload),
       });
 
       const json = await res.json();
       if (json.success) {
-        toast.success(editingBrand ? 'Brand updated successfully' : 'Brand created successfully');
-        setIsBrandModalOpen(false);
+        toast.success(editingCategory ? 'Category updated successfully' : 'Category created successfully');
+        setIsCategoryModalOpen(false);
         fetchCatalog();
       } else {
-        toast.error(json.error || 'Failed to save brand');
+        toast.error(json.error || 'Failed to save category');
       }
     } catch {
-      toast.error('Network error saving brand');
+      toast.error('Network error saving category');
     } finally {
-      setBrandModalLoading(false);
+      setCategoryModalLoading(false);
     }
   };
 
-  const handleDeleteBrand = async (id: string, name: string) => {
-    if (!confirm(`Are you sure you want to delete brand "${name}" and its associated products?`))
-      return;
+  const handleDeleteCategory = async (id: string, name: string) => {
+    if (!confirm(`Are you sure you want to delete category "${name}"?`)) return;
 
     try {
       const res = await fetch(`/api/products/categories?id=${id}`, {
@@ -209,19 +173,19 @@ export default function ProductsCatalogCMSPage() {
       });
       const json = await res.json();
       if (json.success) {
-        toast.success('Brand deleted successfully');
-        if (selectedBrandSlug === id) setSelectedBrandSlug('all');
+        toast.success('Category deleted successfully');
+        if (selectedCategorySlug === id) setSelectedCategorySlug('all');
         fetchCatalog();
       } else {
-        toast.error(json.error || 'Failed to delete brand');
+        toast.error(json.error || 'Failed to delete category');
       }
     } catch {
-      toast.error('Network error deleting brand');
+      toast.error('Network error deleting category');
     }
   };
 
-  const handleDeleteProduct = async (id: string, prodName: string) => {
-    if (!confirm(`Are you sure you want to delete "${prodName}"?`)) return;
+  const handleDeleteProduct = async (id: string, name: string) => {
+    if (!confirm(`Are you sure you want to delete product "${name}"?`)) return;
 
     try {
       const res = await fetch(`/api/products?id=${id}`, {
@@ -230,148 +194,104 @@ export default function ProductsCatalogCMSPage() {
       const json = await res.json();
       if (json.success) {
         toast.success('Product deleted successfully');
-        fetchCatalog();
+        setProducts((prev) => prev.filter((p) => p.id !== id));
       } else {
         toast.error(json.error || 'Failed to delete product');
       }
-    } catch (err: any) {
-      toast.error(err?.message || 'Failed to delete product');
+    } catch {
+      toast.error('Network error deleting product');
     }
   };
 
-  // Categories under the currently selected brand (e.g. for HP Lubricants: Engine Oils, Gear Oils, etc.)
-  const availableCategoriesForBrand = useMemo(() => {
-    const brandProducts =
-      selectedBrandSlug === 'all'
-        ? products
-        : products.filter((p) => p.categorySlug === selectedBrandSlug);
-
-    const categoryCounts: Record<string, number> = {};
-    brandProducts.forEach((p) => {
-      const cat = p.subCategoryTitle?.trim() || 'General';
-      categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
-    });
-
-    return Object.entries(categoryCounts).map(([name, count]) => ({
-      name,
-      count,
-    }));
-  }, [products, selectedBrandSlug]);
-
-  // When changing brand, reset category filter to "all"
-  const handleSelectBrand = (slug: string) => {
-    setSelectedBrandSlug(slug);
-    setSelectedCategoryTitle('all');
-  };
-
-  // Filtered products based on Tier 1 (Brand), Tier 2 (Category), and Search Query
+  // Filtered products based on Category and Search Query
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
-      const matchesBrand = selectedBrandSlug === 'all' || p.categorySlug === selectedBrandSlug;
       const matchesCategory =
-        selectedCategoryTitle === 'all' ||
-        (p.subCategoryTitle || '').toLowerCase().trim() ===
-          selectedCategoryTitle.toLowerCase().trim();
+        selectedCategorySlug === 'all' ||
+        p.categorySlug === selectedCategorySlug ||
+        p.categoryName?.toLowerCase() === selectedCategorySlug.toLowerCase();
+
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
         !q ||
         p.name.toLowerCase().includes(q) ||
-        (p.subtitle && p.subtitle.toLowerCase().includes(q)) ||
         (p.subCategoryTitle && p.subCategoryTitle.toLowerCase().includes(q)) ||
         (p.categoryName && p.categoryName.toLowerCase().includes(q)) ||
-        (p.specsText && p.specsText.toLowerCase().includes(q)) ||
+        (p.specifications?.viscosity && p.specifications.viscosity.toLowerCase().includes(q)) ||
+        (p.specifications?.grade && p.specifications.grade.toLowerCase().includes(q)) ||
+        (p.badge && p.badge.toLowerCase().includes(q)) ||
         (p.applicationAreas && p.applicationAreas.toLowerCase().includes(q));
-      return matchesBrand && matchesCategory && matchesSearch;
+
+      return matchesCategory && matchesSearch;
     });
-  }, [products, selectedBrandSlug, selectedCategoryTitle, searchQuery]);
+  }, [products, selectedCategorySlug, searchQuery]);
 
-  const activeBrandName =
-    selectedBrandSlug === 'all'
-      ? 'All Brands'
-      : brands.find((b) => b.slug === selectedBrandSlug)?.name || selectedBrandSlug;
-
-  const hasActiveFilters =
-    selectedBrandSlug !== 'all' || selectedCategoryTitle !== 'all' || searchQuery.trim() !== '';
+  const hasActiveFilters = selectedCategorySlug !== 'all' || searchQuery.trim() !== '';
 
   const handleClearFilters = () => {
-    setSelectedBrandSlug('all');
-    setSelectedCategoryTitle('all');
+    setSelectedCategorySlug('all');
     setSearchQuery('');
   };
 
   return (
-    <section className="flex flex-col gap-8 pb-12">
+    <section className="p-4 sm:p-8 flex flex-col gap-8 max-w-7xl mx-auto">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <PageHeader
-          title="Multi-Brand Products Catalog"
-          description="Manage all 10 authorized brand partners (HP Lubricants, Valvoline, GS Caltex, etc.), brand categories (Engine Oils, Gear Oils, etc.), and their lubricant products."
+          title="Products Catalog"
+          description="Manage, filter, and edit all Lubricon formulations and product categories."
         />
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-3 shrink-0 flex-wrap">
           <button
             type="button"
-            onClick={openNewBrandModal}
-            className="inline-flex items-center gap-1.5 px-5 py-3 border border-gray-200 hover:border-[#C86218] text-gray-700 hover:text-[#C86218] text-xs font-bold rounded-full bg-white transition-all cursor-pointer shadow-2xs"
+            onClick={openNewCategoryModal}
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 hover:text-black hover:border-black text-xs font-bold rounded-full shadow-2xs transition-all cursor-pointer"
           >
-            <FolderTree className="w-4 h-4 text-[#C86218]" />
-            Add Brand Partner
+            <Layers className="w-4 h-4 text-[#C86218]" />
+            Add Category
           </button>
           <Link
             href="/static-pages/products/create"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#C86218] hover:bg-[#0C356A] text-white text-xs font-semibold rounded-full shadow-sm hover:shadow-[0_0_20px_rgba(200,98,24,0.35)] transition-all shrink-0 cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#C86218] hover:bg-[#b05514] text-white text-xs font-bold rounded-full shadow-sm transition-all cursor-pointer"
           >
-            <Plus className="w-4 h-4" />
-            Add Product
+            <Plus className="w-4 h-4" /> Add Product
           </Link>
         </div>
       </div>
 
-      {/* Two-Tier Filter Card: Brand Level + Category Level */}
-      {/* ── Filter Bar ── */}
+      {/* ── 1. Products Page Hero Banner Editor ── */}
+      <ProductsHeroSection
+        initialData={heroData}
+        isOpen={isHeroOpen}
+        onToggle={() => setIsHeroOpen(!isHeroOpen)}
+        onSaved={(updated) => setHeroData(updated)}
+      />
+
+      {/* ── 2. Filter Bar (Category Selector + Search) ── */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
-        <div className="flex flex-wrap items-center gap-3">
-          {/* Brand dropdown */}
-          <div className="flex flex-col gap-1">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 flex-wrap">
+          {/* Category Dropdown */}
+          <div className="flex flex-col gap-1 min-w-[200px]">
             <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-1">
-              Brand
+              Product Category
             </label>
             <div className="relative">
               <select
-                value={selectedBrandSlug}
-                onChange={(e) => handleSelectBrand(e.target.value)}
-                className="appearance-none pl-3 pr-8 py-2 rounded-xl border border-gray-200 bg-gray-50 text-[12px] font-semibold text-gray-700 focus:outline-none focus:border-[#C86218] focus:ring-2 focus:ring-[#C86218]/10 cursor-pointer transition-all hover:border-gray-300 min-w-[180px]"
+                value={selectedCategorySlug}
+                onChange={(e) => setSelectedCategorySlug(e.target.value)}
+                className="w-full appearance-none pl-3 pr-8 py-2 rounded-xl border border-gray-200 bg-gray-50 text-[12px] font-semibold text-gray-800 focus:outline-none focus:border-[#C86218] focus:bg-white focus:ring-2 focus:ring-[#C86218]/10 transition-all cursor-pointer"
               >
-                <option value="all">All Brands ({products.length})</option>
-                {brands.map((brand) => {
-                  const count = products.filter((p) => p.categorySlug === brand.slug).length;
+                <option value="all">All Categories ({products.length})</option>
+                {categories.map((cat) => {
+                  const count = products.filter(
+                    (p) => p.categorySlug === cat.slug || p.categoryName?.toLowerCase() === cat.name.toLowerCase()
+                  ).length;
                   return (
-                    <option key={brand.slug} value={brand.slug}>
-                      {brand.name} ({count})
+                    <option key={cat.id} value={cat.slug}>
+                      {cat.name} ({count})
                     </option>
                   );
                 })}
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-            </div>
-          </div>
-
-          {/* Category dropdown */}
-          <div className="flex flex-col gap-1">
-            <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-1">
-              Category
-            </label>
-            <div className="relative">
-              <select
-                value={selectedCategoryTitle}
-                onChange={(e) => setSelectedCategoryTitle(e.target.value)}
-                className="appearance-none pl-3 pr-8 py-2 rounded-xl border border-gray-200 bg-gray-50 text-[12px] font-semibold text-gray-700 focus:outline-none focus:border-[#C86218] focus:ring-2 focus:ring-[#C86218]/10 cursor-pointer transition-all hover:border-gray-300 min-w-[180px]"
-              >
-                <option value="all">All Categories ({availableCategoriesForBrand.length})</option>
-                {availableCategoriesForBrand.map((cat) => (
-                  <option key={cat.name} value={cat.name}>
-                    {cat.name} ({cat.count})
-                  </option>
-                ))}
               </select>
               <ChevronDown className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
             </div>
@@ -391,7 +311,7 @@ export default function ProductsCatalogCMSPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Grade, viscosity, specs..."
+                placeholder="Grade, viscosity, product name, application..."
                 className="w-full pl-8 pr-8 py-2 rounded-xl border border-gray-200 bg-gray-50 text-[12px] font-medium text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#C86218] focus:bg-white focus:ring-2 focus:ring-[#C86218]/10 transition-all"
               />
               {searchQuery && (
@@ -409,8 +329,7 @@ export default function ProductsCatalogCMSPage() {
           {/* Result count & Clear Filters */}
           <div className="flex items-center gap-3 self-end pb-0.5 ml-auto flex-wrap">
             <span className="text-[11px] font-semibold text-gray-400 whitespace-nowrap">
-              <span className="font-black text-gray-700">{filteredProducts.length}</span> /{' '}
-              {products.length} products
+              <span className="font-black text-gray-700">{filteredProducts.length}</span> / {products.length} products
             </span>
             {hasActiveFilters && (
               <button
@@ -427,7 +346,7 @@ export default function ProductsCatalogCMSPage() {
         </div>
       </div>
 
-      {/* Products Grid */}
+      {/* ── 3. Products Grid ── */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-pulse">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
@@ -451,7 +370,7 @@ export default function ProductsCatalogCMSPage() {
             <p className="text-xs text-gray-400 mt-1 max-w-sm">
               {searchQuery
                 ? `No products matched "${searchQuery}". Try a different keyword or reset filters.`
-                : 'No products exist for this brand & category combination yet.'}
+                : 'No products exist for this category yet.'}
             </p>
           </div>
           <Link
@@ -533,19 +452,33 @@ export default function ProductsCatalogCMSPage() {
                     </div>
                   )}
 
-                  {p.specsText && (
+                  {p.specifications?.viscosity ? (
                     <p className="text-[11px] font-medium text-gray-500 mt-1.5 line-clamp-1">
-                      {p.specsText}
+                      {p.specifications.viscosity}
+                      {p.specifications.grade ? ` • ${p.specifications.grade}` : ''}
                     </p>
-                  )}
+                  ) : null}
 
-                  {packagingValue && (
-                    <div className="mt-2.5">
-                      <span className="inline-block px-2 py-0.5 rounded bg-gray-50 text-[10px] font-semibold text-gray-600 border border-gray-100 truncate max-w-full">
-                        Pack: {packagingValue}
-                      </span>
-                    </div>
-                  )}
+                  {(() => {
+                    let packText = '';
+                    if (p.specifications?.packaging) {
+                      if (Array.isArray(p.specifications.packaging) && p.specifications.packaging.length > 0) {
+                        packText = p.specifications.packaging.join(", ");
+                      } else if (typeof p.specifications.packaging === 'string') {
+                        packText = p.specifications.packaging;
+                      }
+                    }
+                    if (!packText && packagingValue) {
+                      packText = String(packagingValue);
+                    }
+                    return packText ? (
+                      <div className="mt-2.5">
+                        <span className="inline-block px-2 py-0.5 rounded bg-gray-50 text-[10px] font-semibold text-gray-600 border border-gray-100 truncate max-w-full">
+                          Pack: {packText}
+                        </span>
+                      </div>
+                    ) : null;
+                  })()}
                 </div>
 
                 <div className="flex items-center justify-between pt-4 mt-4 border-t border-gray-50">
@@ -587,27 +520,27 @@ export default function ProductsCatalogCMSPage() {
         </div>
       )}
 
-      {/* Brand Partner Modal (Clear, Unambiguous Naming!) */}
-      {isBrandModalOpen && (
+      {/* Category Modal (Add / Edit) */}
+      {isCategoryModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="bg-white w-full max-w-lg max-h-[90vh] rounded-3xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden">
-            <div className="flex items-center justify-between px-8 py-5 border-b border-gray-100 bg-gray-50/50">
+          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden">
+            <div className="flex items-center justify-between px-7 py-5 border-b border-gray-100 bg-gray-50/50">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-2xl bg-orange-50 text-[#C86218] flex items-center justify-center font-bold">
-                  <Award className="w-5 h-5" />
+                  <Layers className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-gray-900">
-                    {editingBrand ? `Edit Brand: ${editingBrand.name}` : 'Add New Brand Partner'}
+                    {editingCategory ? `Edit Category: ${editingCategory.name}` : 'Add New Category'}
                   </h3>
                   <p className="text-xs text-gray-400 font-medium">
-                    Configure brand identity, taglines, hero banner graphics, and catalog ordering.
+                    Configure category name, URL slug, and ordering.
                   </p>
                 </div>
               </div>
               <button
                 type="button"
-                onClick={() => setIsBrandModalOpen(false)}
+                onClick={() => setIsCategoryModalOpen(false)}
                 className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
@@ -615,103 +548,55 @@ export default function ProductsCatalogCMSPage() {
             </div>
 
             <form
-              onSubmit={handleSaveBrand}
-              className="flex-1 overflow-y-auto p-8 flex flex-col gap-5 custom-scrollbar"
+              onSubmit={handleSaveCategory}
+              className="p-7 flex flex-col gap-4"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <InputField
-                  label="Brand Name *"
-                  value={brandName}
-                  onChange={(e) => handleBrandNameChange(e.target.value)}
-                  placeholder="Enter brand name"
-                  required
-                />
-                <InputField
-                  label="Brand URL Slug *"
-                  value={brandSlug}
-                  readOnly
-                  placeholder="Auto-generated from brand name"
-                  className="bg-gray-50 text-gray-500 cursor-not-allowed select-none"
-                />
-              </div>
+              <InputField
+                label="Category Name *"
+                value={catName}
+                onChange={(e) => handleCatNameChange(e.target.value)}
+                placeholder="e.g. Engine Oil, Gear Oil, ATF..."
+                required
+              />
 
               <InputField
-                label="Brand Tagline / Subtitle"
-                value={brandTagline}
-                onChange={(e) => setBrandTagline(e.target.value)}
-                placeholder="e.g. India Premier Lubricant Solutions & Direct Refinery Supply"
+                label="Category URL Slug *"
+                value={catSlug}
+                onChange={(e) => setCatSlug(e.target.value)}
+                placeholder="e.g. engine-oil"
+                required
               />
-
-              <TextAreaField
-                label="About Brand / Full Narrative Description"
-                rows={4}
-                value={brandAbout}
-                onChange={(e) => setBrandAbout(e.target.value)}
-                placeholder="Detailed explanation displayed in the website hero banner and about section..."
-              />
-
-              <ImageUploadField
-                label="Brand Hero Banner / Cover Graphic"
-                images={brandImages}
-                onImagesChange={setBrandImages}
-                maxImages={1}
-                tooltip="Upload brand hero banner graphic or warehouse photo."
-              />
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <InputField
-                  label="Primary CTA Button Text"
-                  value={brandPrimaryCta}
-                  onChange={(e) => setBrandPrimaryCta(e.target.value)}
-                  placeholder="e.g. Request a Quote"
-                />
-                <InputField
-                  label="Secondary CTA Button Text"
-                  value={brandSecondaryCta}
-                  onChange={(e) => setBrandSecondaryCta(e.target.value)}
-                  placeholder="e.g. Browse range"
-                />
-              </div>
 
               <InputField
-                label="Featured Product Badge Text"
-                value={brandFeaturedBadge}
-                onChange={(e) => setBrandFeaturedBadge(e.target.value)}
-                placeholder="e.g. Featured product"
+                label="Display Order Index"
+                type="number"
+                value={String(catOrder)}
+                onChange={(e) => setCatOrder(parseInt(e.target.value, 10) || 0)}
+                placeholder="0"
               />
 
-              <div className="grid grid-cols-1 gap-4 items-center p-3.5 bg-gray-50 rounded-2xl border border-gray-100">
-                <InputField
-                  label="Display Order Index"
-                  type="number"
-                  value={String(brandOrder)}
-                  onChange={(e) => setBrandOrder(parseInt(e.target.value, 10) || 0)}
-                  placeholder="0"
-                />
-              </div>
-
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                {editingBrand && (
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-2">
+                {editingCategory && (
                   <button
                     type="button"
-                    onClick={() => handleDeleteBrand(editingBrand.id, editingBrand.name)}
+                    onClick={() => handleDeleteCategory(editingCategory.id, editingCategory.name)}
                     className="text-xs font-semibold text-red-600 hover:underline cursor-pointer"
                   >
-                    Delete Brand
+                    Delete Category
                   </button>
                 )}
                 <div className="flex items-center gap-3 ml-auto">
                   <button
                     type="button"
-                    onClick={() => setIsBrandModalOpen(false)}
-                    className="px-6 py-3 border border-gray-200 text-gray-700 rounded-full font-bold text-xs hover:bg-gray-50 transition-colors cursor-pointer"
+                    onClick={() => setIsCategoryModalOpen(false)}
+                    className="px-5 py-2.5 border border-gray-200 text-gray-700 rounded-full font-bold text-xs hover:bg-gray-50 transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
                   <SaveButton
-                    loading={brandModalLoading}
-                    label="Save Changes"
-                    className="w-auto px-8"
+                    loading={categoryModalLoading}
+                    label="Save Category"
+                    className="w-auto px-6"
                   />
                 </div>
               </div>

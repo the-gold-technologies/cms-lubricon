@@ -4,9 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/PageHeader';
 import {
   ContactHeroSection,
-  ContactHeadquarterSection,
-  ContactFormConfigSection,
-  ExistingBusinessNetworkCMSSection,
+  ContactFormSection,
   ContactFaqSection,
 } from './components';
 import toast from 'react-hot-toast';
@@ -14,12 +12,10 @@ import toast from 'react-hot-toast';
 export default function ContactUsCMSPage() {
   const [sections, setSections] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
-    hero: true, // Only hero section is open by default
-  });
+  const [openSection, setOpenSection] = useState<string | null>('hero');
 
-  const toggleSection = (key: string) => {
-    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  const toggleSection = (sectionKey: string) => {
+    setOpenSection((prev) => (prev === sectionKey ? null : sectionKey));
   };
 
   const fetchContactData = async () => {
@@ -67,11 +63,11 @@ export default function ContactUsCMSPage() {
     <section className="flex flex-col gap-8 pb-16">
       <PageHeader
         title="Contact Us Page Content"
-        description="Manage banner graphic, company credentials, primary contact information, and enquiry form settings."
+        description="Manage the 3 live sections of the Contact page: Hero & Direct Channels, Enquiry Form Settings, and Frequently Asked Questions."
       />
 
       {loading ? (
-        <div className="py-20 text-center text-gray-400 text-sm animate-pulse">
+        <div className="py-20 text-center text-zinc-400 text-sm animate-pulse">
           Loading contact page content...
         </div>
       ) : (
@@ -80,39 +76,23 @@ export default function ContactUsCMSPage() {
           <ContactHeroSection
             initialData={sections.ContactHero}
             onSave={(data) => handleSaveSection('ContactHero', data)}
-            isOpen={openSections.hero ?? true}
+            isOpen={openSection === 'hero'}
             onToggle={() => toggleSection('hero')}
           />
 
-          {/* Section 2: Headquarter Contact Details */}
-          <ContactHeadquarterSection
-            initialData={sections.ContactHeadquarter}
-            onSave={(data) => handleSaveSection('ContactHeadquarter', data)}
-            isOpen={openSections.hq ?? false}
-            onToggle={() => toggleSection('hq')}
-          />
-
-          {/* Section 3: Enquiry Form Card Settings */}
-          <ContactFormConfigSection
+          {/* Section 2: Enquiry Form Card Settings & Direct Channels */}
+          <ContactFormSection
             initialData={sections.ContactForm}
             onSave={(data) => handleSaveSection('ContactForm', data)}
-            isOpen={openSections.form ?? false}
+            isOpen={openSection === 'form'}
             onToggle={() => toggleSection('form')}
           />
 
-          {/* Section 4: Existing Business Network & Map */}
-          <ExistingBusinessNetworkCMSSection
-            initialData={sections.ExistingBusinessNetwork}
-            onSave={(data) => handleSaveSection('ExistingBusinessNetwork', data)}
-            isOpen={openSections.network ?? false}
-            onToggle={() => toggleSection('network')}
-          />
-
-          {/* Section 5: Frequently Asked Questions */}
+          {/* Section 3: Frequently Asked Questions */}
           <ContactFaqSection
             initialData={sections.ContactFaq}
             onSave={(data) => handleSaveSection('ContactFaq', data)}
-            isOpen={openSections.faq ?? false}
+            isOpen={openSection === 'faq'}
             onToggle={() => toggleSection('faq')}
           />
         </div>

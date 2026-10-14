@@ -366,3 +366,99 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
     return { sent: false, error };
   }
 }
+
+
+export interface DistributorLeadEmailData {
+  name: string;
+  firmName: string;
+  email?: string;
+  phone: string;
+  city?: string;
+  state?: string;
+  existingBusiness?: string | null;
+  annualTurnover?: string | null;
+  experienceYears?: string | null;
+  message?: string | null;
+}
+
+export async function sendDistributorLeadNotificationEmail(data: DistributorLeadEmailData) {
+  try {
+    const transporter = getMailTransporter();
+    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || "sude8920esh@gmail.com";
+    const fromAddress = getFromAddress();
+
+    if (!transporter) {
+      console.log("📧 [SMTP Notice] SMTP not configured. Skipping distributor email dispatch.");
+      return { sent: false, reason: "SMTP not configured" };
+    }
+
+    const adminHtml = [
+      '<!DOCTYPE html>',
+      '<html><head><meta charset="utf-8"><title>New Distributor Application</title></head>',
+      '<body style="margin: 0; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; background: #f8fafc; color: #1e293b;">',
+      '  <table role="presentation" width="100%" style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">',
+      '    <tr style="background: #0f172a; text-align: center;">',
+      '      <td style="padding: 24px; text-align: center;">',
+      '        <h2 style="color: #ffe000; margin: 0; font-size: 20px;">🤝 New Distributor Application</h2>',
+      '        <p style="color: #94a3b8; font-size: 13px; margin: 6px 0 0;">Lubricon Specialities India Lead Management</p>',
+      '      </td>',
+      '    </tr>',
+      '    <tr>',
+      '      <td style="padding: 24px;">',
+      '        <table width="100%" style="border-collapse: collapse; font-size: 14px;">',
+      '          <tr><td style="padding: 8px 0; color: #64748b; font-weight: 600;">Applicant Name:</td><td style="padding: 8px 0; font-weight: bold; color: #0f172a;">' + data.name + '</td></tr>',
+      '          <tr><td style="padding: 8px 0; color: #64748b; font-weight: 600;">Firm Name:</td><td style="padding: 8px 0; font-weight: bold; color: #0f172a;">' + data.firmName + '</td></tr>',
+      '          <tr><td style="padding: 8px 0; color: #64748b; font-weight: 600;">Phone:</td><td style="padding: 8px 0; font-weight: bold; color: #0f172a;">' + data.phone + '</td></tr>',
+      '          <tr><td style="padding: 8px 0; color: #64748b; font-weight: 600;">Email:</td><td style="padding: 8px 0; font-weight: bold; color: #0f172a;">' + (data.email || "N/A") + '</td></tr>',
+      '          <tr><td style="padding: 8px 0; color: #64748b; font-weight: 600;">Location:</td><td style="padding: 8px 0; font-weight: bold; color: #0f172a;">' + ([data.city, data.state].filter(Boolean).join(", ") || "N/A") + '</td></tr>',
+      '          <tr><td style="padding: 8px 0; color: #64748b; font-weight: 600;">Current Business:</td><td style="padding: 8px 0; font-weight: bold; color: #0f172a;">' + (data.existingBusiness || "N/A") + '</td></tr>',
+      '          <tr><td style="padding: 8px 0; color: #64748b; font-weight: 600;">Annual Turnover:</td><td style="padding: 8px 0; font-weight: bold; color: #0f172a;">' + (data.annualTurnover || "N/A") + '</td></tr>',
+      '          <tr><td style="padding: 8px 0; color: #64748b; font-weight: 600;">Experience:</td><td style="padding: 8px 0; font-weight: bold; color: #0f172a;">' + (data.experienceYears ? data.experienceYears + " years" : "N/A") + '</td></tr>',
+      '        </table>',
+      data.message ? '        <div style="margin-top: 16px; background: #f8fafc; border-left: 4px solid #ffe000; padding: 12px 16px; font-size: 13px;">' + data.message + '</div>' : '',
+      '      </td>',
+      '    </tr>',
+      '  </table>',
+      '</body></html>'
+    ].join("\n");
+
+    await transporter.sendMail({
+      from: fromAddress,
+      to: adminEmail,
+      subject: "🤝 New Distributor Application: " + data.name + " (" + data.firmName + ")",
+      html: adminHtml,
+    });
+
+    if (data.email && !data.email.includes("noemail@")) {
+      const userHtml = [
+        '<!DOCTYPE html><html>',
+        '<body style="font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; background: #f8fafc; padding: 20px; color: #1e293b;">',
+        '  <div style="max-width: 580px; margin: 0 auto; background: #fff; padding: 32px; border-radius: 16px; border: 1px solid #e2e8f0;">',
+        '    <h2 style="color: #0c356a; margin-top: 0;">Thank You for Your Distributor Application, ' + data.name + '!</h2>',
+        '    <p style="font-size: 14px; line-height: 1.6; color: #475569;">',
+        '      We have received your dealership / distribution inquiry for <strong>' + data.firmName + '</strong>.',
+        '      Our Channel Sales & Business Development team is reviewing your details and will get in touch shortly.',
+        '    </p>',
+        '    <p style="font-size: 13px; color: #64748b; margin-top: 24px;">',
+        '      Warm regards,<br>',
+        '      <strong style="color: #0c356a;">Lubricon Specialities India</strong><br>',
+        '      Channel Partnerships Team',
+        '    </p>',
+        '  </div>',
+        '</body></html>'
+      ].join("\n");
+
+      await transporter.sendMail({
+        from: fromAddress,
+        to: data.email,
+        subject: "Thank You for Your Distributor Application - Lubricon Specialities India",
+        html: userHtml,
+      }).catch(e => console.error("Error sending distributor ack email:", e));
+    }
+
+    return { sent: true };
+  } catch (error) {
+    console.error("Error in sendDistributorLeadNotificationEmail:", error);
+    return { sent: false, error };
+  }
+}

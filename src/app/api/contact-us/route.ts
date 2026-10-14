@@ -55,16 +55,20 @@ export async function PUT(request: Request) {
   try {
     const body = await request.json();
 
-    const page = await prisma.page.upsert({
-      where: { slug: CONTACT_SLUG },
-      create: {
-        title: 'Contact Us',
-        slug: CONTACT_SLUG,
-        type: 'static',
-        visibility: 'published',
-      },
-      update: {},
+    let page = await prisma.page.findFirst({
+      where: { slug: { in: ['contact', 'contact-us'] } },
     });
+
+    if (!page) {
+      page = await prisma.page.create({
+        data: {
+          title: 'Contact Us',
+          slug: 'contact',
+          type: 'static',
+          visibility: 'published',
+        },
+      });
+    }
 
     // 1. Check if section-level update
     if (body.section && body.content !== undefined) {

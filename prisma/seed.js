@@ -57,6 +57,7 @@ async function main() {
         linkedin: 'https://www.linkedin.com/company/lubriconindia',
         youtube: 'https://www.youtube.com/',
         tollFree: '1800 569 6363',
+        footerLogo: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888291/lubricon/images/logo.png',
         copyrightText: '© 2026 Lubricon Specialities India. All rights reserved.',
       },
       robotsTxt: 'User-agent: *\nAllow: /\n\nSitemap: https://lubricon.in/sitemap.xml',
@@ -78,6 +79,7 @@ async function main() {
         linkedin: 'https://www.linkedin.com/company/lubriconindia',
         youtube: 'https://www.youtube.com/',
         tollFree: '1800 569 6363',
+        footerLogo: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888291/lubricon/images/logo.png',
         copyrightText: '© 2026 Lubricon Specialities India. All rights reserved.',
       },
       robotsTxt: 'User-agent: *\nAllow: /\n\nSitemap: https://lubricon.in/sitemap.xml',
@@ -88,82 +90,59 @@ async function main() {
   console.log('✓ Global configuration seeded.');
 
   // 3. Navigation Links
-  const navLinksData = [
-    { label: 'Home', url: '/', type: 'Main Link', parent: '-', order: 0, isStatic: true },
-    { label: 'About Us', url: '/about', type: 'Main Link', parent: '-', order: 1, isStatic: true },
-    { label: 'Products', url: '/products', type: 'Main Link', parent: '-', order: 2, isStatic: true },
-    { label: 'Engine Oils', url: '/products?cat=engine-oil', type: 'Dropdown', parent: 'Products', order: 0 },
-    { label: 'Gear Oils', url: '/products?cat=gear-oil', type: 'Dropdown', parent: 'Products', order: 1 },
-    { label: 'ATF & Transmission', url: '/products?cat=atf', type: 'Dropdown', parent: 'Products', order: 2 },
-    { label: 'Industrial Specialities', url: '/products?cat=industrial', type: 'Dropdown', parent: 'Products', order: 3 },
-    { label: 'AdBlue / DEF & Brake Fluids', url: '/products?cat=fluids', type: 'Dropdown', parent: 'Products', order: 4 },
-    { label: 'Industries', url: '/industries', type: 'Main Link', parent: '-', order: 3, isStatic: true },
-    { label: 'Contact Us', url: '/contact', type: 'Main Link', parent: '-', order: 4, isStatic: true },
-  ];
-
+  // 3. Navigation Links (Hierarchical structure matching the website)
   await prisma.navLink.deleteMany({});
-  for (const item of navLinksData) {
+  
+  const homeLink = await prisma.navLink.create({
+    data: { label: 'Home', url: '/', type: 'Main Link', parent: '-', order: 0, isStatic: true },
+  });
+  const aboutLink = await prisma.navLink.create({
+    data: { label: 'About Us', url: '/about', type: 'Main Link', parent: '-', order: 1, isStatic: true },
+  });
+  const productsLink = await prisma.navLink.create({
+    data: { label: 'Products', url: '/products', type: 'Dropdown', parent: '-', order: 2, isStatic: true },
+  });
+  const industriesLink = await prisma.navLink.create({
+    data: { label: 'Industries We Serve', url: '/industries', type: 'Dropdown', parent: '-', order: 3, isStatic: true },
+  });
+  const contactLink = await prisma.navLink.create({
+    data: { label: 'Contact Us', url: '/contact', type: 'Main Link', parent: '-', order: 4, isStatic: true },
+  });
+
+  const productSubLinks = [
+    { label: 'Engine Oils', url: '/products?cat=engine-oil', type: 'Dropdown', parent: productsLink.id, order: 0 },
+    { label: 'Gear Oils', url: '/products?cat=gear-oil', type: 'Dropdown', parent: productsLink.id, order: 1 },
+    { label: 'ATF & Transmission', url: '/products?cat=atf', type: 'Dropdown', parent: productsLink.id, order: 2 },
+    { label: 'Industrial Specialities', url: '/products?cat=industrial', type: 'Dropdown', parent: productsLink.id, order: 3 },
+    { label: 'AdBlue / DEF & Brake Fluids', url: '/products?cat=fluids', type: 'Dropdown', parent: productsLink.id, order: 4 },
+  ];
+  for (const item of productSubLinks) {
+    await prisma.navLink.create({ data: item });
+  }
+
+  const industriesSubLinks = [
+    { label: 'Plastic Injection Molding', url: '/industries#plastic-injection-molding', type: 'Dropdown', parent: industriesLink.id, order: 0 },
+    { label: 'Paper Mills', url: '/industries#paper-mills', type: 'Dropdown', parent: industriesLink.id, order: 1 },
+    { label: 'Steel Plants', url: '/industries#steel-plants', type: 'Dropdown', parent: industriesLink.id, order: 2 },
+    { label: 'Automotive & Fleet', url: '/industries#automotive-fleet', type: 'Dropdown', parent: industriesLink.id, order: 3 },
+    { label: 'All Industries →', url: '/industries', type: 'Dropdown', parent: industriesLink.id, order: 4 },
+  ];
+  for (const item of industriesSubLinks) {
     await prisma.navLink.create({ data: item });
   }
   console.log('✓ Navigation links seeded.');
 
-  // 4. Product Categories
+  // 4. Product Categories (9 distinct categories)
   const categories = [
-    {
-      id: 'cat-engine-oil',
-      name: 'Engine Oils',
-      slug: 'engine-oil',
-      shortDesc: 'Heavy-duty diesel and automotive engine oils engineered for severe Indian conditions.',
-      fullDesc: 'Lubricon high-performance multigrade and synthetic engine oils provide maximum engine cleanliness, soot handling, and extended drain intervals.',
-      coverImage: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg',
-      featuredBadgeText: 'API CK-4 & CI-4 Plus',
-      order: 0,
-      isFeatured: true,
-    },
-    {
-      id: 'cat-gear-oil',
-      name: 'Gear Oils',
-      slug: 'gear-oil',
-      shortDesc: 'Automotive and heavy-duty industrial EP gear oils for high load gearboxes.',
-      fullDesc: 'Extreme Pressure (EP) gear lubricants offering superior film strength, micro-pitting resistance, and thermal durability.',
-      coverImage: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888295/lubricon/images/lubricon-pail-20l.jpg',
-      featuredBadgeText: 'EP High Load',
-      order: 1,
-      isFeatured: true,
-    },
-    {
-      id: 'cat-atf',
-      name: 'ATF & Transmission',
-      slug: 'atf',
-      shortDesc: 'Automatic transmission fluids and power steering lubricants.',
-      fullDesc: 'Formulated for smooth shifting, thermal stability, and seal compatibility in passenger and commercial vehicle transmissions.',
-      coverImage: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888296/lubricon/images/prod-atf.jpg',
-      featuredBadgeText: 'Dexron III & Type A',
-      order: 2,
-      isFeatured: true,
-    },
-    {
-      id: 'cat-industrial',
-      name: 'Industrial Specialities',
-      slug: 'industrial',
-      shortDesc: 'Vacuum pump oils, rust preventives, EDM fluids, and compressor lubricants.',
-      fullDesc: 'Australian technology specialty formulations designed for high precision manufacturing, plastic injection molding, and steel plants.',
-      coverImage: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg',
-      featuredBadgeText: 'Precision Tech',
-      order: 3,
-      isFeatured: true,
-    },
-    {
-      id: 'cat-fluids',
-      name: 'DEF & Specialty Fluids',
-      slug: 'fluids',
-      shortDesc: 'ISO 22241 AdBlue / DEF and DOT 3/4 brake fluids for fleet safety.',
-      fullDesc: 'Clean diesel exhaust fluid reducing emissions and premium polyglycol hydraulic brake fluids ensuring ultimate road safety.',
-      coverImage: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg',
-      featuredBadgeText: 'Eco & Safety',
-      order: 4,
-      isFeatured: true,
-    },
+    { id: 'cat-atf', name: 'ATF (Steering Oil)', slug: 'atf', order: 0, isFeatured: true },
+    { id: 'cat-engine-oil', name: 'Engine Oil', slug: 'engine-oil', order: 1, isFeatured: true },
+    { id: 'cat-gear-oil', name: 'Gear Oil', slug: 'gear-oil', order: 2, isFeatured: true },
+    { id: 'cat-adblue', name: 'AdBlue/DEF', slug: 'adblue', order: 3, isFeatured: true },
+    { id: 'cat-brake-fluid', name: 'Brake Fluid', slug: 'brake-fluid', order: 4, isFeatured: true },
+    { id: 'cat-compressor-oil', name: 'Compressor Oil', slug: 'compressor-oil', order: 5, isFeatured: true },
+    { id: 'cat-vacuum-pump-oil', name: 'Vacuum Pump Oil', slug: 'vacuum-pump-oil', order: 6, isFeatured: true },
+    { id: 'cat-rust-preventive-oil', name: 'Rust Preventive Oil', slug: 'rust-preventive-oil', order: 7, isFeatured: true },
+    { id: 'cat-edm-oil', name: 'EDM Oil', slug: 'edm-oil', order: 8, isFeatured: true },
   ];
 
   for (const c of categories) {
@@ -181,7 +160,7 @@ async function main() {
       name: "Lubricon SupremeX CF-4 15W40",
       slug: "lubricon-supremex-cf4-15w40",
       categorySlug: "engine-oil",
-      categoryName: "Engine Oils",
+      categoryName: "Engine Oil",
       subCategoryTitle: "CF-4 Diesel Engine Oils",
       badge: "Conventional Diesel Power",
       description: "CF-4 grade multi-purpose diesel engine oil suitable for a wide range of diesel applications requiring conventional technology.",
@@ -216,7 +195,7 @@ async function main() {
       name: "Lubricon XtremeX CK-4 15W40",
       slug: "lubricon-xtremex-ck4-15w40",
       categorySlug: "engine-oil",
-      categoryName: "Engine Oils",
+      categoryName: "Engine Oil",
       subCategoryTitle: "CK4 Engine Oils",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       badge: "Latest Grade",
@@ -261,7 +240,7 @@ async function main() {
       name: "Lubricon UltraX CI-4 Plus 15W40",
       slug: "lubricon-ultrax-ci4-plus-15w40",
       categorySlug: "engine-oil",
-      categoryName: "Engine Oils",
+      categoryName: "Engine Oil",
       subCategoryTitle: "CI4 Plus Engine Oils",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       badge: "Fleet Choice",
@@ -288,7 +267,7 @@ async function main() {
       name: "Lubricon TurboX CI-4 15W40",
       slug: "lubricon-turbox-ci4-15w40",
       categorySlug: "engine-oil",
-      categoryName: "Engine Oils",
+      categoryName: "Engine Oil",
       subCategoryTitle: "CI4 Engine Oils",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       description: "Reliable CI-4 multigrade engine oil designed for turbocharged commercial vehicles operating under heavy load cycles.",
@@ -309,7 +288,7 @@ async function main() {
       name: "Lubricon HyperX CH-4 15W40",
       slug: "lubricon-hyperx-ch4-15w40",
       categorySlug: "engine-oil",
-      categoryName: "Engine Oils",
+      categoryName: "Engine Oil",
       subCategoryTitle: "CH4 Engine Oils",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       description: "Proven CH-4 specification heavy-duty engine oil delivering reliable performance for agricultural tractors and medium trucks.",
@@ -326,7 +305,7 @@ async function main() {
       name: "Lubricon MultiX 20W40",
       slug: "lubricon-multix-20w40",
       categorySlug: "engine-oil",
-      categoryName: "Engine Oils",
+      categoryName: "Engine Oil",
       subCategoryTitle: "Multigrade Engine Oils",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       description: "Universal multigrade engine oil for petrol and naturally aspirated diesel vehicles in hot climates.",
@@ -343,7 +322,7 @@ async function main() {
       name: "Lubricon GearShield Pro 80W90 GL-5",
       slug: "lubricon-gearshield-pro-80w90-gl5",
       categorySlug: "gear-oil",
-      categoryName: "Gear Oils",
+      categoryName: "Gear Oil",
       subCategoryTitle: "Automotive Gear Oils - 80W90",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888295/lubricon/images/lubricon-pail-20l.jpg",
       badge: "Heavy Duty",
@@ -367,7 +346,7 @@ async function main() {
       name: "Lubricon HeavyGear Pro 85W140 GL-5",
       slug: "lubricon-heavygear-pro-85w140-gl5",
       categorySlug: "gear-oil",
-      categoryName: "Gear Oils",
+      categoryName: "Gear Oil",
       subCategoryTitle: "Automotive Gear Oils - 85W140",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888295/lubricon/images/lubricon-pail-20l.jpg",
       description: "Heavy viscosity hypoid gear lubricant specifically designed for heavy axle loads, tippers, off-highway haulers, and ambient high-temperature environments.",
@@ -384,7 +363,7 @@ async function main() {
       name: "Lubricon GearTuff 680",
       slug: "lubricon-geartuff-680",
       categorySlug: "gear-oil",
-      categoryName: "Gear Oils",
+      categoryName: "Gear Oil",
       subCategoryTitle: "Heavy Duty Industrial Gear Oils",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       badge: "Industrial Grade",
@@ -408,7 +387,7 @@ async function main() {
       name: "Lubricon GearTuff 460",
       slug: "lubricon-geartuff-460",
       categorySlug: "gear-oil",
-      categoryName: "Gear Oils",
+      categoryName: "Gear Oil",
       subCategoryTitle: "Heavy Duty Industrial Gear Oils",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       description: "Industrial EP gear oil ISO VG 460 for high-load slow-speed gearboxes and enclosed industrial gear sets.",
@@ -425,7 +404,7 @@ async function main() {
       name: "Lubricon GearTuff 100/150/220/320",
       slug: "lubricon-geartuff-100150220320",
       categorySlug: "gear-oil",
-      categoryName: "Gear Oils",
+      categoryName: "Gear Oil",
       subCategoryTitle: "Heavy Duty Industrial Gear Oils",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       description: "Range of industrial EP gear oils covering ISO VG 100 through 320 for diverse enclosed gearbox applications across Indian industry.",
@@ -442,7 +421,7 @@ async function main() {
       name: "Lubricon DEX III (ATF)",
       slug: "lubricon-dex-iii",
       categorySlug: "atf",
-      categoryName: "ATF & Transmission",
+      categoryName: "ATF (Steering Oil)",
       subCategoryTitle: "Automatic Transmission Fluid",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888296/lubricon/images/prod-atf.jpg",
       badge: "ATF",
@@ -465,7 +444,7 @@ async function main() {
       name: "Lubricon ATF Type A",
       slug: "lubricon-atf-a",
       categorySlug: "atf",
-      categoryName: "ATF & Transmission",
+      categoryName: "ATF (Steering Oil)",
       subCategoryTitle: "Steering Oil",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888296/lubricon/images/prod-atf.jpg",
       description: "High-quality ATF Type A Suffix A for power steering systems, tractor steering hydraulics, and older transmissions.",
@@ -480,8 +459,8 @@ async function main() {
     {
       name: "Lubricon VaccuSyn 100",
       slug: "lubricon-vaccusyn-100",
-      categorySlug: "industrial",
-      categoryName: "Industrial Specialities",
+      categorySlug: "vacuum-pump-oil",
+      categoryName: "Vacuum Pump Oil",
       subCategoryTitle: "Vacuum Pump Oil",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       badge: "Specialty",
@@ -503,8 +482,8 @@ async function main() {
     {
       name: "Lubricon RustGuard Pro",
       slug: "lubricon-rustguard-pro",
-      categorySlug: "industrial",
-      categoryName: "Industrial Specialities",
+      categorySlug: "rust-preventive-oil",
+      categoryName: "Rust Preventive Oil",
       subCategoryTitle: "Rust Preventive Oil",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       badge: "Corrosion Shield",
@@ -524,8 +503,8 @@ async function main() {
     {
       name: "Lubricon EDM Oil",
       slug: "edm-oil",
-      categorySlug: "industrial",
-      categoryName: "Industrial Specialities",
+      categorySlug: "edm-oil",
+      categoryName: "EDM Oil",
       subCategoryTitle: "Electrical Discharge Machining Oil",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       badge: "Precision",
@@ -546,8 +525,8 @@ async function main() {
     {
       name: "Lubricon Compressor Oil",
       slug: "compressor-oil",
-      categorySlug: "industrial",
-      categoryName: "Industrial Specialities",
+      categorySlug: "compressor-oil",
+      categoryName: "Compressor Oil",
       subCategoryTitle: "Compressor Oil",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888294/lubricon/images/lubricon-drum-clean.jpg",
       description: "Premium synthetic-fortified compressor lubricant for rotary screw and reciprocating industrial compressors. Prevents carbon deposits on valves.",
@@ -566,8 +545,8 @@ async function main() {
     {
       name: "Lubricon AdBlue / DEF",
       slug: "adbluedef",
-      categorySlug: "fluids",
-      categoryName: "DEF & Specialty Fluids",
+      categorySlug: "adblue",
+      categoryName: "AdBlue/DEF",
       subCategoryTitle: "AdBlue / DEF",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       badge: "Eco Compliance",
@@ -589,8 +568,8 @@ async function main() {
     {
       name: "Lubricon Brake Fluid DOT 3/4",
       slug: "brake-fluid",
-      categorySlug: "fluids",
-      categoryName: "DEF & Specialty Fluids",
+      categorySlug: "brake-fluid",
+      categoryName: "Brake Fluid",
       subCategoryTitle: "Brake Fluid",
       containerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/lubricon-can-5l.jpg",
       description: "High-boiling polyglycol synthetic brake fluid meeting US FMVSS 116 DOT 3 and DOT 4 standards. Protects against vapor lock in extreme mountain and city braking.",
@@ -1573,8 +1552,25 @@ async function main() {
   await prisma.section.create({
     data: {
       pageId: contactPage.id,
-      type: "ContactFaq",
+      type: "ContactForm",
       order: 2,
+      content: {
+        infoHeading: "Need more information? Get in touch with us",
+        infoDescription: "A dedicated team of Australian lubrication engineers ready to assist with product selection, bulk orders, and on-site support.",
+        phone: "1800 569 6363",
+        email: "info@lubricon.in",
+        formTitle: "Send Message",
+        formSubtitle: "Please fill out the form below with your details and message to contact us.",
+        submitButtonText: "Send Message"
+      }
+    }
+  });
+
+  await prisma.section.create({
+    data: {
+      pageId: contactPage.id,
+      type: "ContactFaq",
+      order: 3,
       content: {
         badge: "Help Center",
         heading: "Frequently Asked Questions",
@@ -1616,7 +1612,7 @@ async function main() {
   });
 
   // 8b. Products Page
-  await prisma.page.upsert({
+  const productsPage = await prisma.page.upsert({
     where: { slug: "products" },
     update: {
       title: "All Products",
@@ -1636,6 +1632,124 @@ async function main() {
       isStatic: true
     }
   });
+
+  await prisma.section.deleteMany({ where: { pageId: productsPage.id } });
+  await prisma.section.create({
+    data: {
+      pageId: productsPage.id,
+      type: "ProductsHero",
+      order: 1,
+      content: {
+        badge: "Complete Product Portfolio",
+        heading: "All Lubricon Formulations",
+        description: "Explore our comprehensive range of industrial and automotive lubricants — powered by advanced Australian additive technology and engineered for severe heat, high load, and maximum operational uptime.",
+        bannerImage: "https://res.cloudinary.com/dpa93copz/image/upload/v1791888292/lubricon/images/products-hero-banner.jpg",
+        floatingBadgeTitle: "Commercial & Industrial Packaging",
+        floatingBadgeTag: "210L • 20L • 5L",
+        trustBadges: [
+          { icon: "flag", title: "Australian Tech", subtitle: "Tested for Indian Ops" },
+          { icon: "shield", title: "API & ISO Certified", subtitle: "Strict Quality Audit" },
+          { icon: "layers", title: "Pack Sizes", subtitle: "5L, 20L & 210L Drums" }
+        ]
+      }
+    }
+  });
+
+  // 8.7 Privacy Policy Page
+  const privacyPage = await prisma.page.upsert({
+    where: { slug: 'privacy-policy' },
+    update: {
+      title: 'Privacy Policy',
+      type: 'legal',
+      visibility: 'published',
+      order: 5,
+      metaTitle: 'Privacy Policy | Lubricon Specialities India',
+      metaDescription:
+        'Read the official Privacy Policy of Lubricon Specialities India — Australian technology lubricants and industrial fluids data protection practices.',
+      targetKeywords:
+        'Privacy Policy, Lubricon Specialities India, Australian Lubricants data privacy',
+      canonicalUrl: '/privacy-policy',
+      noIndex: false,
+      headingOptions: 'h1',
+    },
+    create: {
+      title: 'Privacy Policy',
+      slug: 'privacy-policy',
+      type: 'legal',
+      visibility: 'published',
+      order: 5,
+      metaTitle: 'Privacy Policy | Lubricon Specialities India',
+      metaDescription:
+        'Read the official Privacy Policy of Lubricon Specialities India — Australian technology lubricants and industrial fluids data protection practices.',
+      targetKeywords:
+        'Privacy Policy, Lubricon Specialities India, Australian Lubricants data privacy',
+      canonicalUrl: '/privacy-policy',
+      noIndex: false,
+      headingOptions: 'h1',
+    },
+  });
+
+  await prisma.section.deleteMany({ where: { pageId: privacyPage.id } });
+  await prisma.section.create({
+    data: {
+      pageId: privacyPage.id,
+      type: 'PrivacyPolicyContent',
+      order: 0,
+      content: {
+        title: 'Privacy Policy',
+        heroBadge: 'Legal & Data Protection',
+        heroHeading: 'Privacy Policy',
+        heroDescription:
+          'Our commitment to protecting your personal and commercial data across all digital channels, quotations, and technical consultations.',
+        heroBannerImage:
+          'https://res.cloudinary.com/dpa93copz/image/upload/v1791888289/lubricon/images/industries-hero-banner.jpg',
+        lastUpdated: 'October 2026',
+        isPublished: true,
+        content: `
+          <p>Welcome to <strong>Lubricon Specialities India</strong> (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;). Powered by advanced Australian additive technology, Lubricon Specialities India delivers premium automotive, industrial, and heavy-duty lubrication solutions engineered to withstand demanding Indian operational conditions.</p>
+          <p>We are committed to safeguarding your privacy and ensuring the security of all personal, commercial, and technical information shared with us. This Privacy Policy explains our practices regarding the collection, use, disclosure, and protection of your information when you visit our website, explore our product catalog, or contact us through our enquiry, dealership, or technical consultation forms.</p>
+          
+          <h2>1. Information We Collect</h2>
+          <p>We may collect and process the following categories of information:</p>
+          <ul>
+            <li><strong>Business &amp; Contact Details:</strong> Name, organization or fleet name, designation, telephone number, mobile number, email address, physical plant/facility address, and GSTIN/tax details provided when submitting quotation or enquiry requests.</li>
+            <li><strong>Product &amp; Technical Requirements:</strong> Equipment specifications, operational viscosity requirements, current lubricant grades in use, machinery operating temperatures, and commercial volume requirements.</li>
+            <li><strong>Usage &amp; Device Information:</strong> IP address, browser type, operating system, pages visited, time spent, referring URLs, and interaction data captured automatically through cookies and diagnostic analytics.</li>
+          </ul>
+
+          <h2>2. How We Utilize Your Information</h2>
+          <p>Information gathered through our digital channels is utilized strictly for lawful business and customer service purposes, including:</p>
+          <ul>
+            <li>Preparing customized product recommendations, commercial quotations, and lubricant cross-reference analyses.</li>
+            <li>Processing dealer, distributor, and OEM partner applications.</li>
+            <li>Scheduling on-site plant lubrication audits and engineering technical support.</li>
+            <li>Coordinating batch dispatch, doorstep delivery logistics, and post-delivery verification.</li>
+            <li>Maintaining internal operational records, preventing fraud, and optimizing website security and accessibility.</li>
+          </ul>
+
+          <h2>3. Confidentiality &amp; Non-Disclosure</h2>
+          <p>We respect your proprietary business data. We do <strong>not</strong> sell, rent, license, or trade your contact details or procurement queries to third parties. Information is disclosed solely to authorized Lubricon field technical engineers, regional distribution hubs, and verified logistics partners exclusively to fulfill your requests.</p>
+
+          <h2>4. Cookies &amp; Web Analytics</h2>
+          <p>Our website utilizes standard session and analytics cookies to enhance browsing speed, remember language and text zoom preferences, and analyze user engagement patterns. You may disable cookies through your web browser preferences without affecting core website functionality.</p>
+
+          <h2>5. Data Retention &amp; Security</h2>
+          <p>We enforce strict technical and organizational safeguards to protect your personal and commercial data against unauthorized access, loss, alteration, or disclosure. Data is retained only for as long as necessary to fulfill business engagements or comply with statutory requirements under Indian law.</p>
+
+          <h2>6. Grievance Redressal &amp; Contact Information</h2>
+          <p>If you have any questions, clarifications, or requests concerning this Privacy Policy or your data, please contact our compliance desk:</p>
+          <p>
+            <strong>Lubricon Specialities India</strong><br/>
+            Industrial Area, Haryana / Delhi NCR, India<br/>
+            Toll-Free Helpline: <strong>1800 569 6363</strong><br/>
+            Direct Email: <strong>info@lubricon.in</strong>
+          </p>
+        `.trim(),
+        isPublished: true,
+      },
+    },
+  });
+  console.log('✓ Privacy Policy page seeded.');
 
   // 9. Sample Enquiries & Submissions
   await prisma.enquiry.deleteMany({});

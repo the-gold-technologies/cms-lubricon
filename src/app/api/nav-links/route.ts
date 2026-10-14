@@ -9,89 +9,40 @@ export async function GET() {
       orderBy: { order: 'asc' },
     });
 
-    const categories = await prisma.productCategory.findMany({
-      orderBy: { order: 'asc' },
-    });
-
-    const products = await prisma.product.findMany({
-      orderBy: { order: 'asc' },
-    });
-
-    const blogPosts = await prisma.blogPost.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
-
-    const result: any[] = [];
-
-    // Find Products link ID
     const prodLink = links.find(
       (l: any) => l.url === '/products' || l.label.toLowerCase() === 'products'
     );
-    const prodLinkId = prodLink ? prodLink.id : 'products';
-
-    // Find Blog link ID
-    const blogLink = links.find(
-      (l: any) => l.url === '/blogs' || l.label.toLowerCase().includes('blog')
+    const indLink = links.find(
+      (l: any) => l.url === '/industries' || l.label.toLowerCase().includes('industr')
     );
-    const blogLinkId = blogLink ? blogLink.id : 'blogs';
 
-    // 1. Root Navigation Links (Home, About, Brands, Products, Industries, Gallery, Blog, Contact)
-    for (const link of links) {
-      result.push({
+    const result = links.map((link: any) => {
+      let resolvedParent = link.parent || '-';
+      if ((resolvedParent === 'Products' || resolvedParent === 'products') && prodLink) {
+        resolvedParent = prodLink.id;
+      } else if (
+        (resolvedParent === 'Industries' ||
+          resolvedParent === 'Industries We Serve' ||
+          resolvedParent === 'industries') &&
+        indLink
+      ) {
+        resolvedParent = indLink.id;
+      }
+
+      return {
         id: link.id,
         label: link.label,
         title: link.title || link.label.toUpperCase(),
         url: link.url,
-        type: link.type || (link.url === '/products' ? 'Dropdown' : 'Main Link'),
-        parent: '-',
+        type:
+          link.type ||
+          (link.url === '/products' || link.url === '/industries' ? 'Dropdown' : 'Main Link'),
+        parent: resolvedParent,
         order: link.order,
-      });
-    }
-
-    // 2. Product Brand Categories under Products
-    if (prodLinkId) {
-      for (const cat of categories) {
-        const catId = `cat-${cat.id}`;
-        result.push({
-          id: catId,
-          label: cat.name,
-          title: cat.name.toUpperCase(),
-          url: `/products/${cat.slug}`,
-          type: 'Category',
-          parent: prodLinkId,
-          order: cat.order,
-        });
-
-        // 3. Products under each Brand Category
-        const brandProducts = products.filter((p: any) => p.categorySlug === cat.slug);
-        for (const prod of brandProducts) {
-          result.push({
-            id: `prod-${prod.id}`,
-            label: prod.name,
-            title: prod.name.toUpperCase(),
-            url: `/products/${cat.slug}/${prod.slug}`,
-            type: 'Product',
-            parent: catId,
-            order: prod.order,
-          });
-        }
-      }
-    }
-
-    // 4. Blog Posts under Blog
-    if (blogLinkId) {
-      for (const post of blogPosts) {
-        result.push({
-          id: `blog-${post.id}`,
-          label: post.title,
-          title: post.title.toUpperCase(),
-          url: `/blogs/${post.slug}`,
-          type: 'Blog Article',
-          parent: blogLinkId,
-          order: 0,
-        });
-      }
-    }
+        isStatic: link.isStatic,
+        description: link.description,
+      };
+    });
 
     return NextResponse.json({ success: true, data: result });
   } catch (error) {
@@ -100,60 +51,124 @@ export async function GET() {
   }
 }
 
-export async function PUT(request: Request) {
+export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { links } = body;
+    const { label, url, type, parent, order, title, description } = body;
 
-    if (!Array.isArray(links)) {
+    if (!label || !url) {
       return NextResponse.json(
-        { success: false, error: 'links array is required' },
+        { success: false, error: 'Label and URL are required' },
         { status: 400 }
       );
     }
 
-    // Only persist root links (filter out dynamic nested items)
-    const rootIncoming = links.filter(
-      (l: any) =>
-        l.id && !l.id.startsWith('cat-') && !l.id.startsWith('prod-') && !l.id.startsWith('blog-')
-    );
+    const parentVal = parent && parent.trim() && parent !== '-' ? parent.trim() : '-';
 
-    const incomingIds = rootIncoming
-      .filter((l: any) => !l.id.startsWith('nav-'))
-      .map((l: any) => l.id);
+    // Calculate next order if not provided
+    let assignedOrder = typeof order === 'number' ? order : 0;
+    if (typeof order !== 'number') {
+      const existing = await prisma.navLink.findMany({
+        where: { parent: parentVal },
+        orderBy: { order: 'desc' },
+        take: 1,
+      });
+      assignedOrder = existing.length > 0 ? (existing[0].order ?? 0) + 1 : 0;
+    }
 
-    await prisma.navLink.deleteMany({
-      where: {
-        id: { notIn: incomingIds },
+    const newLink = await prisma.navLink.create({
+      data: {
+        label: label.trim(),
+        url: url.trim(),
+        type: type || (parentVal === '-' ? 'Main Link' : 'Dropdown'),
+        parent: parentVal,
+        order: assignedOrder,
+        title: title || label.trim().toUpperCase(),
+        description: description || null,
+        isStatic: false,
       },
     });
 
-    for (let i = 0; i < rootIncoming.length; i++) {
-      const link = rootIncoming[i];
-      const navData = {
-        label: link.label,
-        title: link.title || link.label.toUpperCase(),
-        url: link.url,
-        type: link.type || 'Main Link',
-        parent: '-',
-        order: i,
-      };
+    return NextResponse.json({ success: true, data: newLink });
+  } catch (error) {
+    console.error('Error creating nav link:', error);
+    return NextResponse.json({ success: false, error: 'Failed to create navigation link' }, { status: 500 });
+  }
+}
 
-      if (link.id && !link.id.startsWith('nav-')) {
-        await prisma.navLink.update({
-          where: { id: link.id },
-          data: navData,
-        });
-      } else {
-        await prisma.navLink.create({
-          data: navData,
-        });
-      }
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json();
+
+    // 1. Single Link Update
+    if (body.id) {
+      const { id, label, url, type, parent, order, title, description } = body;
+      const updated = await prisma.navLink.update({
+        where: { id },
+        data: {
+          ...(label !== undefined ? { label: label.trim() } : {}),
+          ...(url !== undefined ? { url: url.trim() } : {}),
+          ...(type !== undefined ? { type } : {}),
+          ...(parent !== undefined ? { parent: parent || '-' } : {}),
+          ...(order !== undefined ? { order: Number(order) } : {}),
+          ...(title !== undefined ? { title } : {}),
+          ...(description !== undefined ? { description } : {}),
+        },
+      });
+      return NextResponse.json({ success: true, data: updated });
     }
 
-    return NextResponse.json({ success: true });
+    // 2. Bulk links reorder
+    const { links } = body;
+    if (Array.isArray(links)) {
+      for (const item of links) {
+        if (item.id) {
+          await prisma.navLink.update({
+            where: { id: item.id },
+            data: {
+              ...(item.order !== undefined ? { order: Number(item.order) } : {}),
+              ...(item.parent !== undefined ? { parent: item.parent || '-' } : {}),
+              ...(item.type !== undefined ? { type: item.type } : {}),
+            },
+          });
+        }
+      }
+      return NextResponse.json({ success: true });
+    }
+
+    return NextResponse.json({ success: false, error: 'Invalid payload' }, { status: 400 });
   } catch (error) {
     console.error('Error updating nav links:', error);
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'Link ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Cascade delete any child links
+    await prisma.navLink.deleteMany({
+      where: { parent: id },
+    });
+
+    // Delete the target link
+    await prisma.navLink.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting nav link:', error);
+    return NextResponse.json({ success: false, error: 'Failed to delete navigation link' }, { status: 500 });
+  }
+}
+

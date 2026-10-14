@@ -33,6 +33,28 @@ export async function GET(
       },
     });
 
+    if (!page && (slug === 'contact' || slug === 'contact-us')) {
+      page = await prisma.page.findFirst({
+        where: { slug: { in: ['contact', 'contact-us'] } },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          metaTitle: true,
+          metaDescription: true,
+          targetKeywords: true,
+          canonicalUrl: true,
+          noIndex: true,
+          featuredImage: true,
+          ogTitle: true,
+          ogDescription: true,
+          ogImage: true,
+          schema: true,
+          headingOptions: true,
+        },
+      });
+    }
+
     // If not found and starts with products/, check product table
     if (!page && (slug.startsWith('products/') || slug.startsWith('product/'))) {
       const parts = slug.split('/');
@@ -108,13 +130,27 @@ export async function PUT(
       }
     }
 
-    const existingPage = await prisma.page.findUnique({ where: { slug } });
+    let existingPage = await prisma.page.findUnique({ where: { slug } });
+    if (!existingPage) {
+      if (slug === 'contact' || slug === 'contact-us') {
+        existingPage = await prisma.page.findFirst({
+          where: { slug: { in: ['contact', 'contact-us'] } },
+        });
+      } else if (slug === 'about' || slug === 'about-us') {
+        existingPage = await prisma.page.findFirst({
+          where: { slug: { in: ['about', 'about-us'] } },
+        });
+      }
+    }
+
     if (existingPage) {
       await cleanupReplacedCloudinaryFiles(existingPage, seo);
     }
 
+    const targetSlug = existingPage ? existingPage.slug : slug;
+
     const updatedPage = await prisma.page.upsert({
-      where: { slug },
+      where: { slug: targetSlug },
       update: {
         metaTitle: seo.metaTitle,
         metaDescription: seo.metaDescription,
@@ -129,8 +165,8 @@ export async function PUT(
         schema: seo.schema,
       },
       create: {
-        slug,
-        title: seo.metaTitle || slug.charAt(0).toUpperCase() + slug.slice(1),
+        slug: targetSlug,
+        title: seo.metaTitle || targetSlug.charAt(0).toUpperCase() + targetSlug.slice(1),
         metaTitle: seo.metaTitle,
         metaDescription: seo.metaDescription,
         targetKeywords: seo.targetKeywords,

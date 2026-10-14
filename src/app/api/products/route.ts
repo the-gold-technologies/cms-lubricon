@@ -90,9 +90,20 @@ export async function GET(request: Request) {
       }
     }
 
+    const productsPage = await prisma.page.findUnique({
+      where: { slug: "products" },
+      include: { sections: true },
+    });
+    const heroSection = productsPage?.sections.find((s: any) => s.type === "ProductsHero");
+
     return NextResponse.json({
       success: true,
-      data: { products, categories },
+      data: {
+        products,
+        categories,
+        hero: heroSection?.content || null,
+      },
+      hero: heroSection?.content || null,
       seo,
     });
   } catch (error) {
@@ -137,6 +148,43 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
+
+    if (body.section === "ProductsHero" || body.sectionType === "ProductsHero") {
+      const page = await prisma.page.upsert({
+        where: { slug: "products" },
+        update: {},
+        create: {
+          slug: "products",
+          title: "All Products",
+          visibility: "published",
+          isStatic: true,
+        },
+      });
+
+      const existingSection = await prisma.section.findFirst({
+        where: { pageId: page.id, type: "ProductsHero" },
+      });
+
+      if (existingSection) {
+        await cleanupReplacedCloudinaryFiles(existingSection.content, body.content);
+        await prisma.section.update({
+          where: { id: existingSection.id },
+          data: { content: body.content },
+        });
+      } else {
+        await prisma.section.create({
+          data: {
+            pageId: page.id,
+            type: "ProductsHero",
+            content: body.content,
+            order: 1,
+          },
+        });
+      }
+
+      return NextResponse.json({ success: true, data: body.content });
+    }
+
     const { id, ...data } = body;
 
     if (!id) {

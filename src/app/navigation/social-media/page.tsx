@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Share2, Image as ImageIcon, Phone, Building2 } from 'lucide-react';
+import { Share2, Image as ImageIcon, Building2, PhoneCall } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { PageHeader } from '@/components/PageHeader';
 import { InputField } from '@/components/InputField';
@@ -19,10 +19,11 @@ export default function FooterSocialMediaCMSPage() {
   const [loadingContact, setLoadingContact] = useState(false);
   const [savedContact, setSavedContact] = useState(false);
 
-  // Social Links (Facebook, LinkedIn, Instagram only)
+  // Social Links
   const [facebook, setFacebook] = useState('');
   const [linkedin, setLinkedin] = useState('');
   const [instagram, setInstagram] = useState('');
+  const [youtube, setYoutube] = useState('');
 
   // Footer Branding & Icon
   const [footerLogo, setFooterLogo] = useState('');
@@ -30,6 +31,7 @@ export default function FooterSocialMediaCMSPage() {
 
   // Footer Contact Details
   const [phone, setPhone] = useState('');
+  const [tollFree, setTollFree] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
 
@@ -48,11 +50,17 @@ export default function FooterSocialMediaCMSPage() {
           if (s.facebook) setFacebook(s.facebook);
           if (s.linkedin) setLinkedin(s.linkedin);
           if (s.instagram) setInstagram(s.instagram);
-          if (s.footerLogo) setFooterLogo(s.footerLogo);
+          if (s.youtube) setYoutube(s.youtube);
+          if (s.tollFree) setTollFree(s.tollFree);
           if (s.copyrightText) setCopyrightText(s.copyrightText);
+
+          // Connect Footer Brand Logo with CMS API response: check both cfg.logo and s.footerLogo
+          const loadedLogo = cfg.logo || s.footerLogo || '';
+          setFooterLogo(loadedLogo);
         }
       } catch (err) {
         console.error('Failed to load footer & social config:', err);
+        toast.error('Failed to load configuration');
       }
     }
     loadConfig();
@@ -64,22 +72,26 @@ export default function FooterSocialMediaCMSPage() {
     const currentConfig = currentJson.data || {};
     const currentSocials = currentConfig.socialLinks || {};
 
-    delete currentSocials.youtube;
-    delete currentSocials.twitter;
-    delete currentSocials.hpclBadge;
-    delete currentSocials.indiaGovBadge;
-    delete currentSocials.globalCompactBadge;
+    const targetLogo =
+      updatedFields.logo !== undefined
+        ? updatedFields.logo
+        : updatedFields.socialLinks?.footerLogo !== undefined
+          ? updatedFields.socialLinks.footerLogo
+          : footerLogo || currentConfig.logo || '';
 
     const payload: any = {
       phone: updatedFields.phone !== undefined ? updatedFields.phone : phone,
       email: updatedFields.email !== undefined ? updatedFields.email : email,
       address: updatedFields.address !== undefined ? updatedFields.address : address,
+      logo: targetLogo,
       socialLinks: {
         ...currentSocials,
         facebook,
         linkedin,
         instagram,
-        footerLogo,
+        youtube,
+        tollFree,
+        footerLogo: targetLogo,
         copyrightText,
         ...updatedFields.socialLinks,
       },
@@ -102,6 +114,7 @@ export default function FooterSocialMediaCMSPage() {
           facebook: facebook.trim(),
           linkedin: linkedin.trim(),
           instagram: instagram.trim(),
+          youtube: youtube.trim(),
         },
       });
       if (json.success) {
@@ -123,6 +136,7 @@ export default function FooterSocialMediaCMSPage() {
     setSavedBranding(false);
     try {
       const json = await saveConfig({
+        logo: footerLogo,
         socialLinks: {
           footerLogo,
           copyrightText: copyrightText.trim(),
@@ -150,6 +164,9 @@ export default function FooterSocialMediaCMSPage() {
         phone: phone.trim(),
         email: email.trim(),
         address: address.trim(),
+        socialLinks: {
+          tollFree: tollFree.trim(),
+        },
       });
       if (json.success) {
         setSavedContact(true);
@@ -169,7 +186,7 @@ export default function FooterSocialMediaCMSPage() {
     <section className="flex flex-col gap-8 pb-16 w-full max-w-5xl mx-auto">
       <PageHeader
         title="Footer & Social Media Management"
-        description="Manage the official footer logo icon, corporate social media profiles, and contact details displayed in the website footer."
+        description="Manage the official footer brand logo, corporate social media profiles, and contact details displayed in the website footer."
         badge="Footer & Socials"
       />
 
@@ -184,29 +201,35 @@ export default function FooterSocialMediaCMSPage() {
               <h3 className="font-bold text-slate-900 text-lg">1. Social Media Profiles</h3>
               <p className="text-xs text-slate-500">
                 Corporate channel URLs appearing in the website footer (Facebook, LinkedIn,
-                Instagram)
+                Instagram, YouTube)
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <InputField
               label="Facebook Page URL"
               value={facebook}
               onChange={(e) => setFacebook(e.target.value)}
-              placeholder="https://facebook.com/..."
+              placeholder="https://facebook.com/LubriconIndia"
             />
             <InputField
               label="LinkedIn Company URL"
               value={linkedin}
               onChange={(e) => setLinkedin(e.target.value)}
-              placeholder="https://linkedin.com/company/..."
+              placeholder="https://linkedin.com/company/lubriconindia"
             />
             <InputField
               label="Instagram Profile URL"
               value={instagram}
               onChange={(e) => setInstagram(e.target.value)}
-              placeholder="https://instagram.com/..."
+              placeholder="https://instagram.com/lubriconindia"
+            />
+            <InputField
+              label="YouTube Channel URL"
+              value={youtube}
+              onChange={(e) => setYoutube(e.target.value)}
+              placeholder="https://youtube.com/@lubricon"
             />
           </div>
 
@@ -244,7 +267,7 @@ export default function FooterSocialMediaCMSPage() {
                 value={footerLogo}
                 onChange={(url) => setFooterLogo(url)}
                 folder="lubricon/footer"
-                helperText="Official company logo displayed inside the white emblem container on the left of the footer."
+                helperText="Official company logo displayed inside the brand container on the left of the footer."
               />
             </div>
 
@@ -253,7 +276,7 @@ export default function FooterSocialMediaCMSPage() {
                 label="Footer Copyright Text Notice"
                 value={copyrightText}
                 onChange={(e) => setCopyrightText(e.target.value)}
-                placeholder="© 2026 Lubricon Specialities India All rights reserved."
+                placeholder="© 2026 Lubricon Specialities India. All rights reserved."
                 helperText="Displays in the bottom-left corner of the website footer."
               />
             </div>
@@ -295,19 +318,26 @@ export default function FooterSocialMediaCMSPage() {
               helperText="Full address shown in the footer Contact Details column."
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <InputField
-                label="Contact Phone Number"
+                label="Toll-Free Helpline Number"
+                value={tollFree}
+                onChange={(e) => setTollFree(e.target.value)}
+                placeholder="1800 569 6363"
+                helperText="Toll-free helpline shown in top bar & footer."
+              />
+              <InputField
+                label="Direct Phone / Mobile"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+91 98120 22340"
-                helperText="Primary telephone displayed in the footer."
+                helperText="Direct landline or corporate phone."
               />
               <InputField
                 label="Official Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="sales@lubricon.in"
+                placeholder="info@lubricon.in"
                 helperText="Official sales/support inquiry email address."
               />
             </div>
