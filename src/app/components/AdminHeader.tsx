@@ -76,7 +76,7 @@ export function AdminHeader() {
 
         <div className="flex items-center gap-3">
           <a
-            href="http://localhost:3000"
+            href={process.env.NEXT_PUBLIC_WEBSITE_URL || '/'}
             target="_blank"
             rel="noreferrer"
             className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-zinc-800 bg-white border border-zinc-200 hover:border-black hover:bg-zinc-50 transition shadow-xs"

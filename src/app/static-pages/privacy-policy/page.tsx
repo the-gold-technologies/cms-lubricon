@@ -223,7 +223,7 @@ export default function PrivacyPolicyAdminPage() {
             </div>
 
             <a
-              href="http://localhost:3000/privacy-policy"
+              href={`${(process.env.NEXT_PUBLIC_WEBSITE_URL || '').replace(/\/+$/, '')}/privacy-policy`}
               target="_blank"
               rel="noreferrer"
               className="w-full py-2.5 px-4 bg-slate-100 hover:bg-[#002B5C] hover:text-white text-slate-700 text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-2"

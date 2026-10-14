@@ -58,6 +58,8 @@ export default function PageSEODashboard() {
         page.slug.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
+  const websiteBaseUrl = (process.env.NEXT_PUBLIC_WEBSITE_URL || '').replace(/\/+$/, '');
+
   return (
     <div className="flex flex-col gap-6 max-w-6xl mx-auto pb-20 animate-in fade-in duration-500">
       <PageHeader
@@ -208,13 +210,13 @@ export default function PageSEODashboard() {
                       {/* URL Path */}
                       <td className="px-6 py-5 font-mono text-xs text-gray-500 break-words max-w-[260px]">
                         <a
-                          href={`/${page.slug}`}
+                          href={`${websiteBaseUrl}/${page.slug}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="hover:text-[#002B5C] hover:underline inline-flex items-center gap-1"
+                          className="hover:text-[#002B5C] hover:underline inline-flex items-center gap-1 group/link"
                         >
                           <span>/{page.slug}</span>
-                          <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-70 transition-opacity" />
+                          <ExternalLink className="w-3 h-3 opacity-0 group-hover/link:opacity-70 transition-opacity" />
                         </a>
                       </td>
 

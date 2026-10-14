@@ -7,7 +7,7 @@ import { SaveButton } from '@/components/SaveButton';
 import { InputField } from '@/components/InputField';
 import { TextAreaField } from '@/components/TextAreaField';
 import Link from 'next/link';
-import { ArrowLeft, Search, Upload, HelpCircle } from 'lucide-react';
+import { ArrowLeft, Search, Upload, HelpCircle, ExternalLink } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function PageSpecificSEODetail() {
@@ -31,6 +31,8 @@ export default function PageSpecificSEODetail() {
     schema: '',
     headingOptions: 'h1' as any,
   });
+
+  const websiteBaseUrl = (process.env.NEXT_PUBLIC_WEBSITE_URL || '').replace(/\/+$/, '');
 
   useEffect(() => {
     async function fetchPageSEO() {
@@ -69,7 +71,7 @@ export default function PageSpecificSEODetail() {
             ...prev,
             title: slug.charAt(0).toUpperCase() + slug.slice(1),
             slug: slug,
-            canonicalUrl: `https://lubricon.in/${slug === 'home' ? '' : slug}`,
+            canonicalUrl: `${websiteBaseUrl}/${slug === 'home' ? '' : slug}`,
           }));
         }
       } catch (error) {
@@ -80,7 +82,7 @@ export default function PageSpecificSEODetail() {
       }
     }
     fetchPageSEO();
-  }, [slug]);
+  }, [slug, websiteBaseUrl]);
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -171,11 +173,21 @@ export default function PageSpecificSEODetail() {
             title={`SEO: ${formData.title}`}
             description={`Manage the search engine visibility and metadata for the /${formData.slug} page.`}
           />
-          <div className="mb-2 shrink-0">
+          <div className="mb-2 shrink-0 flex items-center gap-3">
+            <a
+              href={`${websiteBaseUrl}/${formData.slug === 'home' ? '' : formData.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 hover:text-[#002B5C] border border-gray-200 text-xs font-bold transition-all shadow-2xs group cursor-pointer"
+              title="Open live website page in new tab"
+            >
+              <span>View Live Page</span>
+              <ExternalLink className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#002B5C] transition-colors" />
+            </a>
             <SaveButton
               onClick={handleSave}
               disabled={isSaving}
-              className="w-auto px-10 shrink-0"
+              className="w-auto px-8 shrink-0"
             />
           </div>
         </div>

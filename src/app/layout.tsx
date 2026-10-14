@@ -12,18 +12,39 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: 'Lubricon Specialities CMS',
-    template: '%s | Lubricon Specialities CMS',
-  },
-  description: 'Manage Lubricon Specialities India catalog, static pages, leads, and SEO',
-  icons: {
-    icon: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888265/lubricon/favicon.png',
-    shortcut: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888265/lubricon/favicon.png',
-    apple: 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888265/lubricon/favicon.png',
-  },
-};
+import { prisma } from '@/lib/prisma';
+
+export const dynamic = 'force-dynamic';
+
+export async function generateMetadata(): Promise<Metadata> {
+  let faviconUrl: string | undefined;
+
+  try {
+    const config = await prisma.globalConfig.findUnique({ where: { id: 'global' } });
+    if (config?.favicon?.trim()) {
+      faviconUrl = config.favicon.trim();
+    }
+  } catch (err) {
+    console.error('Error fetching global favicon for CMS layout:', err);
+  }
+
+  const icons = faviconUrl
+    ? {
+        icon: [{ url: faviconUrl }],
+        shortcut: [faviconUrl],
+        apple: [faviconUrl],
+      }
+    : undefined;
+
+  return {
+    title: {
+      default: 'Lubricon Specialities CMS',
+      template: '%s | Lubricon Specialities CMS',
+    },
+    description: 'Manage Lubricon Specialities India catalog, static pages, leads, and SEO',
+    ...(icons ? { icons } : {}),
+  };
+}
 
 export default async function RootLayout({
   children,

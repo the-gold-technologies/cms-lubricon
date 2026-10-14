@@ -60,6 +60,13 @@ export default function MenuLinksPage() {
     }));
   };
 
+  const websiteBaseUrl = (process.env.NEXT_PUBLIC_WEBSITE_URL || '').replace(/\/+$/, '');
+  const formatLiveUrl = (url: string) => {
+    if (!url) return '#';
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    return `${websiteBaseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+  };
+
   const rootLinks = links
     .filter((l) => l.parent === '-' || !l.parent)
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
@@ -197,7 +204,7 @@ export default function MenuLinksPage() {
                             title={root.url}
                           >
                             <a
-                              href={root.url}
+                              href={formatLiveUrl(root.url)}
                               target="_blank"
                               rel="noreferrer"
                               className="hover:text-[#002B5C] hover:underline inline-flex items-center gap-1"
@@ -244,7 +251,7 @@ export default function MenuLinksPage() {
                                 title={child.url}
                               >
                                 <a
-                                  href={child.url}
+                                  href={formatLiveUrl(child.url)}
                                   target="_blank"
                                   rel="noreferrer"
                                   className="hover:text-[#002B5C] hover:underline inline-flex items-center gap-1"

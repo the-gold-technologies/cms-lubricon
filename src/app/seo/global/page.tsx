@@ -97,6 +97,21 @@ export default function GlobalSEOPage() {
       const json = await res.json();
       if (json.success) {
         toast.success('Global SEO settings saved successfully!', { id: tid });
+
+        // Immediately update CMS favicon in active browser tab
+        if (payload.favicon) {
+          const iconLinks = document.querySelectorAll<HTMLLinkElement>("link[rel*='icon']");
+          if (iconLinks.length > 0) {
+            iconLinks.forEach((link) => {
+              link.href = payload.favicon;
+            });
+          } else {
+            const newLink = document.createElement('link');
+            newLink.rel = 'icon';
+            newLink.href = payload.favicon;
+            document.head.appendChild(newLink);
+          }
+        }
       } else {
         const errMsg =
           typeof json.error === 'string' ? json.error : json.error?.message || 'Save failed.';

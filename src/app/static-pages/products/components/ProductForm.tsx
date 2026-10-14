@@ -79,25 +79,34 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
   const [canonicalUrl, setCanonicalUrl] = useState('');
   const [schema, setSchema] = useState('');
 
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
+
   // Fetch Categories
   useEffect(() => {
+    let isMounted = true;
     async function fetchCategories() {
       try {
+        setCategoriesLoading(true);
         const res = await fetch('/api/products/categories');
         const json = await res.json();
-        if (json.success && Array.isArray(json.data)) {
+        if (isMounted && json.success && Array.isArray(json.data)) {
           setCategories(json.data);
-          if (isNew && json.data.length > 0 && !categorySlug) {
-            setCategorySlug(json.data[0].slug);
-            setCategoryName(json.data[0].name);
+          if (isNew && json.data.length > 0) {
+            setCategorySlug((prev) => prev || json.data[0].slug);
+            setCategoryName((prev) => prev || json.data[0].name);
           }
         }
       } catch (err) {
         console.error('Failed to load categories:', err);
+      } finally {
+        if (isMounted) setCategoriesLoading(false);
       }
     }
     fetchCategories();
-  }, [isNew, categorySlug]);
+    return () => {
+      isMounted = false;
+    };
+  }, [isNew]);
 
   // Fetch Existing Product Data for Edit
   useEffect(() => {
@@ -334,6 +343,7 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
               <SelectField
                 label="Product Category *"
                 value={categorySlug}
+                disabled={categoriesLoading || categories.length === 0}
                 onChange={(e) => {
                   const val = e.target.value;
                   setCategorySlug(val);
@@ -347,11 +357,10 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
                         label: c.name,
                       }))
                     : [
-                        { value: 'engine-oil', label: 'Engine Oils' },
-                        { value: 'gear-oil', label: 'Gear Oils' },
-                        { value: 'atf', label: 'ATF & Transmission' },
-                        { value: 'industrial', label: 'Industrial Specialities' },
-                        { value: 'fluids', label: 'DEF & Specialty Fluids' },
+                        {
+                          value: categorySlug || '',
+                          label: categoriesLoading ? 'Loading categories...' : 'No categories available',
+                        },
                       ]
                 }
               />
