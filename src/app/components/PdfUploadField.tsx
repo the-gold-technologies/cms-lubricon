@@ -33,8 +33,8 @@ export function PdfUploadField({
       return;
     }
 
-    if (file.size > 30 * 1024 * 1024) {
-      toast.error('PDF size should be under 30MB');
+    if (file.size > 50 * 1024 * 1024) {
+      toast.error('PDF size should be under 50MB');
       return;
     }
 
@@ -215,7 +215,7 @@ export function PdfUploadField({
               Click to browse or drop PDF here
             </p>
             <p className="text-[10px] text-gray-400 mt-0.5">
-              Official TDS / MSDS datasheet (.pdf up to 30MB)
+              Official TDS / MSDS datasheet (.pdf up to 50MB, auto-optimized)
             </p>
           </div>
         </div>

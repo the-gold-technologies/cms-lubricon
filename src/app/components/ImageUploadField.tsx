@@ -21,7 +21,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
   maxImages = 1,
   containerClassName = '',
   tooltip,
-  folder = 'mahalaxmi/uploads',
+  folder = 'lubricon-india/uploads',
 }) => {
   const [internalImages, setInternalImages] = useState<(File | string | null)[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -334,7 +334,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
                 or drag and drop
               </p>
               <p className="text-slate-400 text-[11px] text-center font-normal">
-                PNG, JPG, WebP, SVG or ICO (up to 10MB).
+                PNG, JPG, WebP, SVG or ICO (Auto-compressed to WebP).
                 {maxImages > 1 ? ` Max ${maxImages} images.` : ''}
               </p>
             </>
