@@ -67,7 +67,7 @@ export default function ProductsCatalogCMSPage() {
   const [heroData, setHeroData] = useState<any>(null);
   const [isHeroOpen, setIsHeroOpen] = useState(false);
 
-  // Category Modal State (Add / Edit Category)
+  // Category Modal State (Single Unified Modal)
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [categoryModalLoading, setCategoryModalLoading] = useState(false);
   const [editingCategory, setEditingCategory] = useState<ProductCategory | null>(null);
@@ -115,6 +115,21 @@ export default function ProductsCatalogCMSPage() {
     setIsCategoryModalOpen(true);
   };
 
+  const openCategoryModalFor = (slug?: string) => {
+    if (slug && slug !== 'all') {
+      const match = categories.find((c) => c.slug === slug);
+      if (match) {
+        openEditCategoryModal(match);
+        return;
+      }
+    }
+    if (categories.length > 0) {
+      openEditCategoryModal(categories[0]);
+    } else {
+      openNewCategoryModal();
+    }
+  };
+
   const handleCatNameChange = (val: string) => {
     setCatName(val);
     if (!editingCategory) {
@@ -155,6 +170,9 @@ export default function ProductsCatalogCMSPage() {
           editingCategory ? 'Category updated successfully' : 'Category created successfully'
         );
         setIsCategoryModalOpen(false);
+        if (editingCategory && selectedCategorySlug === editingCategory.slug) {
+          setSelectedCategorySlug(catSlug.trim().toLowerCase());
+        }
         fetchCatalog();
       } else {
         toast.error(json.error || 'Failed to save category');
@@ -176,7 +194,14 @@ export default function ProductsCatalogCMSPage() {
       const json = await res.json();
       if (json.success) {
         toast.success('Category deleted successfully');
-        if (selectedCategorySlug === id) setSelectedCategorySlug('all');
+        setIsCategoryModalOpen(false);
+        setEditingCategory(null);
+        if (
+          selectedCategorySlug === id ||
+          (editingCategory && selectedCategorySlug === editingCategory.slug)
+        ) {
+          setSelectedCategorySlug('all');
+        }
         fetchCatalog();
       } else {
         toast.error(json.error || 'Failed to delete category');
@@ -246,11 +271,11 @@ export default function ProductsCatalogCMSPage() {
         <div className="flex items-center gap-3 shrink-0 flex-wrap">
           <button
             type="button"
-            onClick={openNewCategoryModal}
+            onClick={() => openCategoryModalFor(selectedCategorySlug)}
             className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 hover:text-black hover:border-black text-xs font-bold rounded-full shadow-2xs transition-all cursor-pointer"
           >
             <Layers className="w-4 h-4 text-[#C86218]" />
-            Add Category
+            Categories ({categories.length})
           </button>
           <Link
             href="/static-pages/products/create"
@@ -272,32 +297,56 @@ export default function ProductsCatalogCMSPage() {
       {/* ── 2. Filter Bar (Category Selector + Search) ── */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 flex-wrap">
-          {/* Category Dropdown */}
-          <div className="flex flex-col gap-1 min-w-[200px]">
-            <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-1">
-              Product Category
-            </label>
-            <div className="relative">
-              <select
-                value={selectedCategorySlug}
-                onChange={(e) => setSelectedCategorySlug(e.target.value)}
-                className="w-full appearance-none pl-3 pr-8 py-2 rounded-xl border border-gray-200 bg-gray-50 text-[12px] font-semibold text-gray-800 focus:outline-none focus:border-[#C86218] focus:bg-white focus:ring-2 focus:ring-[#C86218]/10 transition-all cursor-pointer"
+          {/* Category Dropdown & Edit Option */}
+          <div className="flex flex-col gap-1 min-w-[240px]">
+            <div className="flex items-center justify-between pl-1">
+              <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+                Product Category
+              </label>
+              <button
+                type="button"
+                onClick={() => openCategoryModalFor(selectedCategorySlug)}
+                className="text-[10px] font-bold text-[#C86218] hover:text-[#9e4609] hover:underline flex items-center gap-1 cursor-pointer transition-colors"
+                title="Edit category"
               >
-                <option value="all">All Categories ({products.length})</option>
-                {categories.map((cat) => {
-                  const count = products.filter(
-                    (p) =>
-                      p.categorySlug === cat.slug ||
-                      p.categoryName?.toLowerCase() === cat.name.toLowerCase()
-                  ).length;
-                  return (
-                    <option key={cat.id} value={cat.slug}>
-                      {cat.name} ({count})
-                    </option>
-                  );
-                })}
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <Edit2 className="w-2.5 h-2.5" />
+                {selectedCategorySlug === 'all' ? 'Edit Categories' : 'Edit Category'}
+              </button>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="relative flex-1">
+                <select
+                  value={selectedCategorySlug}
+                  onChange={(e) => setSelectedCategorySlug(e.target.value)}
+                  className="w-full appearance-none pl-3 pr-8 py-2 rounded-xl border border-gray-200 bg-gray-50 text-[12px] font-semibold text-gray-800 focus:outline-none focus:border-[#C86218] focus:bg-white focus:ring-2 focus:ring-[#C86218]/10 transition-all cursor-pointer"
+                >
+                  <option value="all">All Categories ({products.length})</option>
+                  {categories.map((cat) => {
+                    const count = products.filter(
+                      (p) =>
+                        p.categorySlug === cat.slug ||
+                        p.categoryName?.toLowerCase() === cat.name.toLowerCase()
+                    ).length;
+                    return (
+                      <option key={cat.id} value={cat.slug}>
+                        {cat.name} ({count})
+                      </option>
+                    );
+                  })}
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              </div>
+
+              {/* Edit Option Button */}
+              <button
+                type="button"
+                onClick={() => openCategoryModalFor(selectedCategorySlug)}
+                className="h-[35px] px-3 rounded-xl border border-gray-200 bg-gray-50 hover:bg-orange-50 hover:border-[#C86218] text-gray-700 hover:text-[#C86218] flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer shrink-0 shadow-2xs"
+                title="Edit category"
+              >
+                <Edit2 className="w-3.5 h-3.5" />
+                <span>Edit</span>
+              </button>
             </div>
           </div>
 
@@ -528,11 +577,12 @@ export default function ProductsCatalogCMSPage() {
         </div>
       )}
 
-      {/* Category Modal (Add / Edit) */}
+      {/* ── Single Unified Category Modal (Edit / Create) ── */}
       {isCategoryModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden">
-            <div className="flex items-center justify-between px-7 py-5 border-b border-gray-100 bg-gray-50/50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="bg-white w-full max-w-xl rounded-3xl shadow-2xl border border-gray-100 flex flex-col max-h-[90vh] overflow-hidden">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50/70 shrink-0">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-2xl bg-orange-50 text-[#C86218] flex items-center justify-center font-bold">
                   <Layers className="w-5 h-5" />
@@ -557,7 +607,60 @@ export default function ProductsCatalogCMSPage() {
               </button>
             </div>
 
-            <form onSubmit={handleSaveCategory} className="p-7 flex flex-col gap-4">
+            {/* In-Modal Category Switcher (No 2nd popup) */}
+            <div className="px-6 py-3 bg-gray-50/50 border-b border-gray-100 flex items-center justify-between gap-3 shrink-0">
+              <div className="flex items-center gap-2 flex-1 min-w-[200px]">
+                <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider shrink-0">
+                  Category:
+                </span>
+                <div className="relative flex-1">
+                  <select
+                    value={editingCategory ? editingCategory.id : 'new'}
+                    onChange={(e) => {
+                      if (e.target.value === 'new') {
+                        openNewCategoryModal();
+                      } else {
+                        const cat = categories.find((c) => c.id === e.target.value);
+                        if (cat) openEditCategoryModal(cat);
+                      }
+                    }}
+                    className="w-full appearance-none pl-3 pr-8 py-1.5 text-xs font-semibold rounded-xl border border-gray-200 bg-white text-gray-800 focus:outline-none focus:border-[#C86218] focus:ring-1 focus:ring-[#C86218] cursor-pointer"
+                  >
+                    <option value="new">+ Add New Category</option>
+                    <optgroup label="Existing Categories">
+                      {categories.map((c) => {
+                        const count = products.filter(
+                          (p) =>
+                            p.categorySlug === c.slug ||
+                            p.categoryName?.toLowerCase() === c.name.toLowerCase()
+                        ).length;
+                        return (
+                          <option key={c.id} value={c.id}>
+                            {c.name} ({count} products)
+                          </option>
+                        );
+                      })}
+                    </optgroup>
+                  </select>
+                  <ChevronDown className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={openNewCategoryModal}
+                className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1 shrink-0 ${
+                  !editingCategory
+                    ? 'bg-[#C86218] text-white shadow-2xs'
+                    : 'bg-white border border-gray-200 text-gray-700 hover:border-[#C86218] hover:text-[#C86218]'
+                }`}
+              >
+                <Plus className="w-3.5 h-3.5" /> New
+              </button>
+            </div>
+
+            {/* Category Form */}
+            <form onSubmit={handleSaveCategory} className="p-6 flex flex-col gap-4 overflow-y-auto">
               <InputField
                 label="Category Name *"
                 value={catName}
@@ -583,16 +686,19 @@ export default function ProductsCatalogCMSPage() {
               />
 
               <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-2">
-                {editingCategory && (
+                {editingCategory ? (
                   <button
                     type="button"
                     onClick={() => handleDeleteCategory(editingCategory.id, editingCategory.name)}
-                    className="text-xs font-semibold text-red-600 hover:underline cursor-pointer"
+                    className="text-xs font-semibold text-red-600 hover:text-red-700 hover:underline cursor-pointer flex items-center gap-1"
                   >
-                    Delete Category
+                    <Trash2 className="w-3.5 h-3.5" /> Delete Category
                   </button>
+                ) : (
+                  <div />
                 )}
-                <div className="flex items-center gap-3 ml-auto">
+
+                <div className="flex items-center gap-3">
                   <button
                     type="button"
                     onClick={() => setIsCategoryModalOpen(false)}
@@ -602,7 +708,7 @@ export default function ProductsCatalogCMSPage() {
                   </button>
                   <SaveButton
                     loading={categoryModalLoading}
-                    label="Save Category"
+                    label={editingCategory ? 'Update Category' : 'Create Category'}
                     className="w-auto px-6"
                   />
                 </div>

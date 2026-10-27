@@ -135,6 +135,30 @@ export async function DELETE(request: Request) {
       );
     }
 
+    const cat = await prisma.productCategory.findUnique({
+      where: { id },
+    });
+
+    if (!cat) {
+      return NextResponse.json({ success: false, error: 'Category not found' }, { status: 404 });
+    }
+
+    // Reassign products of this category to another category if any exist to prevent foreign key errors
+    const fallbackCategory = await prisma.productCategory.findFirst({
+      where: { id: { not: id } },
+      orderBy: { order: 'asc' },
+    });
+
+    if (fallbackCategory) {
+      await prisma.product.updateMany({
+        where: { categorySlug: cat.slug },
+        data: {
+          categorySlug: fallbackCategory.slug,
+          categoryName: fallbackCategory.name,
+        },
+      });
+    }
+
     await prisma.productCategory.delete({
       where: { id },
     });
