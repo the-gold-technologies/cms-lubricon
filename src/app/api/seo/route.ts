@@ -38,7 +38,7 @@ export async function PUT(request: Request) {
 
       const existingPage = await prisma.page.findUnique({ where: { slug } });
       if (existingPage) {
-        await cleanupReplacedCloudinaryFiles(existingPage, seoData);
+        await cleanupReplacedCloudinaryFiles(existingPage, { ...existingPage, ...seoData });
       }
 
       const updated = await prisma.page.upsert({
@@ -57,7 +57,7 @@ export async function PUT(request: Request) {
 
     const existingConfig = await prisma.globalConfig.findUnique({ where: { id: 'global' } });
     if (existingConfig) {
-      await cleanupReplacedCloudinaryFiles(existingConfig, body);
+      await cleanupReplacedCloudinaryFiles(existingConfig, { ...existingConfig, ...body });
     }
 
     const updatedConfig = await prisma.globalConfig.upsert({

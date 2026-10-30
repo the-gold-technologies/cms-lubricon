@@ -142,7 +142,7 @@ export async function PUT(
     }
 
     if (existingPage) {
-      await cleanupReplacedCloudinaryFiles(existingPage, seo);
+      await cleanupReplacedCloudinaryFiles(existingPage, { ...existingPage, ...seo });
     }
 
     const targetSlug = existingPage ? existingPage.slug : slug;
