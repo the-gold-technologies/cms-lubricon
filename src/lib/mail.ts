@@ -68,7 +68,7 @@ const BRAND_LOGO_URL =
 export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
   try {
     const transporter = getMailTransporter();
-    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || 'sude8920esh@gmail.com';
+    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || 'info@lubriconindia.com';
     const fromAddress = getFromAddress();
 
     if (!transporter) {
@@ -351,13 +351,15 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
     `;
 
     // 1. Admin Alert Email
-    const emailSubject = `🔔 [${data.type || 'New Enquiry'}]: ${data.name} — ${data.product || data.service || 'Website Submission'}`;
-    await transporter.sendMail({
-      from: fromAddress,
-      to: adminEmail,
-      subject: emailSubject,
-      html: htmlContent,
-    });
+    if (adminEmail) {
+      const emailSubject = `🔔 [${data.type || 'New Enquiry'}]: ${data.name} — ${data.product || data.service || 'Website Submission'}`;
+      await transporter.sendMail({
+        from: fromAddress,
+        to: adminEmail,
+        subject: emailSubject,
+        html: htmlContent,
+      });
+    }
 
     // 2. Customer Confirmation Email
     if (data.email && !data.email.includes('noemail@')) {
