@@ -88,10 +88,8 @@ export function AboutHeroSection({
     setLoading(true);
     try {
       const firstImg = images[0];
-      const imageStr =
-        typeof firstImg === 'string'
-          ? firstImg
-          : 'https://res.cloudinary.com/dpa93copz/image/upload/v1791888280/lubricon/images/aboutlubricon.jpg';
+      // No image → save empty (the old hard-coded fallback pointed to a deleted file)
+      const imageStr = typeof firstImg === 'string' ? firstImg : '';
 
       const payload = {
         badge,

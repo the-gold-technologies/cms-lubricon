@@ -49,7 +49,7 @@ async function main() {
       siteDescription:
         'Lubricon Specialities India delivers premium industrial and automotive lubricants powered by Australian technology. Engineered for Indian conditions to maximize performance, reduce downtime, and extend equipment life.',
       phone: '1800 569 6363',
-      email: 'info@lubricon.in',
+      email: 'info@lubriconindia.com',
       address: 'Lubricon Specialities India, Industrial Area, Haryana / Delhi NCR, India',
       logo: 'https://res.cloudinary.com/lfsnye1i/image/upload/v1792746309/lubricon-india/images/logo.webp',
       favicon:
@@ -74,7 +74,7 @@ async function main() {
       siteDescription:
         'Lubricon Specialities India delivers premium industrial and automotive lubricants powered by Australian technology. Engineered for Indian conditions to maximize performance, reduce downtime, and extend equipment life.',
       phone: '1800 569 6363',
-      email: 'info@lubricon.in',
+      email: 'info@lubriconindia.com',
       address: 'Lubricon Specialities India, Industrial Area, Haryana / Delhi NCR, India',
       logo: 'https://res.cloudinary.com/lfsnye1i/image/upload/v1792746309/lubricon-india/images/logo.webp',
       favicon:
@@ -1812,7 +1812,7 @@ async function main() {
         description:
           'Speak with our lubrication specialists, request on-site oil analysis, or submit institutional tenders and wholesale supply inquiries.',
         helpline: '1800 569 6363',
-        email: 'info@lubricon.in',
+        email: 'info@lubriconindia.com',
         image:
           'https://res.cloudinary.com/lfsnye1i/image/upload/v1792746286/lubricon-india/images/contact-hero.webp',
       },
@@ -1829,7 +1829,7 @@ async function main() {
         infoDescription:
           'A dedicated team of Australian lubrication engineers ready to assist with product selection, bulk orders, and on-site support.',
         phone: '1800 569 6363',
-        email: 'info@lubricon.in',
+        email: 'info@lubriconindia.com',
         formTitle: 'Send Message',
         formSubtitle: 'Please fill out the form below with your details and message to contact us.',
         submitButtonText: 'Send Message',
@@ -2020,7 +2020,7 @@ async function main() {
             <strong>Lubricon Specialities India</strong><br/>
             Industrial Area, Haryana / Delhi NCR, India<br/>
             Toll-Free Helpline: <strong>1800 569 6363</strong><br/>
-            Direct Email: <strong>info@lubricon.in</strong>
+            Direct Email: <strong>info@lubriconindia.com</strong>
           </p>
         `.trim(),
         isPublished: true,

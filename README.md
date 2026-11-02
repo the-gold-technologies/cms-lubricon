@@ -199,8 +199,8 @@ SMTP_PORT="587"
 SMTP_SECURE="false"
 SMTP_USER="your_smtp_username"
 SMTP_PASS="your_smtp_password"
-SMTP_FROM="Lubricon Specialities India <no-reply@lubricon.in>"
-ADMIN_NOTIFICATION_EMAIL="admin@lubricon.in"
+SMTP_FROM="Lubricon Specialities India <no-reply@lubriconindia.com>"
+ADMIN_NOTIFICATION_EMAIL="info@lubriconindia.com"
 ```
 
 > **Security Note:** Generate a cryptographically secure random string for `AUTH_SECRET` (e.g., via `openssl rand -base64 32`).

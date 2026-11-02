@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { prisma } from '@/lib/prisma';
 
 export interface EnquiryEmailData {
   id?: string;
@@ -56,11 +57,31 @@ function getFromAddress(): string {
     const name = process.env.SMTP_FROM_NAME || 'Lubricon Specialities India';
     return `"${name}" <${process.env.SMTP_USER}>`;
   }
-  return '"Lubricon Specialities India" <sales@lubricon.in>';
+  return '"Lubricon Specialities India" <info@lubriconindia.com>';
 }
 
-const BRAND_LOGO_URL =
-  'https://res.cloudinary.com/dpa93copz/image/upload/v1791888291/lubricon/images/logo.png';
+/**
+ * Latest logo uploaded in CMS → SEO / Global settings, read at send time.
+ * Cloudinary logos are requested as PNG because many email clients can't display WebP.
+ * Falls back to a text wordmark if no logo is set.
+ */
+async function getBrandLogoHtml(): Promise<string> {
+  let logoUrl = '';
+  try {
+    const config = await prisma.globalConfig.findFirst({ select: { logo: true } });
+    logoUrl = (config?.logo || '').trim();
+  } catch (err) {
+    console.error('Could not load logo for email:', err);
+  }
+
+  if (/^https?:\/\//.test(logoUrl)) {
+    if (logoUrl.includes('res.cloudinary.com') && logoUrl.includes('/upload/')) {
+      logoUrl = logoUrl.replace('/upload/', '/upload/f_png/');
+    }
+    return `<img src="${escapeHtml(logoUrl)}" alt="Lubricon Specialities India" style="max-height: 42px; width: auto; display: block; margin: 0 auto;" />`;
+  }
+  return '<span style="font-family: Arial, sans-serif; font-size: 22px; font-weight: 900; color: #000000; letter-spacing: 1px;">LUBRICON</span>';
+}
 
 function escapeHtml(value: string): string {
   return value
@@ -101,10 +122,12 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
       return { sent: false, reason: 'SMTP not configured' };
     }
 
+    const brandLogoHtml = await getBrandLogoHtml();
     const cleanPhone = (data.phone || '').replace(/\s+/g, '');
-    const initials = data.name
-      .split(' ')
-      .map((n) => n[0])
+    // Initials from the raw name, letters/digits only (safe to put in HTML)
+    const initials = (rawData.name || '')
+      .split(/\s+/)
+      .map((n) => (n.match(/[\p{L}\p{N}]/u) || [''])[0])
       .join('')
       .substring(0, 2)
       .toUpperCase();
@@ -125,14 +148,14 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
           
           <!-- Header Banner with Brand Logo -->
           <tr>
-            <td style="background: linear-gradient(135deg, #0C356A 0%, #061933 100%); padding: 32px 30px; text-align: center; border-top: 4px solid #C86218;">
+            <td style="background: linear-gradient(135deg, #1A1A1A 0%, #000000 100%); padding: 32px 30px; text-align: center; border-top: 4px solid #FFE000;">
               <div style="background-color: #FFFFFF; display: inline-block; padding: 8px 18px; border-radius: 12px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                <img src="${BRAND_LOGO_URL}" alt="Lubricon Specialities India" style="max-height: 42px; width: auto; display: block; margin: 0 auto;" />
+                ${brandLogoHtml}
               </div>
               <p style="margin: 0 0 6px 0; color: #CBD5E1; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">
                 Multi-Brand Industrial & Automotive Lubricants
               </p>
-              <div style="margin-top: 14px; display: inline-block; background-color: rgba(200, 98, 24, 0.25); border: 1px solid rgba(200, 98, 24, 0.5); color: #FFAA6C; font-size: 11px; font-weight: 800; padding: 6px 14px; border-radius: 30px; text-transform: uppercase; letter-spacing: 1.5px;">
+              <div style="margin-top: 14px; display: inline-block; background-color: rgba(255, 224, 0, 0.15); border: 1px solid rgba(255, 224, 0, 0.5); color: #FFE000; font-size: 11px; font-weight: 800; padding: 6px 14px; border-radius: 30px; text-transform: uppercase; letter-spacing: 1.5px;">
                 🔔 New Customer Inquiry
               </div>
             </td>
@@ -146,8 +169,8 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; margin-bottom: 24px;">
                 <tr>
                   <td width="52" valign="middle" style="padding-right: 14px;">
-                    <div style="width: 50px; height: 50px; border-radius: 14px; background: linear-gradient(135deg, #0C356A 0%, #C86218 100%); color: #FFFFFF; font-size: 18px; font-weight: 800; line-height: 50px; text-align: center;">
-                      ${initials || 'JD'}
+                    <div style="width: 50px; height: 50px; border-radius: 14px; background: #000000; color: #FFE000; font-size: 18px; font-weight: 800; line-height: 50px; text-align: center;">
+                      ${initials || 'L'}
                     </div>
                   </td>
                   <td valign="middle">
@@ -167,7 +190,7 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
                   ${
                     cleanPhone
                       ? `<td width="48%" align="center">
-                          <a href="tel:${cleanPhone}" style="display: block; background-color: #0C356A; color: #FFFFFF; text-decoration: none; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; text-align: center;">
+                          <a href="tel:${cleanPhone}" style="display: block; background-color: #000000; color: #FFFFFF; text-decoration: none; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; text-align: center;">
                             📞 Call Customer
                           </a>
                         </td>
@@ -177,7 +200,7 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
                   ${
                     data.email && !data.email.includes('noemail@')
                       ? `<td width="${cleanPhone ? '48%' : '100%'}" align="center">
-                          <a href="mailto:${data.email}" style="display: block; background-color: #C86218; color: #FFFFFF; text-decoration: none; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; text-align: center;">
+                          <a href="mailto:${data.email}" style="display: block; background-color: #FFE000; color: #000000; text-decoration: none; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; text-align: center;">
                             ✉️ Reply via Email
                           </a>
                         </td>`
@@ -189,7 +212,7 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
               <!-- Detailed Inquiry Grid Table -->
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin-bottom: 24px;">
                 <tr>
-                  <td colspan="2" style="padding-bottom: 12px; font-size: 12px; font-weight: 800; color: #0C356A; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #0C356A;">
+                  <td colspan="2" style="padding-bottom: 12px; font-size: 12px; font-weight: 800; color: #000000; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #FFE000;">
                     Submission Details
                   </td>
                 </tr>
@@ -197,7 +220,7 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
                   <td style="padding: 12px 0; font-size: 13px; color: #64748B; font-weight: 600; width: 40%; border-bottom: 1px solid #F1F5F9;">
                     Form / Request Type:
                   </td>
-                  <td style="padding: 12px 0; font-size: 14px; color: #0C356A; font-weight: 800; border-bottom: 1px solid #F1F5F9;">
+                  <td style="padding: 12px 0; font-size: 14px; color: #000000; font-weight: 800; border-bottom: 1px solid #F1F5F9;">
                     <span style="display: inline-block; background-color: #EEF2FF; color: #3730A3; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
                       ${data.type || 'General Website Enquiry'}
                     </span>
@@ -218,7 +241,7 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
                   <td style="padding: 12px 0; font-size: 14px; font-weight: 700; border-bottom: 1px solid #F1F5F9;">
                     ${
                       cleanPhone
-                        ? `<a href="tel:${cleanPhone}" style="color: #0C356A; text-decoration: none; font-weight: 800;">${data.phone}</a>`
+                        ? `<a href="tel:${cleanPhone}" style="color: #000000; text-decoration: none; font-weight: 800;">${data.phone}</a>`
                         : '<span style="color: #94A3B8;">Not Provided</span>'
                     }
                   </td>
@@ -230,7 +253,7 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
                   <td style="padding: 12px 0; font-size: 14px; border-bottom: 1px solid #F1F5F9;">
                     ${
                       data.email && !data.email.includes('noemail@')
-                        ? `<a href="mailto:${data.email}" style="color: #0C356A; text-decoration: underline; font-weight: 600;">${data.email}</a>`
+                        ? `<a href="mailto:${data.email}" style="color: #000000; text-decoration: underline; font-weight: 600;">${data.email}</a>`
                         : '<span style="color: #94A3B8;">Not Provided</span>'
                     }
                   </td>
@@ -302,7 +325,7 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
                           Product / Grade:
                         </td>
                         <td style="padding: 12px 0; border-bottom: 1px solid #F1F5F9;">
-                          <span style="display: inline-block; background-color: #FFF7ED; color: #C86218; font-size: 13px; font-weight: 800; padding: 4px 10px; border-radius: 6px; border: 1px solid #FFEDD5;">
+                          <span style="display: inline-block; background-color: #FEFCE8; color: #000000; font-size: 13px; font-weight: 800; padding: 4px 10px; border-radius: 6px; border: 1px solid #FDE68A;">
                             ${data.product}
                           </span>
                         </td>
@@ -338,8 +361,8 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
               <!-- Customer Message / Notes Block -->
               ${
                 data.message
-                  ? `<div style="background-color: #F8FAFC; border-left: 4px solid #0C356A; padding: 18px 20px; border-radius: 0 12px 12px 0; margin-bottom: 24px;">
-                      <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #0C356A; letter-spacing: 1px;">
+                  ? `<div style="background-color: #F8FAFC; border-left: 4px solid #FFE000; padding: 18px 20px; border-radius: 0 12px 12px 0; margin-bottom: 24px;">
+                      <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #000000; letter-spacing: 1px;">
                         Customer Message / Notes:
                       </p>
                       <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #334155;">
@@ -359,7 +382,7 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
                 Lubricon Specialities India CMS &bull; Real-time Lead Dispatch
               </p>
               <p style="margin: 0; font-size: 11px; color: #94A3B8;">
-                Industrial Area & Regional Distribution Hub, India &bull; sales@lubricon.in
+                Industrial Area & Regional Distribution Hub, India &bull; info@lubriconindia.com
               </p>
             </td>
           </tr>
@@ -415,9 +438,9 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
         <table role="presentation" width="100%" max-width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; background-color: #FFFFFF; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); border: 1px solid #E2E8F0;">
           
           <tr>
-            <td style="background: linear-gradient(135deg, #0C356A 0%, #061933 100%); padding: 32px 30px; text-align: center; border-top: 4px solid #FFE000;">
+            <td style="background: linear-gradient(135deg, #1A1A1A 0%, #000000 100%); padding: 32px 30px; text-align: center; border-top: 4px solid #FFE000;">
               <div style="background-color: #FFFFFF; display: inline-block; padding: 8px 18px; border-radius: 12px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                <img src="${BRAND_LOGO_URL}" alt="Lubricon Specialities India" style="max-height: 42px; width: auto; display: block; margin: 0 auto;" />
+                ${brandLogoHtml}
               </div>
               <p style="margin: 6px 0 0 0; color: #CBD5E1; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">
                 Engineered with Australian Technology for Indian Conditions
@@ -427,7 +450,7 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
 
           <tr>
             <td style="padding: 36px 30px; line-height: 1.6;">
-              <h2 style="margin: 0 0 16px 0; font-size: 20px; font-weight: 800; color: #0C356A;">
+              <h2 style="margin: 0 0 16px 0; font-size: 20px; font-weight: 800; color: #000000;">
                 Thank You for Reaching Out, ${data.name}!
               </h2>
               <p style="margin: 0 0 16px 0; font-size: 14px; color: #475569;">
@@ -438,7 +461,7 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
               </p>
 
               <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 18px; margin-bottom: 24px;">
-                <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #0C356A; letter-spacing: 0.5px;">
+                <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #000000; letter-spacing: 0.5px;">
                   Lubricon Specialities Solutions:
                 </p>
                 <p style="margin: 0; font-size: 13px; color: #64748B; line-height: 1.6;">
@@ -457,7 +480,7 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
 
               <p style="margin: 0; font-size: 13px; color: #64748B;">
                 Warm regards,<br>
-                <strong style="color: #0C356A; font-size: 14px;">Lubricon Specialities India Team</strong><br>
+                <strong style="color: #000000; font-size: 14px;">Lubricon Specialities India Team</strong><br>
                 Technical Support &amp; Customer Desk
               </p>
             </td>
@@ -465,7 +488,7 @@ export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
 
           <tr>
             <td style="background-color: #F8FAFC; padding: 20px 30px; border-top: 1px solid #E2E8F0; text-align: center; font-size: 11px; color: #94A3B8;">
-              &copy; 2026 Lubricon Specialities India. All rights reserved. &bull; info@lubricon.in
+              &copy; 2026 Lubricon Specialities India. All rights reserved. &bull; info@lubriconindia.com
             </td>
           </tr>
 

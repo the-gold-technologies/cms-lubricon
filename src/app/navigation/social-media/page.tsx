@@ -337,7 +337,7 @@ export default function FooterSocialMediaCMSPage() {
                 label="Official Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="info@lubricon.in"
+                placeholder="info@lubriconindia.com"
                 helperText="Official sales/support inquiry email address."
               />
             </div>

@@ -166,7 +166,7 @@ export function ContactFormSection({
                   label="Support Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="info@lubricon.in"
+                  placeholder="info@lubriconindia.com"
                 />
               </div>
             </div>
