@@ -62,10 +62,32 @@ function getFromAddress(): string {
 const BRAND_LOGO_URL =
   'https://res.cloudinary.com/dpa93copz/image/upload/v1791888291/lubricon/images/logo.png';
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/** Single-line plain text for email subjects */
+function plainText(value: string | undefined): string {
+  return (value || '').replace(/[\r\n]+/g, ' ').trim();
+}
+
 /**
  * Send an email notification when a new customer enquiry is received.
  */
-export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
+export async function sendEnquiryNotificationEmail(rawData: EnquiryEmailData) {
+  // Everything below is interpolated into HTML: escape all visitor-supplied text once here
+  const data = Object.fromEntries(
+    Object.entries(rawData).map(([key, value]) => [
+      key,
+      typeof value === 'string' ? escapeHtml(value) : value,
+    ])
+  ) as unknown as EnquiryEmailData;
+
   try {
     const transporter = getMailTransporter();
     const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || 'info@lubriconindia.com';
@@ -352,7 +374,7 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
 
     // 1. Admin Alert Email
     if (adminEmail) {
-      const emailSubject = `🔔 [${data.type || 'New Enquiry'}]: ${data.name} — ${data.product || data.service || 'Website Submission'}`;
+      const emailSubject = `🔔 [${plainText(rawData.type) || 'New Enquiry'}]: ${plainText(rawData.name)} — ${plainText(rawData.product || rawData.service) || 'Website Submission'}`;
       await transporter.sendMail({
         from: fromAddress,
         to: adminEmail,
@@ -458,7 +480,7 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
       await transporter
         .sendMail({
           from: fromAddress,
-          to: data.email,
+          to: rawData.email,
           subject: isAudit
             ? `Your Plant Lubrication Audit Request - Lubricon Specialities India`
             : isQuote

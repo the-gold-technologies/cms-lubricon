@@ -25,6 +25,11 @@ import { InputField } from '@/components/InputField';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
 import toast from 'react-hot-toast';
 
+/** Same reference code customers see on the website (e.g. LUB-QTE-4RVESV → 4RVESV) */
+function enquiryRefCode(id: string): string {
+  return id.slice(-6).toUpperCase();
+}
+
 interface Enquiry {
   id: string;
   type?: string;
@@ -147,7 +152,12 @@ export default function EnquiriesCMSPage() {
   };
 
   const filtered = enquiries.filter((e) => {
+    const refQuery = searchQuery
+      .trim()
+      .toLowerCase()
+      .replace(/^lub-[a-z]+-/, '');
     const matchesSearch =
+      (refQuery.length >= 4 && enquiryRefCode(e.id).toLowerCase().includes(refQuery)) ||
       e.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       e.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (e.phone && e.phone.toLowerCase().includes(searchQuery.toLowerCase())) ||
@@ -248,6 +258,9 @@ export default function EnquiriesCMSPage() {
                           )}`}
                         >
                           {enquiry.type || 'General Enquiry'}
+                        </span>
+                        <span className="text-[10px] text-gray-400 font-mono">
+                          Ref: {enquiryRefCode(enquiry.id)}
                         </span>
                         <span className="font-bold text-gray-900 flex items-center gap-2 mt-1">
                           <User className="w-3.5 h-3.5 text-gray-400" />
@@ -351,7 +364,9 @@ export default function EnquiriesCMSPage() {
                   >
                     {activeMessage.type || 'General Enquiry'}
                   </span>
-                  <span className="text-xs text-gray-400">ID: {activeMessage.id.slice(-6)}</span>
+                  <span className="text-xs text-gray-400 font-mono">
+                    Ref: {enquiryRefCode(activeMessage.id)}
+                  </span>
                 </div>
                 <h3 className="font-bold text-xl text-[#0B0F29]">{activeMessage.name}</h3>
                 <p className="text-xs text-gray-500 mt-0.5">

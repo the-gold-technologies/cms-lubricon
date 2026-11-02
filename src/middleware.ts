@@ -4,6 +4,24 @@ import { NextResponse } from 'next/server';
 
 const { auth } = NextAuth(authConfig);
 
+// GET endpoints that expose private data (leads, stats, admin account) — never public
+const PRIVATE_GET_PREFIXES = ['/api/enquiries', '/api/dashboard', '/api/profile'];
+
+/**
+ * API requests the public website is allowed to make without an admin session:
+ * - reading published content (GET), except the private endpoints above
+ * - submitting enquiries (captcha-verified in the route)
+ * - NextAuth's own endpoints
+ * /api/download is a GET and does its own token / session check.
+ */
+function isPublicApiRequest(method: string, pathname: string): boolean {
+  if (pathname.startsWith('/api/auth')) return true;
+  if (method === 'GET' || method === 'HEAD') {
+    return !PRIVATE_GET_PREFIXES.some((p) => pathname === p || pathname.startsWith(p + '/'));
+  }
+  return method === 'POST' && pathname === '/api/enquiries';
+}
+
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const { nextUrl } = req;
@@ -25,6 +43,20 @@ export default auth((req) => {
           'Access-Control-Max-Age': '86400',
         },
       });
+    }
+
+    // Only the public website's needs are open; everything else requires an admin session
+    if (!isLoggedIn && !isPublicApiRequest(req.method, nextUrl.pathname)) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        {
+          status: 401,
+          headers: {
+            'Access-Control-Allow-Origin': origin,
+            'Access-Control-Allow-Credentials': 'true',
+          },
+        }
+      );
     }
 
     const response = NextResponse.next();

@@ -5,13 +5,17 @@ import { auth } from '@/auth';
 
 export const dynamic = 'force-dynamic';
 
+const unauthorized = () =>
+  NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+
 export async function GET() {
   try {
     const session = await auth();
     const sessionEmail = session?.user?.email;
+    if (!sessionEmail) return unauthorized();
 
-    const user = await prisma.user.findFirst({
-      where: sessionEmail ? { email: sessionEmail } : { role: 'admin' },
+    const user = await prisma.user.findUnique({
+      where: { email: sessionEmail },
       select: {
         id: true,
         name: true,
@@ -22,16 +26,7 @@ export async function GET() {
       },
     });
 
-    if (!user) {
-      return NextResponse.json({
-        success: true,
-        data: {
-          name: 'Lubricon Admin',
-          email: 'admin@lubricon.in',
-          role: 'admin',
-        },
-      });
-    }
+    if (!user) return unauthorized();
 
     return NextResponse.json({ success: true, data: user });
   } catch (error: any) {
@@ -46,10 +41,12 @@ export async function PUT(request: Request) {
     const sessionUserId = (session?.user as any)?.id;
     const sessionEmail = session?.user?.email;
 
+    if (!sessionUserId && !sessionEmail) return unauthorized();
+
     const body = await request.json();
     const { name, email, currentPassword, newPassword } = body;
 
-    // Find the user to update
+    // Only ever update the account that is logged in
     let user = null;
     if (sessionUserId) {
       user = await prisma.user.findUnique({ where: { id: sessionUserId } });
@@ -57,19 +54,7 @@ export async function PUT(request: Request) {
     if (!user && sessionEmail) {
       user = await prisma.user.findUnique({ where: { email: sessionEmail } });
     }
-    if (!user && email) {
-      user = await prisma.user.findUnique({ where: { email } });
-    }
-    if (!user) {
-      user = await prisma.user.findFirst({ where: { role: 'admin' } });
-    }
-
-    if (!user) {
-      return NextResponse.json(
-        { success: false, error: 'Admin user record not found' },
-        { status: 404 }
-      );
-    }
+    if (!user) return unauthorized();
 
     const updateData: { name?: string; email?: string; password?: string } = {};
 
@@ -110,15 +95,13 @@ export async function PUT(request: Request) {
         );
       }
 
-      // Verify current password against hashed database password
-      if (user.password) {
-        const isMatch = await bcrypt.compare(currentPassword, user.password);
-        if (!isMatch && currentPassword !== 'Admin@123') {
-          return NextResponse.json(
-            { success: false, error: 'Current password is incorrect' },
-            { status: 400 }
-          );
-        }
+      // Verify current password against the hashed database password
+      const isMatch = user.password ? await bcrypt.compare(currentPassword, user.password) : false;
+      if (!isMatch) {
+        return NextResponse.json(
+          { success: false, error: 'Current password is incorrect' },
+          { status: 400 }
+        );
       }
 
       updateData.password = await bcrypt.hash(trimmedNewPassword, 10);
