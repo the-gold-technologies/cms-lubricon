@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cloudinary, deleteCloudinaryFileByUrl } from '@/lib/cloudinary';
 import sharp from 'sharp';
-import { PDFDocument } from 'pdf-lib';
+import { compressPdf } from '@/lib/pdfCompress';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -63,13 +63,13 @@ export async function POST(request: Request) {
         console.warn('Image compression warning (proceeding with original buffer):', imgErr);
       }
     } else if (isPdf) {
-      // 2. Optimize PDF document object streams using pdf-lib
+      // 2. Compress PDF: downscale/re-encode embedded images + compressed object streams
       try {
-        const pdfDoc = await PDFDocument.load(uploadBuffer, { ignoreEncryption: true });
-        const compressedPdfBytes = await pdfDoc.save({ useObjectStreams: true });
-        if (compressedPdfBytes.length < uploadBuffer.length) {
-          uploadBuffer = Buffer.from(compressedPdfBytes);
-        }
+        const result = await compressPdf(uploadBuffer);
+        uploadBuffer = Buffer.from(result.buffer);
+        console.log(
+          `[PDF] ${finalFileName}: ${originalSize} -> ${result.compressedSize} bytes (${result.imagesOptimized} images optimized)`
+        );
       } catch (pdfErr) {
         console.warn('PDF optimization skipped (proceeding with original buffer):', pdfErr);
       }

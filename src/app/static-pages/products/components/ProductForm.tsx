@@ -20,7 +20,18 @@ import { TextAreaField } from '@/components/TextAreaField';
 import { SelectField } from '@/components/SelectField';
 import { ImageUploadField } from '@/components/ImageUploadField';
 import { StringListEditor } from '@/components/StringListEditor';
-import { PropertiesTableEditor, PropertyRow } from '@/components/PropertiesTableEditor';
+import {
+  PropertiesTableEditor,
+  PropertiesTableData,
+  normalizePropertiesTable,
+} from '@/components/PropertiesTableEditor';
+import {
+  SpecificationsEditor,
+  SpecField,
+  specFieldsFromSpecifications,
+  specificationsFromSpecFields,
+} from '@/components/SpecificationsEditor';
+import { PdfUploadField } from '@/components/PdfUploadField';
 import { SaveButton } from '@/components/SaveButton';
 import { LoadingIndicator } from '@/components/LoadingIndicator';
 import { uploadFiles } from '@/lib/uploadHelpers';
@@ -45,6 +56,9 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
   // 1. Classification
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
+  // New products: slug follows the name until the admin edits it manually
+  const [slugAuto, setSlugAuto] = useState(isNew);
+  const [originalSlug, setOriginalSlug] = useState('');
   const [categorySlug, setCategorySlug] = useState('');
   const [categoryName, setCategoryName] = useState('');
   const [subCategoryTitle, setSubCategoryTitle] = useState('');
@@ -58,14 +72,16 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
   // 3. Performance Benefits
   const [performanceBenefits, setPerformanceBenefits] = useState<string[]>([]);
 
-  // 4. Specifications Card (Viscosity, Grade, Standard, Packaging)
-  const [viscosity, setViscosity] = useState('');
-  const [grade, setGrade] = useState('');
-  const [standard, setStandard] = useState('');
-  const [packaging, setPackaging] = useState('');
+  // 4. Specifications Card (editable labels + values, plus custom parameters)
+  const [specFields, setSpecFields] = useState<SpecField[]>(() => specFieldsFromSpecifications({}));
 
-  // 5. Physico-Chemical Lab Properties
-  const [propertiesTable, setPropertiesTable] = useState<PropertyRow[]>([]);
+  // 5. Physico-Chemical Lab Properties (dynamic columns)
+  const [propertiesTable, setPropertiesTable] = useState<PropertiesTableData>(() =>
+    normalizePropertiesTable([], [])
+  );
+
+  // 6. Downloadable product datasheet (PDF)
+  const [pdfUrl, setPdfUrl] = useState('');
 
   // 7. Promotion
   const [isFeatured, setIsFeatured] = useState(false);
@@ -121,6 +137,7 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
           const p = json.data;
           setName(p.name || '');
           setSlug(p.slug || '');
+          setOriginalSlug(p.slug || '');
           setCategorySlug(p.categorySlug || '');
           setCategoryName(p.categoryName || '');
           setSubCategoryTitle(p.subCategoryTitle || '');
@@ -135,20 +152,12 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
           }
 
           // Specifications
-          const specs = p.specifications || {};
-          setViscosity(specs.viscosity || '');
-          setGrade(specs.grade || '');
-          setStandard(specs.standard || '');
-          if (Array.isArray(specs.packaging)) {
-            setPackaging(specs.packaging.join(', '));
-          } else if (typeof specs.packaging === 'string') {
-            setPackaging(specs.packaging);
-          }
+          setSpecFields(specFieldsFromSpecifications(p.specifications));
 
           // Properties Table
-          if (Array.isArray(p.propertiesTable)) {
-            setPropertiesTable(p.propertiesTable);
-          }
+          setPropertiesTable(normalizePropertiesTable(p.propertiesTable, p.tableHeaders));
+
+          setPdfUrl(p.pdfUrl || '');
 
           setIsFeatured(Boolean(p.isFeatured));
 
@@ -172,21 +181,37 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
     fetchProduct();
   }, [productId, isNew, router]);
 
+  const slugify = (val: string) =>
+    val
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
   const handleNameChange = (val: string) => {
     setName(val);
-    if (isNew) {
-      setSlug(
-        val
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/^-+|-+$/g, '')
-      );
-    }
+    if (slugAuto) setSlug(slugify(val));
+  };
+
+  const handleSlugChange = (val: string) => {
+    setSlugAuto(false);
+    // Allow typing a trailing hyphen; full cleanup happens on blur/save
+    setSlug(
+      val
+        .toLowerCase()
+        .replace(/[^a-z0-9-]+/g, '-')
+        .replace(/-{2,}/g, '-')
+    );
+  };
+
+  const resetSlugToAuto = () => {
+    setSlugAuto(true);
+    setSlug(slugify(name));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !slug) {
+    const finalSlug = slugify(slug);
+    if (!name || !finalSlug) {
       toast.error('Product name and URL slug are required');
       return;
     }
@@ -206,23 +231,19 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
       }
 
       // 2. Prepare Specifications Object
-      const packagingArray = packaging
-        .split(',')
-        .map((s) => s.trim())
-        .filter(Boolean);
+      const specifications = specificationsFromSpecFields(specFields);
 
-      const specifications = {
-        viscosity: viscosity.trim(),
-        grade: grade.trim(),
-        standard: standard.trim(),
-        packaging: packagingArray,
-      };
+      // 3. Properties table: trimmed headers, drop fully empty rows
+      const tableHeaders = propertiesTable.headers.map((h, i) => h.trim() || `Column ${i + 1}`);
+      const tableRows = propertiesTable.rows
+        .map((r) => r.map((c) => c.trim()))
+        .filter((r) => r.some(Boolean));
 
-      // 3. Payload
+      // 4. Payload
       const payload = {
         ...(productId && !isNew ? { id: productId } : {}),
         name: name.trim(),
-        slug: slug.trim().toLowerCase(),
+        slug: finalSlug,
         categorySlug,
         categoryName,
         subCategoryTitle: subCategoryTitle.trim(),
@@ -232,7 +253,9 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
         applicationAreas: applicationAreas.trim(),
         performanceBenefits,
         specifications,
-        propertiesTable,
+        tableHeaders,
+        propertiesTable: tableRows,
+        pdfUrl: pdfUrl.trim() || null,
         isFeatured,
         headingOptions: headingOptions.trim() || 'h1',
         metaTitle: metaTitle.trim() || null,
@@ -324,23 +347,45 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
                 required
               />
 
-              {/* Auto-generated URL slug */}
+              {/* URL slug: auto-generated from name, editable */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
-                  URL SLUG <span className="text-red-500">*</span>
-                </label>
-                <div className="flex items-center gap-2 px-4 py-3 rounded-2xl border border-gray-200 bg-gray-50/80 text-sm font-mono text-gray-700 select-all min-h-[44px]">
-                  <span className="truncate">
-                    {slug || (
-                      <span className="text-gray-400 font-sans italic">
-                        auto-generated from name
-                      </span>
-                    )}
-                  </span>
-                  <span className="ml-auto shrink-0 text-[10px] font-bold text-gray-400 bg-gray-100 border border-gray-200 px-2 py-0.5 rounded-full uppercase tracking-wide">
-                    Auto
-                  </span>
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                    URL SLUG <span className="text-red-500">*</span>
+                  </label>
+                  {slugAuto ? (
+                    <span className="text-[10px] font-bold text-gray-400 bg-gray-100 border border-gray-200 px-2 py-0.5 rounded-full uppercase tracking-wide">
+                      Auto
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={resetSlugToAuto}
+                      className="text-[10px] font-bold text-gray-500 hover:text-black uppercase tracking-wide cursor-pointer"
+                      title="Generate the slug from the product name again"
+                    >
+                      Reset to auto
+                    </button>
+                  )}
                 </div>
+                <div className="flex items-center rounded-2xl border border-gray-200 bg-gray-50/80 focus-within:bg-white focus-within:ring-1 focus-within:ring-black min-h-[44px] overflow-hidden">
+                  <span className="pl-4 text-xs text-gray-400 font-mono shrink-0">/products/</span>
+                  <input
+                    type="text"
+                    value={slug}
+                    onChange={(e) => handleSlugChange(e.target.value)}
+                    onBlur={() => setSlug((prev) => slugify(prev))}
+                    placeholder="auto-generated-from-name"
+                    required
+                    className="flex-1 min-w-0 pr-4 py-3 bg-transparent text-sm font-mono text-gray-700 focus:outline-none"
+                  />
+                </div>
+                {!isNew && originalSlug && slug !== originalSlug && (
+                  <p className="text-[11px] text-amber-600 font-medium">
+                    Changing the slug changes the product&apos;s web address. Old links to
+                    /products/{originalSlug} will stop working.
+                  </p>
+                )}
               </div>
             </div>
 
@@ -436,38 +481,11 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
               4. Technical Parameters Card (Product Specifications)
             </h3>
             <p className="text-xs text-gray-500">
-              Displayed in the prominent Technical Parameters card on the product detail page.
+              Displayed in the Engineering Standards card on the product detail page. Both the label
+              and the value of each row can be edited.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <InputField
-                label="Viscosity"
-                value={viscosity}
-                onChange={(e) => setViscosity(e.target.value)}
-                placeholder="e.g. SAE 15W40, ISO VG 460"
-              />
-              <InputField
-                label="API / ISO Grade"
-                value={grade}
-                onChange={(e) => setGrade(e.target.value)}
-                placeholder="e.g. API CK-4 / ACEA E9, Dexron IIIH"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <InputField
-                label="Industry Standard"
-                value={standard}
-                onChange={(e) => setStandard(e.target.value)}
-                placeholder="e.g. Euro 6, BS-VI Ready, DIN 51524 Part 2"
-              />
-              <InputField
-                label="Available Pack Sizes (comma-separated)"
-                value={packaging}
-                onChange={(e) => setPackaging(e.target.value)}
-                placeholder="e.g. 1L, 4L, 10L, 20L, 210L Barrel"
-              />
-            </div>
+            <SpecificationsEditor fields={specFields} onChange={setSpecFields} />
           </div>
 
           {/* Card 5: Physico-Chemical Lab Properties Table */}
@@ -477,11 +495,15 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
               5. Physico-Chemical Properties Table
             </h3>
             <p className="text-xs text-gray-500">
-              Laboratory test results table (Parameter, Test Method, Typical Value) rendered on the
-              product detail page.
+              Laboratory test results table rendered on the product detail page. Rename, add or
+              remove columns as needed.
             </p>
 
-            <PropertiesTableEditor properties={propertiesTable} onChange={setPropertiesTable} />
+            <PropertiesTableEditor
+              headers={propertiesTable.headers}
+              rows={propertiesTable.rows}
+              onChange={setPropertiesTable}
+            />
           </div>
         </div>
 
@@ -500,6 +522,21 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
               onImagesChange={setContainerImages}
               maxImages={1}
               tooltip="Upload container pack visual (PNG or JPG)."
+            />
+          </div>
+
+          {/* Product Datasheet PDF */}
+          <div className="bg-white rounded-3xl p-7 border border-gray-100 shadow-sm flex flex-col gap-4">
+            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider flex items-center gap-2">
+              <FileText className="w-4 h-4 text-zinc-700" />
+              Product Datasheet (PDF)
+            </h3>
+
+            <PdfUploadField
+              label="Downloadable PDF"
+              value={pdfUrl}
+              onChange={setPdfUrl}
+              tooltip="Visitors can download this PDF from the product page. It is compressed automatically before being stored."
             />
           </div>
 

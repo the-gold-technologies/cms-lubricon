@@ -2,6 +2,8 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
+  // svg-captcha loads its bundled font from disk via __dirname, so it must not be bundled
+  serverExternalPackages: ['svg-captcha'],
   images: {
     remotePatterns: [
       {

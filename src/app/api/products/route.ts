@@ -141,6 +141,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, data: product });
   } catch (error) {
     console.error('Error creating product:', error);
+    if ((error as { code?: string })?.code === 'P2002') {
+      return NextResponse.json(
+        { success: false, error: 'This URL slug is already used by another product' },
+        { status: 409 }
+      );
+    }
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
   }
 }
@@ -210,6 +216,12 @@ export async function PUT(request: Request) {
     return NextResponse.json({ success: true, data: product });
   } catch (error) {
     console.error('Error updating product:', error);
+    if ((error as { code?: string })?.code === 'P2002') {
+      return NextResponse.json(
+        { success: false, error: 'This URL slug is already used by another product' },
+        { status: 409 }
+      );
+    }
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
   }
 }

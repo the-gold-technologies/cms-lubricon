@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendEnquiryNotificationEmail } from '@/lib/mail';
+import { verifyCaptcha, createDownloadToken } from '@/lib/captcha';
+
+const DATASHEET_ENQUIRY_TYPE = 'Datasheet Download';
 
 export async function GET(request: Request) {
   try {
@@ -29,7 +32,23 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, phone, company, interestedIn, product, budget, message } = body;
+    const { name, email, phone, company, interestedIn, budget } = body;
+    let { product, message } = body;
+
+    const captcha = verifyCaptcha(body.captchaToken, body.captchaAnswer);
+    if (!captcha.ok) {
+      return NextResponse.json(
+        {
+          success: false,
+          code: 'CAPTCHA_INVALID',
+          error:
+            captcha.reason === 'expired'
+              ? 'Security code expired. Please enter the new code.'
+              : 'Incorrect security code. Please try again.',
+        },
+        { status: 400 }
+      );
+    }
 
     if (!name || (!email && !phone)) {
       return NextResponse.json(
@@ -39,6 +58,30 @@ export async function POST(request: Request) {
         },
         { status: 400 }
       );
+    }
+
+    // Datasheet download: record who downloaded which product and issue a signed link
+    let downloadUrl: string | null = null;
+    if (body.type === DATASHEET_ENQUIRY_TYPE) {
+      const productSlug = typeof body.productSlug === 'string' ? body.productSlug : '';
+      const datasheetProduct = productSlug
+        ? await prisma.product.findUnique({
+            where: { slug: productSlug },
+            select: { name: true, slug: true, pdfUrl: true },
+          })
+        : null;
+      if (!datasheetProduct?.pdfUrl) {
+        return NextResponse.json(
+          { success: false, error: 'No datasheet is available for this product' },
+          { status: 404 }
+        );
+      }
+      product = datasheetProduct.name;
+      message = [message, `Downloaded datasheet for ${datasheetProduct.name}`]
+        .filter(Boolean)
+        .join(' | ');
+      const token = createDownloadToken(datasheetProduct.slug);
+      downloadUrl = `/api/download?product=${encodeURIComponent(datasheetProduct.slug)}&token=${encodeURIComponent(token)}`;
     }
 
     const created = await prisma.enquiry.create({
@@ -66,7 +109,7 @@ export async function POST(request: Request) {
       console.error('Async email dispatch failed for enquiry:', mailErr);
     });
 
-    return NextResponse.json({ success: true, data: created });
+    return NextResponse.json({ success: true, data: { id: created.id }, downloadUrl });
   } catch (error) {
     console.error('Error submitting enquiry:', error);
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });

@@ -542,7 +542,7 @@ export default function ProductsCatalogCMSPage() {
                   <div className="flex items-center gap-2">
                     {p.pdfUrl && p.pdfUrl !== '#' && (
                       <a
-                        href={p.pdfUrl}
+                        href={`/api/download?url=${encodeURIComponent(p.pdfUrl)}&name=${encodeURIComponent(p.slug || 'datasheet')}.pdf`}
                         target="_blank"
                         rel="noreferrer"
                         className="p-1.5 rounded-lg bg-gray-50 text-gray-500 hover:text-[#C86218] transition-colors"

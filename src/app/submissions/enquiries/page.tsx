@@ -140,6 +140,9 @@ export default function EnquiriesCMSPage() {
     if (t.includes('price list')) {
       return 'bg-sky-50 text-sky-700 border-sky-200';
     }
+    if (t.includes('datasheet')) {
+      return 'bg-rose-50 text-rose-700 border-rose-200';
+    }
     return 'bg-blue-50 text-blue-700 border-blue-200';
   };
 
@@ -177,20 +180,22 @@ export default function EnquiriesCMSPage() {
         />
 
         <div className="flex items-center gap-2">
-          {['all', 'audit', 'quote', 'callback', 'contact'].map((filter) => (
-            <button
-              key={filter}
-              type="button"
-              onClick={() => setTypeFilter(filter)}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold capitalize transition-all ${
-                typeFilter === filter
-                  ? 'bg-[#0b1329] text-white shadow-sm'
-                  : 'bg-white text-zinc-600 border border-zinc-200 hover:bg-zinc-50'
-              }`}
-            >
-              {filter === 'all' ? 'All Submissions' : filter}
-            </button>
-          ))}
+          {['all', 'audit', 'quote', 'price list', 'datasheet', 'callback', 'contact'].map(
+            (filter) => (
+              <button
+                key={filter}
+                type="button"
+                onClick={() => setTypeFilter(filter)}
+                className={`px-3 py-1.5 rounded-full text-xs font-bold capitalize transition-all ${
+                  typeFilter === filter
+                    ? 'bg-[#0b1329] text-white shadow-sm'
+                    : 'bg-white text-zinc-600 border border-zinc-200 hover:bg-zinc-50'
+                }`}
+              >
+                {filter === 'all' ? 'All Submissions' : filter}
+              </button>
+            )
+          )}
         </div>
       </div>
 

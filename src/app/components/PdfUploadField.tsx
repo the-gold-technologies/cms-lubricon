@@ -44,6 +44,7 @@ export function PdfUploadField({
     try {
       const formData = new FormData();
       formData.append('file', file);
+      formData.append('folder', 'lubricon-india/datasheets');
 
       const res = await fetch('/api/upload', {
         method: 'POST',
@@ -53,7 +54,14 @@ export function PdfUploadField({
       const json = await res.json();
       if (json.success && json.url) {
         onChange(json.url);
-        toast.success('PDF uploaded successfully', { id: toastId });
+        const kb = (bytes: number) => `${Math.max(1, Math.round(bytes / 1024))} KB`;
+        const saved = typeof json.savedBytes === 'number' && json.savedBytes > 0;
+        toast.success(
+          saved
+            ? `PDF uploaded: ${kb(json.originalSize)} → ${kb(json.size)} (${json.compressionRatio} smaller)`
+            : 'PDF uploaded successfully',
+          { id: toastId }
+        );
       } else {
         toast.error(json.error || 'Upload failed', { id: toastId });
       }
