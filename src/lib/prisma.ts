@@ -28,7 +28,18 @@ try {
   prismaClient = getMockPrisma();
 }
 
-// Proxy to automatically fallback to mockPrisma if DB connection errors occur
+const READ_METHODS = new Set([
+  'findUnique',
+  'findUniqueOrThrow',
+  'findFirst',
+  'findFirstOrThrow',
+  'findMany',
+  'count',
+  'aggregate',
+  'groupBy',
+]);
+
+// Proxy to automatically fallback to mockPrisma (reads only) if DB connection errors occur
 export const prisma = new Proxy(prismaClient, {
   get(target, prop, receiver) {
     const original = Reflect.get(target, prop, receiver);
@@ -45,6 +56,11 @@ export const prisma = new Proxy(prismaClient, {
           try {
             return await method.apply(modelTarget, args);
           } catch (err: any) {
+            // Never fake success for writes or invalid queries: a create/update/delete that
+            // "succeeds" against in-memory mock data silently loses the admin's changes.
+            const isRead = READ_METHODS.has(String(methodProp));
+            const isValidationError = err?.name === 'PrismaClientValidationError';
+            if (!isRead || isValidationError) throw err;
             console.warn(
               `Prisma.${String(prop)}.${String(methodProp)} failed, using mockPrisma fallback:`,
               err?.message || err

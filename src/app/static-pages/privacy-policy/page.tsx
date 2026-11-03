@@ -19,7 +19,6 @@ export default function PrivacyPolicyAdminPage() {
   const [heroBannerImage, setHeroBannerImage] = useState('');
   const [lastUpdated, setLastUpdated] = useState('');
   const [content, setContent] = useState('');
-  const [isPublished, setIsPublished] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -36,7 +35,6 @@ export default function PrivacyPolicyAdminPage() {
           setHeroBannerImage(data.heroBannerImage || '');
           setLastUpdated(data.lastUpdated || '');
           setContent(data.content || '');
-          setIsPublished(Boolean(data.isPublished));
         }
       } catch (err) {
         console.error('Failed to load privacy policy:', err);
@@ -63,7 +61,7 @@ export default function PrivacyPolicyAdminPage() {
           heroBannerImage,
           lastUpdated,
           content,
-          isPublished,
+          isPublished: true,
         }),
       });
 
@@ -202,29 +200,13 @@ export default function PrivacyPolicyAdminPage() {
           </div>
         </div>
 
-        {/* Right Column: Status & Quick Links */}
+        {/* Right Column: Quick Links & SEO */}
         <div className="flex flex-col gap-6">
-          {/* Publication Status Card */}
+          {/* Live Page Link Card */}
           <div className="bg-white p-6 sm:p-8 rounded-[2.5rem] shadow-xs border border-gray-100 flex flex-col gap-4">
             <h3 className="text-sm font-bold text-[#0B0F29] uppercase tracking-wider">
-              Status &amp; Visibility
+              Live Preview
             </h3>
-
-            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
-              <div className="flex flex-col">
-                <span className="text-xs font-bold text-slate-800">Published on Website</span>
-                <span className="text-[11px] text-slate-400">Active at /privacy-policy</span>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={isPublished}
-                  onChange={(e) => setIsPublished(e.target.checked)}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#002B5C]"></div>
-              </label>
-            </div>
 
             <a
               href={`${(process.env.NEXT_PUBLIC_WEBSITE_URL || '').replace(/\/+$/, '')}/privacy-policy`}

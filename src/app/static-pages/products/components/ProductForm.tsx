@@ -18,6 +18,7 @@ import toast from 'react-hot-toast';
 import { InputField } from '@/components/InputField';
 import { TextAreaField } from '@/components/TextAreaField';
 import { SelectField } from '@/components/SelectField';
+import { MultiSelectField } from '@/components/MultiSelectField';
 import { ImageUploadField } from '@/components/ImageUploadField';
 import { StringListEditor } from '@/components/StringListEditor';
 import {
@@ -42,6 +43,12 @@ interface Category {
   slug: string;
 }
 
+interface IndustryOption {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 interface ProductFormProps {
   productId?: string;
   isNew?: boolean;
@@ -52,6 +59,8 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(!isNew);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [industries, setIndustries] = useState<IndustryOption[]>([]);
+  const [industriesLoading, setIndustriesLoading] = useState(true);
 
   // 1. Classification
   const [name, setName] = useState('');
@@ -62,6 +71,7 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
   const [categorySlug, setCategorySlug] = useState('');
   const [categoryName, setCategoryName] = useState('');
   const [subCategoryTitle, setSubCategoryTitle] = useState('');
+  const [industrySlugs, setIndustrySlugs] = useState<string[]>([]);
   const [badge, setBadge] = useState('');
   const [containerImages, setContainerImages] = useState<(File | string | null)[]>([]);
 
@@ -123,6 +133,30 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
     };
   }, [isNew]);
 
+  // Fetch Industries (optional tags for "suitable for" industries)
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchIndustries() {
+      try {
+        setIndustriesLoading(true);
+        const res = await fetch('/api/industries');
+        const json = await res.json();
+        const list = json?.data?.industries ?? json?.industries;
+        if (isMounted && json.success && Array.isArray(list)) {
+          setIndustries(list);
+        }
+      } catch (err) {
+        console.error('Failed to load industries:', err);
+      } finally {
+        if (isMounted) setIndustriesLoading(false);
+      }
+    }
+    fetchIndustries();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   // Fetch Existing Product Data for Edit
   useEffect(() => {
     if (!productId || isNew) return;
@@ -141,6 +175,7 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
           setCategorySlug(p.categorySlug || '');
           setCategoryName(p.categoryName || '');
           setSubCategoryTitle(p.subCategoryTitle || '');
+          setIndustrySlugs(Array.isArray(p.industrySlugs) ? p.industrySlugs : []);
           setBadge(p.badge || '');
           if (p.containerImage) setContainerImages([p.containerImage]);
 
@@ -247,6 +282,12 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
         categorySlug,
         categoryName,
         subCategoryTitle: subCategoryTitle.trim(),
+        // Drop tags for industries that no longer exist (empty is allowed). If the industry
+        // list didn't load, keep the tags as-is rather than wiping them.
+        industrySlugs:
+          industriesLoading || industries.length === 0
+            ? industrySlugs
+            : industrySlugs.filter((s) => industries.some((i) => i.slug === s)),
         badge: badge.trim() || null,
         containerImage: containerImageUrl || null,
         description: description.trim(),
@@ -431,6 +472,20 @@ export function ProductForm({ productId, isNew = false }: ProductFormProps) {
                 placeholder="e.g. Latest Grade, Euro 6 Ready"
               />
             </div>
+
+            <MultiSelectField
+              label="Suitable Industries (optional)"
+              value={industrySlugs}
+              onChange={setIndustrySlugs}
+              disabled={industriesLoading}
+              placeholder={
+                industriesLoading
+                  ? 'Loading industries...'
+                  : 'Select the industries this product suits (e.g. Paper Mill, Steel Plant)'
+              }
+              emptyText="No industries yet. Add them from the Industries page."
+              options={industries.map((i) => ({ value: i.slug, label: i.name }))}
+            />
           </div>
 
           {/* Card 2: Narrative & Application Scope */}

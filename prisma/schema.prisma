@@ -52,9 +52,9 @@ model ProductCategory {
   shortDesc         String?
   fullDesc          String?
   coverImage        String?
-  primaryCtaText    String?  
-  secondaryCtaText  String?  
-  featuredBadgeText String?  
+  primaryCtaText    String?
+  secondaryCtaText  String?
+  featuredBadgeText String?
   order             Int       @default(0)
   isFeatured        Boolean   @default(true)
   createdAt         DateTime  @default(now())
@@ -70,6 +70,8 @@ model Product {
   categorySlug             String
   categoryName             String
   subCategoryTitle         String?
+  /// Optional tags: slugs of Industry records this product suits (may be empty)
+  industrySlugs            String[]         @default([])
   containerImage           String?
   badge                    String?
   descriptionTitle         String?          @default("Description")

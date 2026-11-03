@@ -4,6 +4,34 @@ import { cleanupReplacedCloudinaryFiles } from '@/lib/cloudinary';
 
 const INDUSTRIES_SLUG = 'industries';
 
+/**
+ * Keep product industry tags in sync when industries are renamed or removed.
+ * `renames` maps old slug -> new slug; `removed` lists slugs that no longer exist.
+ */
+async function syncProductIndustryTags(renames: Record<string, string>, removed: string[]) {
+  const affected = [...Object.keys(renames), ...removed];
+  if (affected.length === 0) return;
+
+  const products = await prisma.product.findMany({
+    where: { industrySlugs: { hasSome: affected } },
+    select: { id: true, industrySlugs: true },
+  });
+
+  for (const product of products) {
+    const next = Array.from(
+      new Set(
+        (product.industrySlugs as string[])
+          .filter((s) => !removed.includes(s))
+          .map((s) => renames[s] ?? s)
+      )
+    );
+    await prisma.product.update({
+      where: { id: product.id },
+      data: { industrySlugs: next },
+    });
+  }
+}
+
 export async function GET() {
   try {
     const page = await prisma.page.findUnique({
@@ -12,7 +40,8 @@ export async function GET() {
     });
 
     if (!page) {
-      return NextResponse.json({ success: true, data: {}, seo: null });
+      const industries = await prisma.industry.findMany({ orderBy: { order: 'asc' } });
+      return NextResponse.json({ success: true, data: { industries }, industries, seo: null });
     }
 
     const sectionsMap: Record<string, any> = {};
@@ -69,6 +98,12 @@ export async function PUT(request: Request) {
 
     if (Array.isArray(body.industries)) {
       const incomingIds = body.industries.map((ind: any) => ind.id).filter(Boolean);
+      const removedIndustries = await prisma.industry.findMany({
+        where: { id: { notIn: incomingIds } },
+        select: { slug: true },
+      });
+      const removedSlugs: string[] = removedIndustries.map((r: { slug: string }) => r.slug);
+      const renamedSlugs: Record<string, string> = {};
       await prisma.industry.deleteMany({
         where: { id: { notIn: incomingIds } },
       });
@@ -101,6 +136,7 @@ export async function PUT(request: Request) {
           });
           if (existingInd) {
             await cleanupReplacedCloudinaryFiles(existingInd, data);
+            if (existingInd.slug !== slug) renamedSlugs[existingInd.slug] = slug;
           }
           await prisma.industry.upsert({
             where: { id: ind.id },
@@ -113,6 +149,7 @@ export async function PUT(request: Request) {
           });
         }
       }
+      await syncProductIndustryTags(renamedSlugs, removedSlugs);
     }
 
     if (body.section && body.content !== undefined) {
@@ -188,6 +225,10 @@ export async function DELETE(request: Request) {
     await prisma.industry.delete({
       where: { id },
     });
+
+    if (existingInd) {
+      await syncProductIndustryTags({}, [existingInd.slug]);
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

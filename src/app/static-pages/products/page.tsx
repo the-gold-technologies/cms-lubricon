@@ -30,6 +30,7 @@ interface Product {
   categorySlug: string;
   categoryName: string;
   subCategoryTitle?: string;
+  industrySlugs?: string[];
   containerImage?: string;
   description?: string;
   applicationAreas?: string;
@@ -54,13 +55,21 @@ interface ProductCategory {
   _count?: { products: number };
 }
 
+interface IndustryOption {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 export default function ProductsCatalogCMSPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<ProductCategory[]>([]);
+  const [industries, setIndustries] = useState<IndustryOption[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Category Filter & Search
   const [selectedCategorySlug, setSelectedCategorySlug] = useState<string>('all');
+  const [selectedIndustrySlug, setSelectedIndustrySlug] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Hero Section State
@@ -85,6 +94,7 @@ export default function ProductsCatalogCMSPage() {
       if (json.success) {
         setProducts(json.data.products || []);
         setCategories(json.data.categories || []);
+        setIndustries(json.data.industries || []);
         setHeroData(json.data.hero || null);
       }
     } catch (err) {
@@ -238,6 +248,12 @@ export default function ProductsCatalogCMSPage() {
         p.categorySlug === selectedCategorySlug ||
         p.categoryName?.toLowerCase() === selectedCategorySlug.toLowerCase();
 
+      const matchesIndustry =
+        selectedIndustrySlug === 'all' ||
+        (selectedIndustrySlug === 'none'
+          ? !p.industrySlugs?.length
+          : !!p.industrySlugs?.includes(selectedIndustrySlug));
+
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
         !q ||
@@ -249,14 +265,21 @@ export default function ProductsCatalogCMSPage() {
         (p.badge && p.badge.toLowerCase().includes(q)) ||
         (p.applicationAreas && p.applicationAreas.toLowerCase().includes(q));
 
-      return matchesCategory && matchesSearch;
+      return matchesCategory && matchesIndustry && matchesSearch;
     });
-  }, [products, selectedCategorySlug, searchQuery]);
+  }, [products, selectedCategorySlug, selectedIndustrySlug, searchQuery]);
 
-  const hasActiveFilters = selectedCategorySlug !== 'all' || searchQuery.trim() !== '';
+  const industryNameBySlug = useMemo(
+    () => Object.fromEntries(industries.map((i) => [i.slug, i.name])),
+    [industries]
+  );
+
+  const hasActiveFilters =
+    selectedCategorySlug !== 'all' || selectedIndustrySlug !== 'all' || searchQuery.trim() !== '';
 
   const handleClearFilters = () => {
     setSelectedCategorySlug('all');
+    setSelectedIndustrySlug('all');
     setSearchQuery('');
   };
 
@@ -347,6 +370,37 @@ export default function ProductsCatalogCMSPage() {
                 <Edit2 className="w-3.5 h-3.5" />
                 <span>Edit</span>
               </button>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="w-px h-9 bg-gray-200 self-end hidden sm:block" />
+
+          {/* Industry Dropdown */}
+          <div className="flex flex-col gap-1 min-w-[200px]">
+            <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-1">
+              Industry
+            </label>
+            <div className="relative">
+              <select
+                value={selectedIndustrySlug}
+                onChange={(e) => setSelectedIndustrySlug(e.target.value)}
+                className="w-full appearance-none pl-3 pr-8 py-2 rounded-xl border border-gray-200 bg-gray-50 text-[12px] font-semibold text-gray-800 focus:outline-none focus:border-[#C86218] focus:bg-white focus:ring-2 focus:ring-[#C86218]/10 transition-all cursor-pointer"
+              >
+                <option value="all">All Industries</option>
+                {industries.map((ind) => {
+                  const count = products.filter((p) => p.industrySlugs?.includes(ind.slug)).length;
+                  return (
+                    <option key={ind.id} value={ind.slug}>
+                      {ind.name} ({count})
+                    </option>
+                  );
+                })}
+                <option value="none">
+                  Not tagged ({products.filter((p) => !p.industrySlugs?.length).length})
+                </option>
+              </select>
+              <ChevronDown className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
             </div>
           </div>
 
@@ -503,6 +557,21 @@ export default function ProductsCatalogCMSPage() {
                       <p className="text-xs font-bold text-[#0C356A] line-clamp-1">
                         {p.subCategoryTitle}
                       </p>
+                    </div>
+                  )}
+
+                  {p.industrySlugs && p.industrySlugs.some((s) => industryNameBySlug[s]) && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {p.industrySlugs
+                        .filter((s) => industryNameBySlug[s])
+                        .map((s) => (
+                          <span
+                            key={s}
+                            className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-[#0C356A] border border-blue-100"
+                          >
+                            {industryNameBySlug[s]}
+                          </span>
+                        ))}
                     </div>
                   )}
 

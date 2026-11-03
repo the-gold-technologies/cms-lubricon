@@ -2,10 +2,21 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cleanupReplacedCloudinaryFiles } from '@/lib/cloudinary';
 
+/** Normalise an incoming industry tag list: unique, trimmed, lowercase slugs. */
+function normalizeIndustrySlugs(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  const slugs = value
+    .filter((v): v is string => typeof v === 'string')
+    .map((v) => v.trim().toLowerCase())
+    .filter(Boolean);
+  return Array.from(new Set(slugs));
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const categorySlug = searchParams.get('category');
+    const industrySlug = searchParams.get('industry');
     const slug = searchParams.get('slug');
     const id = searchParams.get('id');
 
@@ -52,6 +63,9 @@ export async function GET(request: Request) {
     if (categorySlug && categorySlug !== 'all') {
       where.categorySlug = categorySlug;
     }
+    if (industrySlug && industrySlug !== 'all') {
+      where.industrySlugs = { has: industrySlug.trim().toLowerCase() };
+    }
     if (search && search.trim()) {
       const term = search.trim();
       where.OR = [
@@ -70,6 +84,11 @@ export async function GET(request: Request) {
 
     const categories = await prisma.productCategory.findMany({
       orderBy: { order: 'asc' },
+    });
+
+    const industries = await prisma.industry.findMany({
+      orderBy: { order: 'asc' },
+      select: { id: true, name: true, slug: true, icon: true, order: true },
     });
 
     let seo = null;
@@ -101,6 +120,7 @@ export async function GET(request: Request) {
       data: {
         products,
         categories,
+        industries,
         hero: heroSection?.content || null,
       },
       hero: heroSection?.content || null,
@@ -115,7 +135,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, slug, ...rest } = body;
+    const { name, slug, industrySlugs, ...rest } = body;
 
     if (!name || !slug) {
       return NextResponse.json(
@@ -135,6 +155,7 @@ export async function POST(request: Request) {
         slug,
         order,
         ...rest,
+        industrySlugs: normalizeIndustrySlugs(industrySlugs),
       },
     });
 
@@ -192,6 +213,9 @@ export async function PUT(request: Request) {
     }
 
     const { id, ...data } = body;
+    if (data.industrySlugs !== undefined) {
+      data.industrySlugs = normalizeIndustrySlugs(data.industrySlugs);
+    }
 
     if (!id) {
       return NextResponse.json(
