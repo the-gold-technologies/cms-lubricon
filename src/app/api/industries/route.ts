@@ -41,7 +41,7 @@ export async function GET() {
 
     if (!page) {
       const industries = await prisma.industry.findMany({ orderBy: { order: 'asc' } });
-      return NextResponse.json({ success: true, data: { industries }, industries, seo: null });
+      return NextResponse.json({ success: true, data: { industries }, seo: null });
     }
 
     const sectionsMap: Record<string, any> = {};
@@ -67,10 +67,8 @@ export async function GET() {
       success: true,
       data: {
         ...sectionsMap,
-        sections: sectionsMap,
         industries,
       },
-      industries,
       seo,
     });
   } catch (error) {

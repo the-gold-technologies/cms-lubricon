@@ -123,7 +123,6 @@ export async function GET(request: Request) {
         industries,
         hero: heroSection?.content || null,
       },
-      hero: heroSection?.content || null,
       seo,
     });
   } catch (error) {
